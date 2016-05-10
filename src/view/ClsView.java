@@ -1,17 +1,68 @@
+//////////////////////////////////////////////////////////////////
+//메모
+//에디터에서 글자를 수정했을 때 수정한 영역의 위치와 수정한 내용을 리턴을 할수 있게하기
+//////////////////////////////////////////////////////////////////
+
 package view;
 
+import java.awt.*;
 import java.io.*;
 import java.beans.*;
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.event.*;
-import java.awt.Insets;
+
 import javax.swing.plaf.basic.*;
 import javax.swing.*;
+import javax.swing.event.*;
 import javax.imageio.*;
+
+
+//Shade Component like a colored glass CLASS
+//Having JComponent's contents
+class Shade extends JComponent
+{
+	private Color shadeColor;
+	
+	public Shade()
+	{
+		//Can be translucent
+		super.setOpaque(true);
+		shadeColor = new Color(255, 255, 0, 100);
+	}
+	public Shade(Color i_color)
+	{
+		//Can be translucent
+		super.setOpaque(true);
+		
+		SetColor(i_color);
+	}
+	
+	public void SetColor(Color i_color)
+	{
+		int t_red, t_green, t_blue;
+		
+		//if input color is not translucent, set default alpha to 100
+		if(i_color.getAlpha() == 0)
+		{
+			t_red = i_color.getRed();
+			t_green = i_color.getGreen();
+			t_blue = i_color.getBlue();
+			shadeColor = new Color(t_red, t_green, t_blue, 100);
+		}
+		else
+			shadeColor = i_color;
+	}
+	
+	public Color GetColor()
+	{
+		return shadeColor;
+	}
+	
+	public void paintComponent(Graphics g)
+	{
+		g.setColor(shadeColor);
+		g.fillRect(0, 0, super.getWidth(), super.getHeight());
+	}
+}
 
 public class ClsView
 {
@@ -29,6 +80,8 @@ private JFrame viewForm;
 	private JSplitPane sp1;
 	
 	private JScrollPane s1, s2;
+	
+	private Shade sh1, sh2;
 	
 	private float spRatio;
 	private int internalWidth;
@@ -151,10 +204,32 @@ private JFrame viewForm;
 		t1 = new JTextArea();
 		t1.setFont(new Font("Bitstream Vera Sans Mono", Font.PLAIN, 12));
 		t1.setTabSize(4);
-		t1.setBackground(Color.DARK_GRAY);
-		t1.setSelectedTextColor(Color.BLACK);
-		t1.setSelectionColor(Color.WHITE);
-		t1.setForeground(Color.WHITE);
+		t1.setBackground(Color.WHITE);
+		t1.setSelectedTextColor(Color.WHITE);
+		t1.setSelectionColor(Color.BLACK);
+		t1.setForeground(Color.BLACK);
+		t1.addKeyListener(new KeyListener()
+		{
+			public void keyTyped(KeyEvent e)
+			{
+			}
+			public void keyReleased(KeyEvent e)
+			{
+				t1.repaint();
+			}
+			public void keyPressed(KeyEvent e)
+			{
+				t1.repaint();
+			}
+		});
+		t1.addMouseMotionListener(new MouseAdapter()
+		{
+			public void mouseDragged(MouseEvent e)
+			{
+				t1.repaint();
+				sh1.revalidate();
+			}
+		});
 		t1.addMouseWheelListener(new MouseAdapter()
 		{
 			public void mouseWheelMoved(MouseWheelEvent e)
@@ -170,6 +245,35 @@ private JFrame viewForm;
 				
 			}
 		});
+		//t1.getCaret().setBlinkRate(0);
+		t1.addCaretListener(new CaretListener()
+		{
+			public void caretUpdate(CaretEvent e)
+			{
+				t1.repaint();
+
+				System.out.println("S");
+			}
+		});
+		
+		
+		t1.getDocument().addDocumentListener(new DocumentListener()
+		{
+			public void insertUpdate(DocumentEvent e)
+			{
+				System.out.println("CC");
+			}
+			
+			public void changedUpdate(DocumentEvent e)
+			{
+				
+			}
+			public void removeUpdate(DocumentEvent e)
+			{
+				System.out.println("CCC");
+			}
+		});
+		
 		
 		s1 = new JScrollPane(t1, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		s1.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener()
@@ -257,6 +361,10 @@ private JFrame viewForm;
 		});
 		p4.add(s2, BorderLayout.CENTER);
 		
+		sh1 = new Shade(new Color(255, 255, 0, 100));
+		sh1.setBounds(0, 0, 200, 100);
+		t1.add(sh1);
+
 	}
 	
 	private void WindowResized()
@@ -270,19 +378,26 @@ private JFrame viewForm;
 		
 		sp1.setDividerLocation((int)(internalWidth * spRatio));
 		
+		sh1.setBounds(0, 0, internalWidth / 2, 180); //한줄에 15픽셀인듯
+		
 	}
 	
 	private void WheelScroll(boolean upDown)
 	{
 		if(upDown == false)
 		{
+			s1.repaint();
+			s2.repaint();
 			s1.getVerticalScrollBar().setValue(s1.getVerticalScrollBar().getValue() - 54);
 			s2.getVerticalScrollBar().setValue(s2.getVerticalScrollBar().getValue() - 54);
 		}
 		else
 		{
+			s1.repaint();
+			s2.repaint();
 			s1.getVerticalScrollBar().setValue(s1.getVerticalScrollBar().getValue() + 54);
 			s2.getVerticalScrollBar().setValue(s2.getVerticalScrollBar().getValue() + 54);
 		}
 	}
+	
 }
