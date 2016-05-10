@@ -30,4 +30,8 @@ public class ImportedFile {
 
     }
 
+    List<String> getText () {
+        return text;
+    }
+
 }
