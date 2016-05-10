@@ -1,26 +1,19 @@
-package View;
+package view;
 
 import java.io.*;
 import java.beans.*;
-import java.awt.*;
-import java.awt.Graphics;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.GridLayout;
 import java.awt.event.*;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Insets;
-import java.awt.Rectangle;
-import java.awt.Toolkit;
 import javax.swing.plaf.basic.*;
 import javax.swing.*;
 import javax.imageio.*;
 
-public class Cls_View
+public class ClsView
 {
 private JFrame viewForm;
 	
@@ -47,7 +40,7 @@ private JFrame viewForm;
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Cls_View window = new Cls_View();
+					ClsView window = new ClsView();
 					window.viewForm.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -56,7 +49,7 @@ private JFrame viewForm;
 		});
 	}
 	
-	public Cls_View()
+	public ClsView()
 	{
 		InitView();
 	}
