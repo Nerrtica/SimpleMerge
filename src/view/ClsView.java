@@ -8,6 +8,7 @@ package view;
 import java.awt.*;
 import java.io.*;
 import java.beans.*;
+import java.util.ArrayList;
 import java.awt.event.*;
 
 import javax.swing.plaf.basic.*;
@@ -19,13 +20,153 @@ import javax.imageio.*;
 
 class JMergeEditor extends JTextArea
 {
+	//////////////////////////////////////////////////////////////////
+	//CONSTANTS
+	public final int 		DEFAULT_SHADE_HEIGHT_UNIT = 10;
+	public final Color 	DEFAULT_SHADE_COLOR = new Color(255, 0, 0, 100);
 	
+	//////////////////////////////////////////////////////////////////
+	//private variables
+	private Color shadeColor;
+	private int shadeHeightUnit;
+	
+	ArrayList<Integer> markList;
+	
+	//////////////////////////////////////////////////////////////////
+	
+	//Constructor
+	JMergeEditor()
+	{
+		
+		shadeColor = DEFAULT_SHADE_COLOR;
+		shadeHeightUnit = DEFAULT_SHADE_HEIGHT_UNIT;
+		markList = new ArrayList<Integer>();
+		
+	}
+	
+	//////////////////////////////////////////////////////////////////
+	
+	//Get shade color
+	public Color GetShadeColor()
+	{
+		return shadeColor;
+	}
+	
+	//Set shade color
+	public void SetShadeColor(Color i_color)
+	{
+		
+		int t_red, t_green, t_blue;
+		
+		//if input color is not translucent, set default alpha to 100
+		if(i_color.getAlpha() == 0)
+		{
+			t_red = i_color.getRed();
+			t_green = i_color.getGreen();
+			t_blue = i_color.getBlue();
+			shadeColor = new Color(t_red, t_green, t_blue, 100);
+		}
+		else
+			shadeColor = i_color;
+		
+	}
+	
+	//Get shade height unit
+	public int getShadeHeightUnit()
+	{
+		return shadeHeightUnit;
+	}
+	
+	//Set shade height unit
+	public void SetShadeHeightUnit(int i_shadeHeightUnit)
+	{
+		shadeHeightUnit = i_shadeHeightUnit;
+	}
+	
+	//////////////////////////////////////////////////////////////////
+	
+	//Add one elements to marklist
+	public void AddMarkList(int i_lineNum)
+	{
+		markList.add(i_lineNum);
+		super.repaint();
+	}
+	
+	//Add list to marklist
+	public void AddMarkList(ArrayList<Integer> i_list)
+	{
+		markList.addAll(i_list);
+		super.repaint();
+	}
+	
+	//Remove one elements in marklist
+	public void RemoveMark(int i_lineNum)
+	{
+		
+		int i, len;
+		
+		//if markList is empty, return
+		if(markList.isEmpty())
+			return;
+		
+		//initialize local variables
+		len = markList.size();
+		
+		//find that line and remove
+		for(i = 0; i < len; i++)
+		{
+			if(markList.get(i) == i_lineNum)
+			{
+				markList.remove(i);
+				return;
+			}
+		}
+		
+		//repaint
+		super.repaint();
+		
+	}
+	
+	//Remove all elements in marklist
+	public void RemoveAllMark()
+	{
+		markList.clear();
+		super.repaint();
+	}
+	
+	//////////////////////////////////////////////////////////////////
+	
+	//Paint All marklist
+	private void PaintShade(Graphics g)
+	{
+		
+		int i, len, width;
+		
+		//if markList is empty, return
+		if(markList.isEmpty())
+			return;
+		
+		//initialize local variables
+		len = markList.size();
+		width = super.getWidth();
+		
+		//set paint color
+		g.setColor(shadeColor);
+		
+		//paint all
+		for(i = 0; i < len; i++)
+			g.fillRect(0, markList.get(i) * shadeHeightUnit, width, shadeHeightUnit);
+		
+	}
+	
+	//Override paintComponent
 	public void paintComponent(Graphics g)
 	{
+		
 		super.paintComponent(g);
 		
-		g.setColor(new Color(255, 0, 0, 100));
-		g.fillRect(10, 10, 200, 100);
+		PaintShade(g);
+
 	}
 	
 }
@@ -38,49 +179,50 @@ public class ClsView
 	//CONSTANTS
 	//////////////////////
 	//FORM
-	public final int DEFAULT_WINDOW_WIDTH = 800;					//Window default width size
-	public final int DEFAULT_WINDOW_HEIGHT = 600;					//Window default height size
-	public final String WINDOW_CAPTION = "Simple_Merge_TEAM_11";	//Window caption name
-	public final int WINDOW_MARGIN_X = 20;							//Window internal margin x-axis
-	public final int WINDOW_MARGIN_Y = 50;							//Window internal margin y-axis
+	public final int 		DEFAULT_WINDOW_WIDTH = 800;						//Window default width size
+	public final int 		DEFAULT_WINDOW_HEIGHT = 600;					//Window default height size
+	public final String 	WINDOW_CAPTION = "Simple_Merge_TEAM_11";		//Window caption name
+	public final int 		WINDOW_MARGIN_X = 20;							//Window internal margin x-axis
+	public final int 		WINDOW_MARGIN_Y = 50;							//Window internal margin y-axis
 	//SPLITPANE
-	public final int DIVIDER_THICKNESS = 3;						//size of seperating bar in splitpane
+	public final int 		DIVIDER_THICKNESS = 3;							//size of seperating bar in splitpane
 	//IMAGE ADDRESS
-	public final String SAVE_BTN_IMG_ADDRESS = "Images/Save01.png";	//address of save button image
-	public final String LOAD_BTN_IMG_ADDRESS = "Images/Load01.png";	//address of load button image
+	public final String 	SAVE_BTN_IMG_ADDRESS = "Images/Save01.png";		//address of save button image
+	public final String 	LOAD_BTN_IMG_ADDRESS = "Images/Load01.png";		//address of load button image
 	//EDITOR
-	public final String EDITOR_FONT = "Bitstream Vera Sans Mono";		//editor's font
-	public final int EDITOR_FONT_SIZE = 12;							//editor's font size
-	public final int EDITOR_TAB_SIZE = 4;								//editor's tab size
-	public final Color EDITOR_BG_COLOR = Color.WHITE;				//editor's background color
-	public final Color EDITOR_FONT_COLOR = Color.BLACK;				//editor's font color
-	public final Color EDITOR_SELECTION_COLOR = Color.BLACK;			//editor's selection color (when blocked)
-	public final Color EDITOR_SELECTED_FONT_COLOR = Color.YELLOW;	//editor's selected font color (when blocked)
+	public final String 	EDITOR_FONT = "Bitstream Vera Sans Mono";		//editor's font
+	public final int 		EDITOR_FONT_SIZE = 12;							//editor's font size
+	public final int 		EDITOR_TAB_SIZE = 4;							//editor's tab size
+	public final Color 	EDITOR_BG_COLOR = Color.WHITE;					//editor's background color
+	public final Color 	EDITOR_FONT_COLOR = Color.BLACK;				//editor's font color
+	public final Color 	EDITOR_SELECTION_COLOR = Color.BLACK;			//editor's selection color (when blocked)
+	public final Color 	EDITOR_SELECTED_FONT_COLOR = Color.YELLOW;		//editor's selected font color (when blocked)
 	//SCROLL
-	public final int WHEEL_SCROLL_AMOUNT = 54;			//scroll amount when mouse wheel
+	public final int 		WHEEL_SCROLL_AMOUNT = 54;						//scroll amount when mouse wheel
 	//SHADE
-	public final int EDITOR_LINE_HEIGHT = 15;			//line height in editor
+	public final int 		EDITOR_LINE_HEIGHT = 15;						//line height in editor
+	public final Color 	SHADE_COLOR = new Color(255, 255, 0, 100);		//shade color
 	
 	//////////////////////////////////////////////////////////////////
 	//GUI Components
 	//////////////////////
 	//form
-	private JFrame viewForm;
+	private JFrame 		viewForm;
 	//form - north
-	private JPanel topPanel;
-	private JButton undoBtn, redoBtn;
+	private JPanel 		topPanel;
+	private JButton 		undoBtn, redoBtn;
 	//form - center
-	private JSplitPane seperator;
+	private JSplitPane 	seperator;
 	//center - left side
-	private JPanel leftPanel, left_TopPanel;
-	private JButton leftSaveBtn, leftLoadBtn;
-	private JMergeEditor leftEditor;
-	private JScrollPane leftScrollPane;
+	private JPanel 		leftPanel, left_TopPanel;
+	private JButton 		leftSaveBtn, leftLoadBtn;
+	private JMergeEditor 	leftEditor;
+	private JScrollPane 	leftScrollPane;
 	//center - right side
-	private JPanel rightPanel, right_TopPanel;
-	private JButton rightSaveBtn, rightLoadBtn;
-	private JMergeEditor rightEditor;
-	private JScrollPane rightScrollPane;
+	private JPanel 		rightPanel, right_TopPanel;
+	private JButton 		rightSaveBtn, rightLoadBtn;
+	private JMergeEditor 	rightEditor;
+	private JScrollPane 	rightScrollPane;
 
 	//////////////////////////////////////////////////////////////////
 	//private variables
@@ -192,9 +334,27 @@ public class ClsView
 		undoBtn = new JButton("UNDO");
 		topPanel.add(undoBtn);
 		
+		//Create undo button listenser
+		undoBtn.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				JOptionPane.showMessageDialog(undoBtn, "누르지마", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		
 		//Create redo button
 		redoBtn = new JButton("REDO");
 		topPanel.add(redoBtn);
+		
+		//Create redo button listenser
+		redoBtn.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				JOptionPane.showMessageDialog(redoBtn, "누르지마", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+			}
+		});
 		
 	}
 	
@@ -254,6 +414,24 @@ public class ClsView
 		left_TopPanel.add(leftSaveBtn);
 		left_TopPanel.add(leftLoadBtn);
 		
+		//Create left save button listenser
+		leftSaveBtn.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				JOptionPane.showMessageDialog(leftSaveBtn, "누르지마", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		
+		//Create left load button listenser
+		leftLoadBtn.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				JOptionPane.showMessageDialog(leftLoadBtn, "누르지마", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		
 		//Create editor of left side
 		leftEditor = new JMergeEditor();
 		leftEditor.setFont(new Font(EDITOR_FONT, Font.PLAIN, EDITOR_FONT_SIZE));
@@ -262,6 +440,13 @@ public class ClsView
 		leftEditor.setForeground(EDITOR_FONT_COLOR);
 		leftEditor.setSelectionColor(EDITOR_SELECTION_COLOR);
 		leftEditor.setSelectedTextColor(EDITOR_SELECTED_FONT_COLOR);
+		leftEditor.SetShadeColor(SHADE_COLOR);
+		leftEditor.SetShadeHeightUnit(15);
+		ArrayList<Integer> a = new ArrayList<Integer>();
+		a.add(0);
+		a.add(3);
+		a.add(5);
+		leftEditor.AddMarkList(a);
 		
 		//Create editor's mouse wheel listener
 		leftEditor.addMouseWheelListener(new MouseAdapter()
@@ -333,6 +518,24 @@ public class ClsView
 		right_TopPanel.add(rightSaveBtn);
 		right_TopPanel.add(rightLoadBtn);
 		
+		//Create right save button listenser
+		rightSaveBtn.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				JOptionPane.showMessageDialog(rightSaveBtn, "누르지마", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		
+		//Create right load button listenser
+		rightLoadBtn.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				JOptionPane.showMessageDialog(rightLoadBtn, "누르지마", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		
 		//Create editor of right side
 		rightEditor = new JMergeEditor();
 		rightEditor.setFont(new Font(EDITOR_FONT, Font.PLAIN, EDITOR_FONT_SIZE));
@@ -341,6 +544,8 @@ public class ClsView
 		rightEditor.setForeground(EDITOR_FONT_COLOR);
 		rightEditor.setSelectionColor(EDITOR_SELECTION_COLOR);
 		rightEditor.setSelectedTextColor(EDITOR_SELECTED_FONT_COLOR);
+		rightEditor.SetShadeColor(SHADE_COLOR);
+		rightEditor.SetShadeHeightUnit(15);
 		
 		//Create editor's mouse wheel listener
 		rightEditor.addMouseWheelListener(new MouseAdapter()
