@@ -15,105 +15,139 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.imageio.*;
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//Shade Component like a colored glass CLASS
-//Having JComponent's contents
-class Shade extends JComponent
+class JMergeEditor extends JTextArea
 {
-	private Color shadeColor;
-	
-	public Shade()
-	{
-		//Can be translucent
-		super.setOpaque(true);
-		shadeColor = new Color(255, 255, 0, 100);
-	}
-	public Shade(Color i_color)
-	{
-		//Can be translucent
-		super.setOpaque(true);
-		
-		SetColor(i_color);
-	}
-	
-	public void SetColor(Color i_color)
-	{
-		int t_red, t_green, t_blue;
-		
-		//if input color is not translucent, set default alpha to 100
-		if(i_color.getAlpha() == 0)
-		{
-			t_red = i_color.getRed();
-			t_green = i_color.getGreen();
-			t_blue = i_color.getBlue();
-			shadeColor = new Color(t_red, t_green, t_blue, 100);
-		}
-		else
-			shadeColor = i_color;
-	}
-	
-	public Color GetColor()
-	{
-		return shadeColor;
-	}
 	
 	public void paintComponent(Graphics g)
 	{
-		g.setColor(shadeColor);
-		g.fillRect(0, 0, super.getWidth(), super.getHeight());
+		super.paintComponent(g);
+		
+		g.setColor(new Color(255, 0, 0, 100));
+		g.fillRect(10, 10, 200, 100);
 	}
+	
 }
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 public class ClsView
 {
-private JFrame viewForm;
+	//////////////////////////////////////////////////////////////////
+	//CONSTANTS
+	//////////////////////
+	//FORM
+	public final int DEFAULT_WINDOW_WIDTH = 800;					//Window default width size
+	public final int DEFAULT_WINDOW_HEIGHT = 600;					//Window default height size
+	public final String WINDOW_CAPTION = "Simple_Merge_TEAM_11";	//Window caption name
+	public final int WINDOW_MARGIN_X = 20;							//Window internal margin x-axis
+	public final int WINDOW_MARGIN_Y = 50;							//Window internal margin y-axis
+	//SPLITPANE
+	public final int DIVIDER_THICKNESS = 3;						//size of seperating bar in splitpane
+	//IMAGE ADDRESS
+	public final String SAVE_BTN_IMG_ADDRESS = "Images/Save01.png";	//address of save button image
+	public final String LOAD_BTN_IMG_ADDRESS = "Images/Load01.png";	//address of load button image
+	//EDITOR
+	public final String EDITOR_FONT = "Bitstream Vera Sans Mono";		//editor's font
+	public final int EDITOR_FONT_SIZE = 12;							//editor's font size
+	public final int EDITOR_TAB_SIZE = 4;								//editor's tab size
+	public final Color EDITOR_BG_COLOR = Color.WHITE;				//editor's background color
+	public final Color EDITOR_FONT_COLOR = Color.BLACK;				//editor's font color
+	public final Color EDITOR_SELECTION_COLOR = Color.BLACK;			//editor's selection color (when blocked)
+	public final Color EDITOR_SELECTED_FONT_COLOR = Color.YELLOW;	//editor's selected font color (when blocked)
+	//SCROLL
+	public final int WHEEL_SCROLL_AMOUNT = 54;			//scroll amount when mouse wheel
+	//SHADE
+	public final int EDITOR_LINE_HEIGHT = 15;			//line height in editor
 	
-	private JPanel p1, p2;
-	private JPanel p3, p4;
-	private JPanel p5, p6;
+	//////////////////////////////////////////////////////////////////
+	//GUI Components
+	//////////////////////
+	//form
+	private JFrame viewForm;
+	//form - north
+	private JPanel topPanel;
+	private JButton undoBtn, redoBtn;
+	//form - center
+	private JSplitPane seperator;
+	//center - left side
+	private JPanel leftPanel, left_TopPanel;
+	private JButton leftSaveBtn, leftLoadBtn;
+	private JMergeEditor leftEditor;
+	private JScrollPane leftScrollPane;
+	//center - right side
+	private JPanel rightPanel, right_TopPanel;
+	private JButton rightSaveBtn, rightLoadBtn;
+	private JMergeEditor rightEditor;
+	private JScrollPane rightScrollPane;
+
+	//////////////////////////////////////////////////////////////////
+	//private variables
+	//////////////////////
+	//seperator
+	private float spRatio;			//seperator's divider's location ratio
+	//clipping area size
+	private int internalWidth;		//real form's clipping area width
+	private int internalHeight;	//real form's clipping area height
 	
-	private JButton b1, b2;
-	private JButton b3, b4, b5, b6;
-	
-	private JTextArea t1, t2;
-	
-	private JSplitPane sp1;
-	
-	private JScrollPane s1, s2;
-	
-	private Shade sh1, sh2;
-	
-	private float spRatio;
-	private int internalWidth;
-	private int internalHeight;
+	//////////////////////////////////////////////////////////////////
 	
 	public static void main(String args[])
 	{
 
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
+		EventQueue.invokeLater(new Runnable()
+		{
+			public void run()
+			{
+				try
+				{
 					ClsView window = new ClsView();
 					window.viewForm.setVisible(true);
-				} catch (Exception e) {
+				} catch (Exception e)
+				{
 					e.printStackTrace();
 				}
 			}
 		});
 	}
 	
+	//////////////////////////////////////////////////////////////////
+	
+	//Constructor
 	public ClsView()
 	{
 		InitView();
 	}
 	
+	//Initialize view class
 	private void InitView()
 	{
 		
-		viewForm = new JFrame("Mergery");
-		viewForm.setSize(800, 600);
+		Init_Variables();
+		Init_Form();
+		Init_TopBounds();
+		Init_CenterBounds();
+
+	}
+	
+	//Initialize class variables
+	private void Init_Variables()
+	{
+		
+		spRatio = 0.5f;
+		
+	}
+	
+	//Initialize form
+	private void Init_Form()
+	{
+		
+		viewForm = new JFrame(WINDOW_CAPTION);
+		viewForm.setSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
 		viewForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		viewForm.getContentPane().setLayout(new BorderLayout(0,0));
+		
 		viewForm.addComponentListener(new ComponentListener()
 		{
 			public void componentResized(ComponentEvent e)
@@ -139,129 +173,114 @@ private JFrame viewForm;
 				
 			}
 		});
-		//////////////////////////////////////////////////////////////////
-		internalWidth = viewForm.getWidth() - 20;
-		internalHeight = viewForm.getHeight() - 50;
 		
-		spRatio = 0.5f;
-		//////////////////////////////////////////////////////////////////
-		p1 = new JPanel();
-		p1.setLayout(new FlowLayout());
-		viewForm.getContentPane().add(p1, BorderLayout.NORTH);
+		//Reset Internal form size
+		ResetInternalFormSize();
 		
-		b1 = new JButton("B1");
-		p1.add(b1);
+	}
+	
+	//Initialize top bounds of form
+	private void Init_TopBounds()
+	{
 		
-		b2 = new JButton("B2");
-		p1.add(b2);
-		//////////////////////////////////////////////////////////////////
-		sp1 = new JSplitPane();
-		sp1.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-		sp1.setDividerLocation((int)(internalWidth * spRatio));
-		sp1.setDividerSize(3);
-		viewForm.getContentPane().add(sp1, BorderLayout.CENTER);
-		sp1.addPropertyChangeListener(JSplitPane.DIVIDER_LOCATION_PROPERTY, new PropertyChangeListener()
-		{
-			public void propertyChange(PropertyChangeEvent pce) {
-
-			}
-		});
-		BasicSplitPaneUI spui = (BasicSplitPaneUI)sp1.getUI();
+		//Create base top panel
+		topPanel = new JPanel();
+		topPanel.setLayout(new FlowLayout());
+		viewForm.getContentPane().add(topPanel, BorderLayout.NORTH);
+		
+		//Create undo button
+		undoBtn = new JButton("UNDO");
+		topPanel.add(undoBtn);
+		
+		//Create redo button
+		redoBtn = new JButton("REDO");
+		topPanel.add(redoBtn);
+		
+	}
+	
+	//Initialize center bounds of form
+	private void Init_CenterBounds()
+	{
+		
+		//Create splitpane
+		seperator = new JSplitPane();
+		seperator.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+		seperator.setDividerLocation((int)(internalWidth * spRatio));
+		seperator.setDividerSize(DIVIDER_THICKNESS);
+		viewForm.getContentPane().add(seperator, BorderLayout.CENTER);
+		
+		//Create splitpane's divider listener
+		BasicSplitPaneUI spui = (BasicSplitPaneUI)seperator.getUI();
 		if(spui instanceof BasicSplitPaneUI)
 		{
 			((BasicSplitPaneUI)spui).getDivider().addMouseListener(new MouseAdapter()
 			{
 				public void mouseReleased(MouseEvent e)
 				{
-					spRatio = (float)sp1.getDividerLocation() / (float)(viewForm.getWidth() - 20);
-					System.out.println(spRatio);
+					spRatio = (float)seperator.getDividerLocation() / (float)(internalWidth);
 				}
 			});
 		}
-		//////////////////////////////////////////////////////////////////
-		p3 = new JPanel();
-		p3.setLayout(new BorderLayout(0,0));
-		sp1.setLeftComponent(p3);
 		
-		p5 = new JPanel();
-		p5.setLayout(new FlowLayout());
-		p3.add(p5, BorderLayout.NORTH);
+		//Call Initialize splitpane's left side
+		Init_LeftBounds();
+		//Call Initialize splitpane's right side
+		Init_RightBounds();
 		
+	}
+	
+	//Initialize left side of the splitpane
+	private void Init_LeftBounds()
+	{
+		
+		//Create base left panel
+		leftPanel = new JPanel();
+		leftPanel.setLayout(new BorderLayout(0, 0));
+		seperator.setLeftComponent(leftPanel);
+		
+		//Create top panel in left side
+		left_TopPanel = new JPanel();
+		left_TopPanel.setLayout(new FlowLayout());
+		leftPanel.add(left_TopPanel, BorderLayout.NORTH);
+		
+		//Create save and load buttons of left side
 		try
 		{
-			b3 = new JButton(new ImageIcon(ImageIO.read(new File("Images/Save01.png"))));
-			b3.setMargin(new Insets(0, 0, 0, 0));
+			leftSaveBtn = new JButton(new ImageIcon(ImageIO.read(new File(SAVE_BTN_IMG_ADDRESS))));
+			leftLoadBtn = new JButton(new ImageIcon(ImageIO.read(new File(LOAD_BTN_IMG_ADDRESS))));
 		}catch(IOException ex){}
-		p5.add(b3);
+		leftSaveBtn.setMargin(new Insets(0, 0, 0, 0));
+		leftLoadBtn.setMargin(new Insets(0, 0, 0, 0));
+		left_TopPanel.add(leftSaveBtn);
+		left_TopPanel.add(leftLoadBtn);
 		
-		try
-		{
-			b4 = new JButton(new ImageIcon(ImageIO.read(new File("Images/Load01.png"))));
-			b4.setMargin(new Insets(0, 0, 0, 0));
-		}catch(IOException ex){}
-		p5.add(b4);
+		//Create editor of left side
+		leftEditor = new JMergeEditor();
+		leftEditor.setFont(new Font(EDITOR_FONT, Font.PLAIN, EDITOR_FONT_SIZE));
+		leftEditor.setTabSize(EDITOR_TAB_SIZE);
+		leftEditor.setBackground(EDITOR_BG_COLOR);
+		leftEditor.setForeground(EDITOR_FONT_COLOR);
+		leftEditor.setSelectionColor(EDITOR_SELECTION_COLOR);
+		leftEditor.setSelectedTextColor(EDITOR_SELECTED_FONT_COLOR);
 		
-		t1 = new JTextArea();
-		t1.setFont(new Font("Bitstream Vera Sans Mono", Font.PLAIN, 12));
-		t1.setTabSize(4);
-		t1.setBackground(Color.WHITE);
-		t1.setSelectedTextColor(Color.WHITE);
-		t1.setSelectionColor(Color.BLACK);
-		t1.setForeground(Color.BLACK);
-		t1.addKeyListener(new KeyListener()
-		{
-			public void keyTyped(KeyEvent e)
-			{
-			}
-			public void keyReleased(KeyEvent e)
-			{
-				t1.repaint();
-			}
-			public void keyPressed(KeyEvent e)
-			{
-				t1.repaint();
-			}
-		});
-		t1.addMouseMotionListener(new MouseAdapter()
-		{
-			public void mouseDragged(MouseEvent e)
-			{
-				t1.repaint();
-				sh1.revalidate();
-			}
-		});
-		t1.addMouseWheelListener(new MouseAdapter()
+		//Create editor's mouse wheel listener
+		leftEditor.addMouseWheelListener(new MouseAdapter()
 		{
 			public void mouseWheelMoved(MouseWheelEvent e)
 			{
 				if(e.getWheelRotation() < 0)
-				{
 					WheelScroll(false);
-				}
 				else
-				{
 					WheelScroll(true);
-				}
-				
-			}
-		});
-		//t1.getCaret().setBlinkRate(0);
-		t1.addCaretListener(new CaretListener()
-		{
-			public void caretUpdate(CaretEvent e)
-			{
-				t1.repaint();
-
-				System.out.println("S");
 			}
 		});
 		
-		
-		t1.getDocument().addDocumentListener(new DocumentListener()
+		//Create editor's document listener
+		leftEditor.getDocument().addDocumentListener(new DocumentListener()
 		{
 			public void insertUpdate(DocumentEvent e)
 			{
-				System.out.println("CC");
+				System.out.println("INSERT");
 			}
 			
 			public void changedUpdate(DocumentEvent e)
@@ -270,133 +289,140 @@ private JFrame viewForm;
 			}
 			public void removeUpdate(DocumentEvent e)
 			{
-				System.out.println("CCC");
+				System.out.println("REMOVE");
 			}
 		});
 		
+		//Create scrollpane of left side
+		leftScrollPane = new JScrollPane(leftEditor, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		leftPanel.add(leftScrollPane, BorderLayout.CENTER);
 		
-		s1 = new JScrollPane(t1, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		s1.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener()
+		//Create scrollbar listener of scrollpane
+		leftScrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener()
 		{
 			public void adjustmentValueChanged(AdjustmentEvent e)
 			{
-				s2.getVerticalScrollBar().setValue(s1.getVerticalScrollBar().getValue());
+				rightScrollPane.getVerticalScrollBar().setValue(leftScrollPane.getVerticalScrollBar().getValue());
 			}
 		});
-		s1.getVerticalScrollBar().addMouseMotionListener(new MouseAdapter()
-		{
-			public void mouseDragged(MouseEvent e)
-			{
-				//s2.getVerticalScrollBar().setValue(s1.getVerticalScrollBar().getValue());
-				
-			}
-		});
-		s1.getVerticalScrollBar().addMouseListener(new MouseAdapter()
-		{
-			public void mouseReleased(MouseEvent e)
-			{
-				//s2.getVerticalScrollBar().setValue(s1.getVerticalScrollBar().getValue());
-			}
-		});
-		p3.add(s1, BorderLayout.CENTER);
-		//////////////////////////////////////////////////////////////////
-		p4 = new JPanel();
-		p4.setLayout(new BorderLayout(0,0));
-		sp1.setRightComponent(p4);
 		
-		p6 = new JPanel();
-		p6.setLayout(new FlowLayout());
-		p4.add(p6, BorderLayout.NORTH);
+	}
+	
+	//Initialize right side of the splitpane
+	private void Init_RightBounds()
+	{
 		
+		//Create base right panel
+		rightPanel = new JPanel();
+		rightPanel.setLayout(new BorderLayout(0, 0));
+		seperator.setRightComponent(rightPanel);
+		
+		//Create top panel in right side
+		right_TopPanel = new JPanel();
+		right_TopPanel.setLayout(new FlowLayout());
+		rightPanel.add(right_TopPanel, BorderLayout.NORTH);
+		
+		//Create save and load buttons of right side
 		try
 		{
-			b5 = new JButton(new ImageIcon(ImageIO.read(new File("Images/Save01.png"))));
-			b5.setMargin(new Insets(0, 0, 0, 0));
+			rightSaveBtn = new JButton(new ImageIcon(ImageIO.read(new File(SAVE_BTN_IMG_ADDRESS))));
+			rightLoadBtn = new JButton(new ImageIcon(ImageIO.read(new File(LOAD_BTN_IMG_ADDRESS))));
 		}catch(IOException ex){}
-		p6.add(b5);
+		rightSaveBtn.setMargin(new Insets(0, 0, 0, 0));
+		rightLoadBtn.setMargin(new Insets(0, 0, 0, 0));
+		right_TopPanel.add(rightSaveBtn);
+		right_TopPanel.add(rightLoadBtn);
 		
-		try
-		{
-			b6 = new JButton(new ImageIcon(ImageIO.read(new File("Images/Load01.png"))));
-			b6.setMargin(new Insets(0, 0, 0, 0));
-		}catch(IOException ex){}
-		p6.add(b6);
+		//Create editor of right side
+		rightEditor = new JMergeEditor();
+		rightEditor.setFont(new Font(EDITOR_FONT, Font.PLAIN, EDITOR_FONT_SIZE));
+		rightEditor.setTabSize(EDITOR_TAB_SIZE);
+		rightEditor.setBackground(EDITOR_BG_COLOR);
+		rightEditor.setForeground(EDITOR_FONT_COLOR);
+		rightEditor.setSelectionColor(EDITOR_SELECTION_COLOR);
+		rightEditor.setSelectedTextColor(EDITOR_SELECTED_FONT_COLOR);
 		
-		t2 = new JTextArea();
-		t2.setFont(new Font("Bitstream Vera Sans Mono", Font.PLAIN, 12));
-		t2.setTabSize(4);
-		t2.setBackground(Color.DARK_GRAY);
-		t2.setSelectedTextColor(Color.BLACK);
-		t2.setSelectionColor(Color.WHITE);
-		t2.setForeground(Color.WHITE);
-		t2.addMouseWheelListener(new MouseAdapter()
+		//Create editor's mouse wheel listener
+		rightEditor.addMouseWheelListener(new MouseAdapter()
 		{
 			public void mouseWheelMoved(MouseWheelEvent e)
 			{
 				if(e.getWheelRotation() < 0)
-				{
 					WheelScroll(false);
-				}
 				else
-				{
 					WheelScroll(true);
-				}
 			}
 		});
 		
-		s2 = new JScrollPane(t2, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		s2.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener()
+		//Create editor's document listener
+		rightEditor.getDocument().addDocumentListener(new DocumentListener()
+		{
+			public void insertUpdate(DocumentEvent e)
+			{
+				System.out.println("INSERT");
+			}
+			
+			public void changedUpdate(DocumentEvent e)
+			{
+				
+			}
+			public void removeUpdate(DocumentEvent e)
+			{
+				System.out.println("REMOVE");
+			}
+		});
+		
+		//Create scrollpane of right side
+		rightScrollPane = new JScrollPane(rightEditor, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		rightPanel.add(rightScrollPane, BorderLayout.CENTER);
+		
+		//Create scrollbar listener of scrollpane
+		rightScrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener()
 		{
 			public void adjustmentValueChanged(AdjustmentEvent e)
 			{
-				s1.getVerticalScrollBar().setValue(s2.getVerticalScrollBar().getValue());
+				leftScrollPane.getVerticalScrollBar().setValue(rightScrollPane.getVerticalScrollBar().getValue());
 			}
 		});
-		s2.getVerticalScrollBar().addMouseListener(new MouseAdapter()
-		{
-			public void mouseReleased(MouseEvent e)
-			{
-				//s1.getVerticalScrollBar().setValue(s2.getVerticalScrollBar().getValue());
-			}
-		});
-		p4.add(s2, BorderLayout.CENTER);
 		
-		sh1 = new Shade(new Color(255, 255, 0, 100));
-		sh1.setBounds(0, 0, 200, 100);
-		t1.add(sh1);
-
 	}
 	
+	//////////////////////////////////////////////////////////////////
+	
+	//Reset form's real clipping area size
+	private void ResetInternalFormSize()
+	{
+		
+		internalWidth = viewForm.getWidth() - WINDOW_MARGIN_X;
+		internalHeight = viewForm.getHeight() - WINDOW_MARGIN_Y;
+		
+	}
+	
+	//When form's size is changed
 	private void WindowResized()
 	{
 		
-		int baseWinSize;
-		float tempRatio;
+		//Reset internal form size
+		ResetInternalFormSize();
 		
-		internalWidth = viewForm.getWidth() - 20;
-		internalHeight = viewForm.getHeight() - 50;
-		
-		sp1.setDividerLocation((int)(internalWidth * spRatio));
-		
-		sh1.setBounds(0, 0, internalWidth / 2, 180); //한줄에 15픽셀인듯
+		//Maintain divider's location ratio
+		seperator.setDividerLocation((int)(internalWidth * spRatio));
 		
 	}
 	
+	//when mouse wheel scrolled
 	private void WheelScroll(boolean upDown)
 	{
+		//Synchronize scroll value of left and right side
 		if(upDown == false)
 		{
-			s1.repaint();
-			s2.repaint();
-			s1.getVerticalScrollBar().setValue(s1.getVerticalScrollBar().getValue() - 54);
-			s2.getVerticalScrollBar().setValue(s2.getVerticalScrollBar().getValue() - 54);
+			leftScrollPane.getVerticalScrollBar().setValue(leftScrollPane.getVerticalScrollBar().getValue() - WHEEL_SCROLL_AMOUNT);
+			rightScrollPane.getVerticalScrollBar().setValue(rightScrollPane.getVerticalScrollBar().getValue() - WHEEL_SCROLL_AMOUNT);
 		}
 		else
 		{
-			s1.repaint();
-			s2.repaint();
-			s1.getVerticalScrollBar().setValue(s1.getVerticalScrollBar().getValue() + 54);
-			s2.getVerticalScrollBar().setValue(s2.getVerticalScrollBar().getValue() + 54);
+			leftScrollPane.getVerticalScrollBar().setValue(leftScrollPane.getVerticalScrollBar().getValue() + WHEEL_SCROLL_AMOUNT);
+			rightScrollPane.getVerticalScrollBar().setValue(rightScrollPane.getVerticalScrollBar().getValue() + WHEEL_SCROLL_AMOUNT);
 		}
 	}
 	
