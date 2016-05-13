@@ -16,27 +16,27 @@ public class ImportedFile {
     private String fileRoute;
 
     public ImportedFile (String fileRoute){
-    	this.fileRoute = fileRoute;	//fileRoute ÀúÀå
+    	this.fileRoute = fileRoute;	//fileRoute ì €ì¥
     
     	try{
-    		BufferedReader br = new BufferedReader(new FileReader(fileRoute));	//ÆÄÀÏ reader	
+    		BufferedReader br = new BufferedReader(new FileReader(fileRoute));	// íŒŒì¼ reader	
     	
-	    	String line;	//°¢ ¹®ÀÚ¿­À» ÀÓ½Ã·Î ÀúÀåÇÒ String
+	    	String line;	//íŒŒì¼ì—ì„œ ë¶ˆëŸ¬ì˜¨ ë¬¸ìì—´ì„ ì„ì‹œë¡œ ì €ì¥í•  String
 	    	
 	    	while(true){
 	    		line = br.readLine();
-	    		if(line == null)	//´õ ÀÌ»ó ÀĞ¾î¿Ã ¹®ÀÚ¿­ ¾øÀ¸¸é break;
+	    		if(line == null)	//ë” ì´ìƒ ë¶ˆëŸ¬ì˜¬ ë¬¸ìì—´ ì—†ìœ¼ë©´ break;
 	    			break;
-	    		text.add(line);	//text¿¡ ¹®ÀÚ¿­ Ãß°¡
+	    		text.add(line);	//text ë¦¬ìŠ¤íŠ¸ì— ë¬¸ìì—´ ì¶”ê°€
 	    	}
 	    	
 	    	br.close();
     	}
     	catch(FileNotFoundException e){
-    		System.out.println("ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+    		System.out.println("íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤..");
     	}
     	catch(IOException e){
-    		System.out.println("ÀÔÃâ·Â »óÈ²¿¡¼­ ¿¡·¯°¡ ¹ß»ıÇÏ¿´½À´Ï´Ù.");
+    		System.out.println("ì…ì¶œë ¥ ì˜¤ë¥˜ê°€ ë°œìƒí•˜ì˜€ìŠµë‹ˆë‹¤.");
     	}
 
     }
@@ -52,7 +52,7 @@ public class ImportedFile {
 	    	pw.close();
     	}
     	catch(FileNotFoundException e){
-    		System.out.println("ÆÄÀÏÀ» Ã£À» ¼ö ¾ø½À´Ï´Ù.");
+    		System.out.println("íŒŒì¼ì„ ì°¾ì„ ìˆ˜ ì—†ìŠµë‹ˆë‹¤.");
     	}
     }
 
