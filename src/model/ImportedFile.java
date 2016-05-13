@@ -60,15 +60,15 @@ public class ImportedFile {
 
     }
 
-    returnType compare (ImportedFile oppositeFile) {
+    public returnType compare (ImportedFile oppositeFile) {
 
     }
 
-    returnType merge (parameter) {
+    public returnType merge (parameter) {
 
     }
 
-    List<String> getText () {
+    public List<String> getText () {
         return text;
     }
 
