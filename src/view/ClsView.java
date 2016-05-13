@@ -1,17 +1,31 @@
 //////////////////////////////////////////////////////////////////
 //메모
-//에디터에서 글자를 수정했을 때 수정한 영역의 위치와 수정한 내용을 리턴을 할수 있게하기
+//oop개념에 맞게 코드 좀더 정리
+//mark list 지우는 메서드 성능 개선
+//이쁘게꾸미기
+//왼쪽에 전체적으로 마크된부분 볼 수 있게 추가
+//한글 안나오는 문제 수정
 //////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Project name      : Simple Merge - SE Term Project 11 team
+//File name         : ClsView.java
+//Developer         : Do-Gun Park
+//School            : Chung-Ang Univ.
+//Student num       : 20123272
+//Developing period : 2016.05.05 ~ 2016.05.11
 
 package view;
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 import java.awt.*;
 import java.io.*;
-import java.beans.*;
 import java.util.ArrayList;
 import java.awt.event.*;
 
 import javax.swing.plaf.basic.*;
+import javax.swing.text.BadLocationException;
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.imageio.*;
@@ -187,39 +201,41 @@ public class ClsView
 	//SPLITPANE
 	public final int 		DIVIDER_THICKNESS = 3;							//size of seperating bar in splitpane
 	//IMAGE ADDRESS
-	public final String 	SAVE_BTN_IMG_ADDRESS = "Images/Save01.png";		//address of save button image
-	public final String 	LOAD_BTN_IMG_ADDRESS = "Images/Load01.png";		//address of load button image
+	public final String 	SAVE_BTN_IMG_ADDRESS = "Images\\Save01.png";		//address of save button image
+	public final String 	LOAD_BTN_IMG_ADDRESS = "Images\\Load01.png";		//address of load button image
 	//EDITOR
-	public final String 	EDITOR_FONT = "Bitstream Vera Sans Mono";		//editor's font
+	public final String		DEFAULT_FONT_PATH = "Fonts\\D2Coding.ttc";
+	//public final String 	EDITOR_FONT = "Bitstream Vera Sans Mono";		//editor's font
+	public final String 	EDITOR_FONT = "D2Coding";						//editor's font
 	public final int 		EDITOR_FONT_SIZE = 12;							//editor's font size
 	public final int 		EDITOR_TAB_SIZE = 4;							//editor's tab size
-	public final Color 	EDITOR_BG_COLOR = Color.WHITE;					//editor's background color
-	public final Color 	EDITOR_FONT_COLOR = Color.BLACK;				//editor's font color
-	public final Color 	EDITOR_SELECTION_COLOR = Color.BLACK;			//editor's selection color (when blocked)
-	public final Color 	EDITOR_SELECTED_FONT_COLOR = Color.YELLOW;		//editor's selected font color (when blocked)
+	public final Color 		EDITOR_BG_COLOR = Color.WHITE;					//editor's background color
+	public final Color 		EDITOR_FONT_COLOR = Color.BLACK;				//editor's font color
+	public final Color 		EDITOR_SELECTION_COLOR = Color.BLACK;			//editor's selection color (when blocked)
+	public final Color 		EDITOR_SELECTED_FONT_COLOR = Color.YELLOW;		//editor's selected font color (when blocked)
 	//SCROLL
 	public final int 		WHEEL_SCROLL_AMOUNT = 54;						//scroll amount when mouse wheel
 	//SHADE
 	public final int 		EDITOR_LINE_HEIGHT = 15;						//line height in editor
-	public final Color 	SHADE_COLOR = new Color(255, 255, 0, 100);		//shade color
+	public final Color 		SHADE_COLOR = new Color(255, 255, 0, 100);		//shade color
 	
 	//////////////////////////////////////////////////////////////////
 	//GUI Components
 	//////////////////////
 	//form
-	private JFrame 		viewForm;
+	private JFrame 			viewForm;
 	//form - north
-	private JPanel 		topPanel;
+	private JPanel 			topPanel;
 	private JButton 		undoBtn, redoBtn;
 	//form - center
-	private JSplitPane 	seperator;
+	private JSplitPane 		seperator;
 	//center - left side
-	private JPanel 		leftPanel, left_TopPanel;
+	private JPanel 			leftPanel, left_TopPanel;
 	private JButton 		leftSaveBtn, leftLoadBtn;
 	private JMergeEditor 	leftEditor;
 	private JScrollPane 	leftScrollPane;
 	//center - right side
-	private JPanel 		rightPanel, right_TopPanel;
+	private JPanel 			rightPanel, right_TopPanel;
 	private JButton 		rightSaveBtn, rightLoadBtn;
 	private JMergeEditor 	rightEditor;
 	private JScrollPane 	rightScrollPane;
@@ -265,12 +281,37 @@ public class ClsView
 	//Initialize view class
 	private void InitView()
 	{
+
+		InstallFont();
 		
 		Init_Variables();
 		Init_Form();
 		Init_TopBounds();
 		Init_CenterBounds();
 
+	}
+	
+	//Install D2Coding.ttc font to system's font folder
+	private void InstallFont()
+	{
+		
+		//Get file path of font to move
+		File installFontFile = new File(DEFAULT_FONT_PATH);
+		//Get path of System's font folder
+		String systemRootPath = System.getenv().get("SystemRoot");
+		
+		systemRootPath = systemRootPath + "\\Fonts\\";
+		System.out.println("System font Folder Path : " + systemRootPath);
+		
+		//Move file
+		try
+		{
+			if(installFontFile.renameTo(new File(systemRootPath + installFontFile.getName())))
+				System.out.println("Font has installed successfully.");
+			else
+				System.out.println("Failed to install font.");
+		}catch(Exception e) { System.out.println("Exception occor.");}
+		
 	}
 	
 	//Initialize class variables
@@ -285,34 +326,27 @@ public class ClsView
 	private void Init_Form()
 	{
 		
+		//Create main window
 		viewForm = new JFrame(WINDOW_CAPTION);
 		viewForm.setSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
 		viewForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		viewForm.getContentPane().setLayout(new BorderLayout(0,0));
 		
-		viewForm.addComponentListener(new ComponentListener()
+		//Create listener when window's size is changed
+		viewForm.addComponentListener(new ComponentAdapter()
 		{
 			public void componentResized(ComponentEvent e)
 			{
 				WindowResized();
 			}
-
-			//@Override
-			public void componentHidden(ComponentEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			//@Override
-			public void componentMoved(ComponentEvent arg0) {
-				// TODO Auto-generated method stub
-				
-			}
-
-			//@Override
-			public void componentShown(ComponentEvent arg0) {
-				// TODO Auto-generated method stub
-				
+		});
+		
+		//Create listener when window's close button is pushed
+		viewForm.addWindowListener(new WindowAdapter()
+		{
+			public void windowClosing(WindowEvent e)
+			{
+				JOptionPane.showMessageDialog(viewForm, "Exiting.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		
@@ -465,7 +499,13 @@ public class ClsView
 		{
 			public void insertUpdate(DocumentEvent e)
 			{
-				System.out.println("INSERT");
+				System.out.print("INSERT ");
+				System.out.print(e.getLength() + " ");
+				System.out.print(e.getOffset() + " ");
+				try
+				{
+					System.out.println(e.getDocument().getText(e.getOffset(), e.getLength()));
+				} catch (BadLocationException e1) {}
 			}
 			
 			public void changedUpdate(DocumentEvent e)
@@ -474,7 +514,9 @@ public class ClsView
 			}
 			public void removeUpdate(DocumentEvent e)
 			{
-				System.out.println("REMOVE");
+				System.out.print("REMOVE ");
+				System.out.print(e.getLength() + " ");
+				System.out.println(e.getOffset() + " ");
 			}
 		});
 		
@@ -564,7 +606,13 @@ public class ClsView
 		{
 			public void insertUpdate(DocumentEvent e)
 			{
-				System.out.println("INSERT");
+				System.out.print("INSERT ");
+				System.out.print(e.getLength() + " ");
+				System.out.print(e.getOffset() + " ");
+				try
+				{
+					System.out.println(e.getDocument().getText(e.getOffset(), e.getLength()));
+				} catch (BadLocationException e1) {}
 			}
 			
 			public void changedUpdate(DocumentEvent e)
@@ -573,7 +621,9 @@ public class ClsView
 			}
 			public void removeUpdate(DocumentEvent e)
 			{
-				System.out.println("REMOVE");
+				System.out.print("REMOVE ");
+				System.out.print(e.getLength() + " ");
+				System.out.println(e.getOffset() + " ");
 			}
 		});
 		
