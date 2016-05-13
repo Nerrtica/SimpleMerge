@@ -1,19 +1,10 @@
-//////////////////////////////////////////////////////////////////
-//메모
-//oop개념에 맞게 코드 좀더 정리
-//mark list 지우는 메서드 성능 개선
-//이쁘게꾸미기
-//왼쪽에 전체적으로 마크된부분 볼 수 있게 추가
-//한글 안나오는 문제 수정
-//////////////////////////////////////////////////////////////////
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //Project name      : Simple Merge - SE Term Project 11 team
 //File name         : ClsView.java
 //Developer         : Do-Gun Park
 //School            : Chung-Ang Univ.
 //Student num       : 20123272
-//Developing period : 2016.05.05 ~ 2016.05.11
+//Developing period : 2016.05.05 ~ 2016.05.14
 
 package view;
 
@@ -22,6 +13,7 @@ package view;
 import java.awt.*;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.awt.event.*;
 
 import javax.swing.plaf.basic.*;
@@ -36,15 +28,16 @@ class JMergeEditor extends JTextArea
 {
 	//////////////////////////////////////////////////////////////////
 	//CONSTANTS
-	public final int 		DEFAULT_SHADE_HEIGHT_UNIT = 10;
-	public final Color 	DEFAULT_SHADE_COLOR = new Color(255, 0, 0, 100);
+	public final int 		DEFAULT_SHADE_HEIGHT_UNIT = 10;						//default each line's height
+	public final Color 		DEFAULT_SHADE_COLOR = new Color(255, 0, 0, 100);	//default shade color
 	
 	//////////////////////////////////////////////////////////////////
 	//private variables
-	private Color shadeColor;
-	private int shadeHeightUnit;
+	private Color shadeColor;					//shade color value
+	private int shadeHeightUnit;				//each line's height
 	
-	ArrayList<Integer> markList;
+	ArrayList<Integer> markList;				//line which draw shade list
+	HashMap<Integer, Integer> markHashTable;	//line list hash table
 	
 	//////////////////////////////////////////////////////////////////
 	
@@ -55,6 +48,7 @@ class JMergeEditor extends JTextArea
 		shadeColor = DEFAULT_SHADE_COLOR;
 		shadeHeightUnit = DEFAULT_SHADE_HEIGHT_UNIT;
 		markList = new ArrayList<Integer>();
+		markHashTable = new HashMap<Integer, Integer>();
 		
 	}
 	
@@ -100,41 +94,35 @@ class JMergeEditor extends JTextArea
 	//////////////////////////////////////////////////////////////////
 	
 	//Add one elements to marklist
-	public void AddMarkList(int i_lineNum)
+	public void AddMark(int i_lineNum)
 	{
+		
 		markList.add(i_lineNum);
+		markHashTable.put(i_lineNum, markList.size() - 1);
+		
 		super.repaint();
+		
 	}
 	
 	//Add list to marklist
 	public void AddMarkList(ArrayList<Integer> i_list)
 	{
-		markList.addAll(i_list);
+		
+		int i;
+		
+		for(i = 0; i < i_list.size(); i++)
+			AddMark(i_list.get(i));
+		
 		super.repaint();
+		
 	}
 	
 	//Remove one elements in marklist
 	public void RemoveMark(int i_lineNum)
 	{
-		
-		int i, len;
-		
-		//if markList is empty, return
-		if(markList.isEmpty())
-			return;
-		
-		//initialize local variables
-		len = markList.size();
-		
-		//find that line and remove
-		for(i = 0; i < len; i++)
-		{
-			if(markList.get(i) == i_lineNum)
-			{
-				markList.remove(i);
-				return;
-			}
-		}
+
+		markList.remove((int)(markHashTable.get(i_lineNum)));
+		markHashTable.remove(i_lineNum);
 		
 		//repaint
 		super.repaint();
@@ -144,8 +132,12 @@ class JMergeEditor extends JTextArea
 	//Remove all elements in marklist
 	public void RemoveAllMark()
 	{
+		
 		markList.clear();
+		markHashTable.clear();
+
 		super.repaint();
+		
 	}
 	
 	//////////////////////////////////////////////////////////////////
@@ -196,18 +188,15 @@ public class ClsView
 	public final int 		DEFAULT_WINDOW_WIDTH = 800;						//Window default width size
 	public final int 		DEFAULT_WINDOW_HEIGHT = 600;					//Window default height size
 	public final String 	WINDOW_CAPTION = "Simple_Merge_TEAM_11";		//Window caption name
-	public final int 		WINDOW_MARGIN_X = 20;							//Window internal margin x-axis
-	public final int 		WINDOW_MARGIN_Y = 50;							//Window internal margin y-axis
 	//SPLITPANE
 	public final int 		DIVIDER_THICKNESS = 3;							//size of seperating bar in splitpane
 	//IMAGE ADDRESS
-	public final String 	SAVE_BTN_IMG_ADDRESS = "Images\\Save01.png";		//address of save button image
-	public final String 	LOAD_BTN_IMG_ADDRESS = "Images\\Load01.png";		//address of load button image
+	public final String 	SAVE_BTN_IMG_ADDRESS = "Images/Save01.png";		//address of save button image
+	public final String 	LOAD_BTN_IMG_ADDRESS = "Images/Load01.png";		//address of load button image
 	//EDITOR
-	public final String		DEFAULT_FONT_PATH = "Fonts\\D2Coding.ttc";
-	//public final String 	EDITOR_FONT = "Bitstream Vera Sans Mono";		//editor's font
+	public final String		DEFAULT_FONT_PATH = "Fonts/D2Coding.ttc";
 	public final String 	EDITOR_FONT = "D2Coding";						//editor's font
-	public final int 		EDITOR_FONT_SIZE = 12;							//editor's font size
+	public final float 		EDITOR_FONT_SIZE = 12.0f;						//editor's font size
 	public final int 		EDITOR_TAB_SIZE = 4;							//editor's tab size
 	public final Color 		EDITOR_BG_COLOR = Color.WHITE;					//editor's background color
 	public final Color 		EDITOR_FONT_COLOR = Color.BLACK;				//editor's font color
@@ -243,11 +232,16 @@ public class ClsView
 	//////////////////////////////////////////////////////////////////
 	//private variables
 	//////////////////////
+	//window margin
+	private int		windowMarginX;		//special value to calculate real form's size
+	private int		windowMarginY;		//special value to calculate real form's size
 	//seperator
-	private float spRatio;			//seperator's divider's location ratio
+	private float 	spRatio;			//seperator's divider's location ratio
 	//clipping area size
-	private int internalWidth;		//real form's clipping area width
-	private int internalHeight;	//real form's clipping area height
+	private int 	internalWidth;		//real form's clipping area width
+	private int 	internalHeight;		//real form's clipping area height
+	//font
+	private Font 	editorFont;			//font instance that will be used setting editor's font
 	
 	//////////////////////////////////////////////////////////////////
 	
@@ -282,7 +276,8 @@ public class ClsView
 	private void InitView()
 	{
 
-		InstallFont();
+		OSBasedSetting();
+		TakeFont();
 		
 		Init_Variables();
 		Init_Form();
@@ -291,26 +286,43 @@ public class ClsView
 
 	}
 	
-	//Install D2Coding.ttc font to system's font folder
-	private void InstallFont()
+	//Check OS and setting window margin variables
+	private void OSBasedSetting()
 	{
 		
-		//Get file path of font to move
-		File installFontFile = new File(DEFAULT_FONT_PATH);
-		//Get path of System's font folder
-		String systemRootPath = System.getenv().get("SystemRoot");
+		//get os name
+		String osType = System.getProperty("os.name");
 		
-		systemRootPath = systemRootPath + "\\Fonts\\";
-		System.out.println("System font Folder Path : " + systemRootPath);
-		
-		//Move file
+		if(osType.indexOf("Win") >= 0)
+		{
+			windowMarginX = 20;
+			windowMarginY = 50;
+		}
+		else if(osType.indexOf("Mac") >= 0)
+		{
+			windowMarginX = 0;
+			windowMarginY = 0;
+		}
+
+	}
+	
+	//Get font
+	private void TakeFont()
+	{
+
 		try
 		{
-			if(installFontFile.renameTo(new File(systemRootPath + installFontFile.getName())))
-				System.out.println("Font has installed successfully.");
-			else
-				System.out.println("Failed to install font.");
-		}catch(Exception e) { System.out.println("Exception occor.");}
+			//Get font file
+			File installFontFile = new File(DEFAULT_FONT_PATH);
+			
+			//make font variable to use
+			editorFont = Font.createFont(Font.TRUETYPE_FONT, installFontFile);
+			
+			System.out.println("Font is taken successfully.");
+		}catch(Exception e)
+		{
+			System.out.println("Cannot find font file.");
+		}
 		
 	}
 	
@@ -373,7 +385,7 @@ public class ClsView
 		{
 			public void mouseClicked(MouseEvent e)
 			{
-				JOptionPane.showMessageDialog(undoBtn, "누르지마", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(undoBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		
@@ -386,7 +398,7 @@ public class ClsView
 		{
 			public void mouseClicked(MouseEvent e)
 			{
-				JOptionPane.showMessageDialog(redoBtn, "누르지마", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(redoBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		
@@ -453,7 +465,7 @@ public class ClsView
 		{
 			public void mouseClicked(MouseEvent e)
 			{
-				JOptionPane.showMessageDialog(leftSaveBtn, "누르지마", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(leftSaveBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		
@@ -462,13 +474,13 @@ public class ClsView
 		{
 			public void mouseClicked(MouseEvent e)
 			{
-				JOptionPane.showMessageDialog(leftLoadBtn, "누르지마", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(leftLoadBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		
 		//Create editor of left side
 		leftEditor = new JMergeEditor();
-		leftEditor.setFont(new Font(EDITOR_FONT, Font.PLAIN, EDITOR_FONT_SIZE));
+		leftEditor.setFont(editorFont.deriveFont(EDITOR_FONT_SIZE));
 		leftEditor.setTabSize(EDITOR_TAB_SIZE);
 		leftEditor.setBackground(EDITOR_BG_COLOR);
 		leftEditor.setForeground(EDITOR_FONT_COLOR);
@@ -480,7 +492,10 @@ public class ClsView
 		a.add(0);
 		a.add(3);
 		a.add(5);
+		a.add(10);
 		leftEditor.AddMarkList(a);
+
+		
 		
 		//Create editor's mouse wheel listener
 		leftEditor.addMouseWheelListener(new MouseAdapter()
@@ -565,7 +580,7 @@ public class ClsView
 		{
 			public void mouseClicked(MouseEvent e)
 			{
-				JOptionPane.showMessageDialog(rightSaveBtn, "누르지마", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(rightSaveBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		
@@ -574,13 +589,13 @@ public class ClsView
 		{
 			public void mouseClicked(MouseEvent e)
 			{
-				JOptionPane.showMessageDialog(rightLoadBtn, "누르지마", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(rightLoadBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		
 		//Create editor of right side
 		rightEditor = new JMergeEditor();
-		rightEditor.setFont(new Font(EDITOR_FONT, Font.PLAIN, EDITOR_FONT_SIZE));
+		rightEditor.setFont(editorFont.deriveFont(EDITOR_FONT_SIZE));
 		rightEditor.setTabSize(EDITOR_TAB_SIZE);
 		rightEditor.setBackground(EDITOR_BG_COLOR);
 		rightEditor.setForeground(EDITOR_FONT_COLOR);
@@ -648,8 +663,8 @@ public class ClsView
 	private void ResetInternalFormSize()
 	{
 		
-		internalWidth = viewForm.getWidth() - WINDOW_MARGIN_X;
-		internalHeight = viewForm.getHeight() - WINDOW_MARGIN_Y;
+		internalWidth = viewForm.getWidth() - windowMarginX;
+		internalHeight = viewForm.getHeight() - windowMarginY;
 		
 	}
 	
