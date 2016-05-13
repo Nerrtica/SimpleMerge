@@ -10,6 +10,7 @@ import java.io.IOException;
 /**
  * Created by Nerrtica on 2016. 5. 10..
  */
+/*
 public class ImportedFile {
     private List<String> text = new ArrayList<String>();
     private String fileRoute;
@@ -67,4 +68,8 @@ public class ImportedFile {
 
     }
 
-}
+    List<String> getText () {
+        return text;
+    }
+
+}*/
