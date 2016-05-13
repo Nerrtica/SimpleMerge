@@ -24,6 +24,114 @@ import javax.imageio.*;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+class JMergeQuickLook extends JComponent
+{
+	
+	private int totalLine;
+	private ArrayList<Integer> markList;				//line which draw shade list
+	private HashMap<Integer, Integer> markHashTable;	//line list hash table
+	
+	JMergeQuickLook()
+	{
+		totalLine = 30;
+		markList = new ArrayList<Integer>();
+		markHashTable = new HashMap<Integer, Integer>();
+	}
+	
+	//////////////////////////////////////////////////////////////////
+		
+	//Add one elements to marklist
+	public void AddMark(int i_lineNum)
+	{
+	
+		markList.add(i_lineNum);
+		markHashTable.put(i_lineNum, markList.size() - 1);
+		
+		super.repaint();
+	
+	}
+	
+	//Add list to marklist
+	public void AddMarkList(ArrayList<Integer> i_list)
+	{
+	
+		int i;
+		
+		for(i = 0; i < i_list.size(); i++)
+		AddMark(i_list.get(i));
+		
+		super.repaint();
+	
+	}
+	
+	//Remove one elements in marklist
+	public void RemoveMark(int i_lineNum)
+	{
+	
+		markList.remove((int)(markHashTable.get(i_lineNum)));
+		markHashTable.remove(i_lineNum);
+		
+		//repaint
+		super.repaint();
+	
+	}
+	
+	//Remove all elements in marklist
+	public void RemoveAllMark()
+	{
+	
+		markList.clear();
+		markHashTable.clear();
+		
+		super.repaint();
+	
+	}
+	
+	//////////////////////////////////////////////////////////////////
+	
+	//Paint All mark
+	private void PaintQuickLook(Graphics g)
+	{
+
+		int width, height, i, len;
+		int lineUnit;
+		
+		//if markList is empty, return
+		if(markList.isEmpty())
+			return;
+		
+		//initialize local variables
+		width = super.getWidth();
+		height = super.getHeight();
+		len = markList.size();
+		lineUnit = (int)((height - 22) / totalLine);
+		
+		//draw outline
+		g.setColor(new Color(255, 0, 0));
+		g.drawRect(10, 10, width - 20, height - 20);
+		
+		g.setColor(new Color(255, 255, 0));
+		//g.fillRect(11, 11, width - 22, 30);
+		System.out.println(lineUnit);
+		for(i = 0; i < len; i++)
+			g.fillRect(11, 11 + markList.get(i) * lineUnit, width - 22, lineUnit);
+		
+	}
+	
+	//Override paintComponent
+	public void paintComponent(Graphics g)
+	{
+		
+		super.paintComponent(g);
+		
+		PaintQuickLook(g);
+
+	}
+	
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 class JMergeEditor extends JTextArea
 {
 	//////////////////////////////////////////////////////////////////
@@ -33,11 +141,11 @@ class JMergeEditor extends JTextArea
 	
 	//////////////////////////////////////////////////////////////////
 	//private variables
-	private Color shadeColor;					//shade color value
-	private int shadeHeightUnit;				//each line's height
+	private Color shadeColor;							//shade color value
+	private int shadeHeightUnit;						//each line's height
 	
-	ArrayList<Integer> markList;				//line which draw shade list
-	HashMap<Integer, Integer> markHashTable;	//line list hash table
+	private ArrayList<Integer> markList;				//line which draw shade list
+	private HashMap<Integer, Integer> markHashTable;	//line list hash table
 	
 	//////////////////////////////////////////////////////////////////
 	
@@ -216,6 +324,9 @@ public class ClsView
 	//form - north
 	private JPanel 			topPanel;
 	private JButton 		undoBtn, redoBtn;
+	//form - west
+	private JPanel			leftSearchPanel;
+	private JMergeQuickLook	quickLook;
 	//form - center
 	private JSplitPane 		seperator;
 	//center - left side
@@ -282,6 +393,7 @@ public class ClsView
 		Init_Variables();
 		Init_Form();
 		Init_TopBounds();
+		Init_WestBounds();
 		Init_CenterBounds();
 
 	}
@@ -401,6 +513,24 @@ public class ClsView
 				JOptionPane.showMessageDialog(redoBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 			}
 		});
+		
+	}
+	
+	//Initialize west bounds of form
+	private void Init_WestBounds()
+	{
+		
+		leftSearchPanel = new JPanel();
+		leftSearchPanel.setLayout(new BorderLayout());
+		leftSearchPanel.setPreferredSize(new Dimension(50, internalHeight));
+		viewForm.getContentPane().add(leftSearchPanel, BorderLayout.WEST);
+		
+		quickLook = new JMergeQuickLook();
+		leftSearchPanel.add(quickLook, BorderLayout.CENTER);
+		quickLook.AddMark(0);
+		quickLook.AddMark(3);
+		quickLook.AddMark(5);
+		quickLook.AddMark(10);
 		
 	}
 	
