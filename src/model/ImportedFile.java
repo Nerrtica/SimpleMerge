@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * Created by Nerrtica on 2016. 5. 10..
  */
-/*
+
 public class ImportedFile {
     private List<String> text = new ArrayList<String>();
     private String fileRoute;
@@ -20,7 +20,7 @@ public class ImportedFile {
     
     	try{
     		BufferedReader br = new BufferedReader(new FileReader(fileRoute));	// 파일 reader	
-    	
+    		
 	    	String line;	//파일에서 불러온 문자열을 임시로 저장할 String
 	    	
 	    	while(true){
@@ -39,6 +39,17 @@ public class ImportedFile {
     		System.out.println("입출력 오류가 발생하였습니다.");
     	}
 
+    }
+    public void convert(String document, ArrayList<Boolean> bool){
+    	String[] temp = document.split("\\n");	//개행 문자를 기준으로 문자열 나눔
+    	text = new ArrayList<String>();			//text 초기화
+    	
+    	for(int i = 0 ; i < temp.length ; i++){
+    		if(bool.get(i)==false){			// temp라인은 저장 안한다.
+    			continue;
+    		}
+    		text.add(temp[i]);				// text에 저장
+    	}
     }
 
     public void save (){
@@ -59,7 +70,7 @@ public class ImportedFile {
     void modify (List<String> modifiedText) {
 
     }
-
+/*
     public returnType compare (ImportedFile oppositeFile) {
 
     }
@@ -67,10 +78,10 @@ public class ImportedFile {
     public returnType merge (parameter) {
 
     }
-
+*/
     public List<String> getText () {
         return text;
     }
 
+
 }
-*/
