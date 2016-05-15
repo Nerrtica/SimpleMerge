@@ -79,7 +79,7 @@ public class ImportedFile {
 		return diffBlockList;
     }
 
-    public void merge (ImportedFile oppositeFile, DiffBlock targetBlock) {
+    public void merge (ImportedFile oppositeFile, DiffBlock originalBlock, DiffBlock targetBlock) {
 
     }
 
