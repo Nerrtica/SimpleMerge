@@ -18,6 +18,9 @@ import java.awt.event.*;
 
 import javax.swing.plaf.basic.*;
 import javax.swing.text.BadLocationException;
+
+import model.ImportedFile;
+
 import javax.swing.*;
 import javax.swing.event.*;
 import javax.imageio.*;
@@ -28,11 +31,17 @@ class JMergeQuickLook extends JComponent
 {
 	
 	private int totalLine;
+	private int visibleAmount;
+	private int visibleTopValue;
+	private int maximumScrollValue;
 	private ArrayList<Integer> markList;				//line which draw shade list
 	private HashMap<Integer, Integer> markHashTable;	//line list hash table
 	
 	JMergeQuickLook()
 	{
+		visibleAmount = 200;
+		visibleTopValue = 0;
+		maximumScrollValue = 200;
 		totalLine = 30;
 		markList = new ArrayList<Integer>();
 		markHashTable = new HashMap<Integer, Integer>();
@@ -87,6 +96,36 @@ class JMergeQuickLook extends JComponent
 	
 	}
 	
+	public void SetVisibleAmount(int i_visibleAmount)
+	{
+		visibleAmount = i_visibleAmount;
+	}
+	
+	public void SetVisibleTopValue(int i_visibleTopValue)
+	{
+		visibleTopValue = i_visibleTopValue;
+	}
+	
+	public void SetMaximumScrollValue(int i_maximumScrollValue)
+	{
+		maximumScrollValue = i_maximumScrollValue;
+	}
+	
+	public int GetVisibleAmount()
+	{
+		return visibleAmount;
+	}
+	
+	public int GetVisibleTopValue()
+	{
+		return visibleTopValue;
+	}
+	
+	public int GetMaximumScrollValue()
+	{
+		return maximumScrollValue;
+	}
+	
 	//////////////////////////////////////////////////////////////////
 	
 	//Paint All mark
@@ -95,6 +134,7 @@ class JMergeQuickLook extends JComponent
 
 		int width, height, i, len;
 		int lineUnit;
+		
 		
 		//if markList is empty, return
 		if(markList.isEmpty())
@@ -111,10 +151,13 @@ class JMergeQuickLook extends JComponent
 		g.drawRect(10, 10, width - 20, height - 20);
 		
 		g.setColor(new Color(255, 255, 0));
-		//g.fillRect(11, 11, width - 22, 30);
-		System.out.println(lineUnit);
+
 		for(i = 0; i < len; i++)
 			g.fillRect(11, 11 + markList.get(i) * lineUnit, width - 22, lineUnit);
+		
+		g.setColor(new Color(0, 0, 255));
+		//g.drawRect(9, 11 + ((maximumScrollValue / visibleAmount) * visibleTopValue), width - 18, (int)(visibleAmount / maximumScrollValue) * 100);
+		g.drawRect(9, 11 + (int)(((height - 22) * visibleTopValue) / maximumScrollValue), width - 18, (int)((visibleAmount * (height - 22)) / maximumScrollValue));
 		
 	}
 	
@@ -618,6 +661,7 @@ public class ClsView
 		leftEditor.setSelectedTextColor(EDITOR_SELECTED_FONT_COLOR);
 		leftEditor.SetShadeColor(SHADE_COLOR);
 		leftEditor.SetShadeHeightUnit(15);
+		
 		ArrayList<Integer> a = new ArrayList<Integer>();
 		a.add(0);
 		a.add(3);
@@ -625,8 +669,6 @@ public class ClsView
 		a.add(10);
 		leftEditor.AddMarkList(a);
 
-		
-		
 		//Create editor's mouse wheel listener
 		leftEditor.addMouseWheelListener(new MouseAdapter()
 		{
@@ -647,6 +689,7 @@ public class ClsView
 				System.out.print("INSERT ");
 				System.out.print(e.getLength() + " ");
 				System.out.print(e.getOffset() + " ");
+				
 				try
 				{
 					System.out.println(e.getDocument().getText(e.getOffset(), e.getLength()));
@@ -675,6 +718,11 @@ public class ClsView
 			public void adjustmentValueChanged(AdjustmentEvent e)
 			{
 				rightScrollPane.getVerticalScrollBar().setValue(leftScrollPane.getVerticalScrollBar().getValue());
+				quickLook.SetVisibleTopValue(e.getValue());
+				quickLook.SetVisibleAmount(leftScrollPane.getVerticalScrollBar().getVisibleAmount());
+				quickLook.SetMaximumScrollValue(leftScrollPane.getVerticalScrollBar().getMaximum());
+				quickLook.repaint();
+				System.out.println(e.getValue() + " " + leftScrollPane.getVerticalScrollBar().getVisibleAmount());
 			}
 		});
 		
@@ -807,7 +855,9 @@ public class ClsView
 		
 		//Maintain divider's location ratio
 		seperator.setDividerLocation((int)(internalWidth * spRatio));
-		
+
+		quickLook.SetVisibleAmount(leftScrollPane.getVerticalScrollBar().getVisibleAmount());
+		quickLook.SetMaximumScrollValue(leftScrollPane.getVerticalScrollBar().getMaximum());
 	}
 	
 	//when mouse wheel scrolled
