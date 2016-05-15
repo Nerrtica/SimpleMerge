@@ -72,7 +72,7 @@ public class ImportedFile {
     }
 
     public List<DiffBlock> compare (ImportedFile oppositeFile) {
-		List<DiffBlock> diffBlockList = new ArrayList<DiffBlock>;
+		List<DiffBlock> diffBlockList = new ArrayList<DiffBlock>();
 
 
 
