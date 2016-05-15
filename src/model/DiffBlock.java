@@ -1,8 +1,5 @@
 package model;
 
-/**
- * Created by Nerrtica on 2016. 5. 15..
- */
 public class DiffBlock {
     private int startIndex;
     private int endIndex;

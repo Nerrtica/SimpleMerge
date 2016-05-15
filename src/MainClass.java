@@ -1,7 +1,3 @@
-/**
- * Created by Nerrtica on 2016. 5. 14..
- */
-
 import model.LCSAlgo;
 import model.ImportedFile;
 import java.util.List;
