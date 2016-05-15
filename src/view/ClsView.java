@@ -19,7 +19,7 @@ import java.awt.event.*;
 import javax.swing.plaf.basic.*;
 import javax.swing.text.BadLocationException;
 
-import model.ImportedFile;
+import model.*;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -61,16 +61,21 @@ class JMergeQuickLook extends JComponent
 	}
 	
 	//Add list to marklist
-	public void AddMarkList(ArrayList<Integer> i_list)
+	public void AddMarkList(ArrayList<DiffBlock> i_list)
 	{
-	
-		int i;
+		
+		int i, j, t_startIndex, t_blockSize;
 		
 		for(i = 0; i < i_list.size(); i++)
-		AddMark(i_list.get(i));
+		{
+			t_startIndex = i_list.get(i).getStartIndex();
+			t_blockSize = i_list.get(i).getLineNumber();
+			for(j = 0; j < t_blockSize; j++)
+				AddMark(t_startIndex + j);
+		}
 		
 		super.repaint();
-	
+		
 	}
 	
 	//Remove one elements in marklist
@@ -256,13 +261,18 @@ class JMergeEditor extends JTextArea
 	}
 	
 	//Add list to marklist
-	public void AddMarkList(ArrayList<Integer> i_list)
+	public void AddMarkList(ArrayList<DiffBlock> i_list)
 	{
 		
-		int i;
+		int i, j, t_startIndex, t_blockSize;
 		
 		for(i = 0; i < i_list.size(); i++)
-			AddMark(i_list.get(i));
+		{
+			t_startIndex = i_list.get(i).getStartIndex();
+			t_blockSize = i_list.get(i).getLineNumber();
+			for(j = 0; j < t_blockSize; j++)
+				AddMark(t_startIndex + j);
+		}
 		
 		super.repaint();
 		
@@ -485,7 +495,7 @@ public class ClsView
 	private void Init_Variables()
 	{
 		
-		spRatio = 0.5f;
+		spRatio = 0.47f;
 		
 	}
 	
@@ -662,11 +672,8 @@ public class ClsView
 		leftEditor.SetShadeColor(SHADE_COLOR);
 		leftEditor.SetShadeHeightUnit(15);
 		
-		ArrayList<Integer> a = new ArrayList<Integer>();
-		a.add(0);
-		a.add(3);
-		a.add(5);
-		a.add(10);
+		ArrayList<DiffBlock> a = new ArrayList<DiffBlock>();
+		a.add(new DiffBlock(0, 3));
 		leftEditor.AddMarkList(a);
 
 		//Create editor's mouse wheel listener
