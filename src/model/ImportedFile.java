@@ -77,7 +77,14 @@ public class ImportedFile {
     }
 
     public void merge (ImportedFile oppositeFile, DiffBlock originalBlock, DiffBlock targetBlock) {
+		int startIndex = originalBlock.getStartIndex();
 
+		for(int i = 0; i < originalBlock.getLineNumber(); i++) {
+			text.remove(startIndex);
+		}
+		for(int i = 0; i < targetBlock.getLineNumber(); i++) {
+			text.add(startIndex + i, oppositeFile.getText().get(targetBlock.getStartIndex() + i));
+		}
     }
 
     public List<String> getText () {
