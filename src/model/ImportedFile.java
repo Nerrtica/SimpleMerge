@@ -67,18 +67,22 @@ public class ImportedFile {
     	}
     }
 
-    void modify (List<String> modifiedText) {
-
-    }
-/*
-    public returnType compare (ImportedFile oppositeFile) {
+    public void modify (List<String> modifiedText) {
 
     }
 
-    public returnType merge (parameter) {
+    public List<DiffBlock> compare (ImportedFile oppositeFile) {
+		List<DiffBlock> diffBlockList = new ArrayList<DiffBlock>;
+
+
+
+		return diffBlockList;
+    }
+
+    public void merge (ImportedFile oppositeFile, DiffBlock targetBlock) {
 
     }
-*/
+
     public List<String> getText () {
         return text;
     }
