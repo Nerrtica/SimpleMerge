@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class LCSAlgo {
+    /* LCS의 최대 길이를 담은 배열을 구하는 method */
     public static int[][] LCSLength(List<String> A, List<String> B) {
         int ASize = A.size(), BSize = B.size();
         int[][] C = new int[ASize + 1][BSize + 1];
@@ -23,6 +24,7 @@ public class LCSAlgo {
         return C;
     }
 
+    /* LCS 배열값을 구하는 method */
     public static List<String> readLCS(int[][] C, List<String> A, List<String> B, int i, int j) {
         if (i == 0 || j == 0) { return new ArrayList<String>(); }
         else if (A.get(i - 1).equals(B.get(j - 1))) {
@@ -38,6 +40,7 @@ public class LCSAlgo {
         }
     }
 
+    /* Diff 결과를 출력하는 method */
     public static void printDiff(int[][] C, List<String> A, List<String> B, int i, int j) {
         if (i > 0 && j > 0 && A.get(i - 1).equals(B.get(j - 1))) {
             printDiff(C, A, B, i - 1, j - 1);
