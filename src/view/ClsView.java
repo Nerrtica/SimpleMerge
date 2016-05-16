@@ -648,7 +648,10 @@ public class ClsView
 		{
 			public void mouseClicked(MouseEvent e)
 			{
-				JOptionPane.showMessageDialog(leftSaveBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				//JOptionPane.showMessageDialog(leftSaveBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				System.out.println(leftEditor.getLineCount());
+				System.out.println(leftEditor.getCaretPosition());
+				System.out.println(leftEditor.getFontMetrics(leftEditor.getFont()).getHeight());
 			}
 		});
 		
@@ -699,19 +702,25 @@ public class ClsView
 				
 				try
 				{
+					System.out.print(leftEditor.getLineOfOffset(e.getOffset()));
 					System.out.println(e.getDocument().getText(e.getOffset(), e.getLength()));
 				} catch (BadLocationException e1) {}
 			}
 			
 			public void changedUpdate(DocumentEvent e)
 			{
-				
+				System.out.println("CHANGE");
 			}
 			public void removeUpdate(DocumentEvent e)
 			{
 				System.out.print("REMOVE ");
 				System.out.print(e.getLength() + " ");
-				System.out.println(e.getOffset() + " ");
+				System.out.print(e.getOffset() + " ");
+				
+				try
+				{
+					System.out.println(e.getDocument().getText(e.getOffset(), e.getLength()));
+				} catch (BadLocationException e1) {}
 			}
 		});
 		
