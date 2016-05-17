@@ -25,7 +25,7 @@ public class JScrollTextArea extends JScrollPane
 	private void InitializeGUIComponent()
 	{
 		textPad = new JMarkTextArea();
-		super.add(textPad);
+		super.setViewportView(textPad);
 		super.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		super.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 	}
@@ -33,11 +33,6 @@ public class JScrollTextArea extends JScrollPane
 	private void InitializeLocalVariables()
 	{
 
-		
-	}
-	
-	private void InitializeScrollListener()
-	{
 		
 	}
 	

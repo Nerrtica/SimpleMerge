@@ -110,12 +110,12 @@ public class JMarkTextArea extends JTextArea
 			for(i = 0; i < t_length; i++)
 			{
 				//if common chracter is Enter
-				if(e.getDocument().getText(t_offset + i, 1) == "\n")
+				if(e.getDocument().getText(t_offset + i, 1).compareTo("\n") == 0)
 				{
 					//if current position is the first of the document
 					//or the first of the line,
 					//add current line index
-					if(t_offset == 0 || e.getDocument().getText(t_offset + i - 1, 1) == "\n")
+					if(t_offset == 0 || e.getDocument().getText(t_offset + i - 1, 1).compareTo("\n") == 0)
 					{
 						lineBoolList.add(t_line, true);
 						markList.add(t_line, false);
@@ -125,6 +125,8 @@ public class JMarkTextArea extends JTextArea
 						lineBoolList.add(t_line + 1, true);
 						markList.add(t_line + 1, false);
 					}
+					
+					t_line++;
 				}
 			}
 			/////////////////////////////////////////////////////////////////repaint가 필요할지도
@@ -301,7 +303,7 @@ public class JMarkTextArea extends JTextArea
 	//////////////////////////////////////////////////////////////////
 	
 	//set font file
-	private void TakeFontFileAndSet(String i_FontFilePath)
+	public void TakeFontFileAndSet(String i_FontFilePath)
 	{
 
 		try

@@ -94,7 +94,7 @@ public class JQuickView extends JComponent
 		
 		//draw screen rect
 		g.setColor(rectColor);
-		g.fillRect(internalMargin - 2, rectTop, width + 4, rectHeight);
+		g.fillRect(internalMargin - 1, rectTop, width + 3, rectHeight);
 
 	}
 	
