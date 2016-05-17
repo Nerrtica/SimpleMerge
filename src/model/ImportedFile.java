@@ -129,6 +129,5 @@ public class ImportedFile {
     public List<String> getText () {
         return text;
     }
-
-
+	
 }
