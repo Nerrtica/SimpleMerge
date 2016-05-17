@@ -109,14 +109,20 @@ public class ImportedFile {
 		return diffBlockList;
     }
 
-    public void merge (ImportedFile oppositeFile, DiffBlock originalBlock, DiffBlock targetBlock) {
-		int startIndex = originalBlock.getStartIndex();
+    public void merge (ImportedFile oppositeFile, List<DiffBlock> originalBlockList, List<DiffBlock> targetBlockList, int blockIndex) {
+		int startIndex = originalBlockList.get(blockIndex).getStartIndex();
+		int changedIndexNumber = targetBlockList.get(blockIndex).getLineNumber() - originalBlockList.get(blockIndex).getLineNumber();
 
-		for(int i = 0; i < originalBlock.getLineNumber(); i++) {
+		for(int i = 0; i < originalBlockList.get(blockIndex).getLineNumber(); i++) {
 			text.remove(startIndex);
 		}
-		for(int i = 0; i < targetBlock.getLineNumber(); i++) {
-			text.add(startIndex + i, oppositeFile.getText().get(targetBlock.getStartIndex() + i));
+		for(int i = 0; i < targetBlockList.get(blockIndex).getLineNumber(); i++) {
+			text.add(startIndex + i, oppositeFile.getText().get(targetBlockList.get(blockIndex).getStartIndex() + i));
+		}
+
+		for (int i = blockIndex + 1; i < originalBlockList.size(); i++) {
+			originalBlockList.get(i).changeStartIndex(originalBlockList.get(i).getStartIndex() + changedIndexNumber);
+			originalBlockList.get(i).changeEndIndex(originalBlockList.get(i).getEndIndex() + changedIndexNumber);
 		}
     }
 
