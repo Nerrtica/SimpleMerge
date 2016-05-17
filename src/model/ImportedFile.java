@@ -91,9 +91,16 @@ public class ImportedFile {
 				diffBlockList.add(tempBlock);
 				continue;
 			}
-			//최초에 값이 건너뛰어지는 블록이 생성될 경우
+			//처음에 값이 건너뛰어지는 블록이 생성될 경우
 			if (i == 0 && diffList[i] != 0) {
 				DiffBlock tempBlock = new DiffBlock(0, -1);
+				diffBlockList.add(tempBlock);
+				continue;
+			}
+
+			//마지막에 값이 건너뛰어지는 블록이 생성될 경우
+			if (i == diffList.length - 1 && diffList[i] != oppositeFile.getText().size() - 1) {
+				DiffBlock tempBlock = new DiffBlock(i + 1, i);
 				diffBlockList.add(tempBlock);
 				continue;
 			}
