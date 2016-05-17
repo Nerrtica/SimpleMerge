@@ -12,12 +12,9 @@ package view;
 
 import java.awt.*;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.awt.event.*;
 
 import javax.swing.plaf.basic.*;
-import javax.swing.text.BadLocationException;
 
 import model.*;
 
@@ -25,318 +22,6 @@ import javax.swing.*;
 import javax.swing.event.*;
 import javax.imageio.*;
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-class JMergeQuickLook extends JComponent
-{
-	
-	private int totalLine;
-	private int visibleAmount;
-	private int visibleTopValue;
-	private int maximumScrollValue;
-	private ArrayList<Integer> markList;				//line which draw shade list
-	private HashMap<Integer, Integer> markHashTable;	//line list hash table
-	
-	JMergeQuickLook()
-	{
-		visibleAmount = 200;
-		visibleTopValue = 0;
-		maximumScrollValue = 200;
-		totalLine = 30;
-		markList = new ArrayList<Integer>();
-		markHashTable = new HashMap<Integer, Integer>();
-	}
-	
-	//////////////////////////////////////////////////////////////////
-		
-	//Add one elements to marklist
-	public void AddMark(int i_lineNum)
-	{
-	
-		markList.add(i_lineNum);
-		markHashTable.put(i_lineNum, markList.size() - 1);
-		
-		super.repaint();
-	
-	}
-	
-	//Add list to marklist
-	public void AddMarkList(ArrayList<DiffBlock> i_list)
-	{
-		
-		int i, j, t_startIndex, t_blockSize;
-		
-		for(i = 0; i < i_list.size(); i++)
-		{
-			t_startIndex = i_list.get(i).getStartIndex();
-			t_blockSize = i_list.get(i).getLineNumber();
-			for(j = 0; j < t_blockSize; j++)
-				AddMark(t_startIndex + j);
-		}
-		
-		super.repaint();
-		
-	}
-	
-	//Remove one elements in marklist
-	public void RemoveMark(int i_lineNum)
-	{
-	
-		markList.remove((int)(markHashTable.get(i_lineNum)));
-		markHashTable.remove(i_lineNum);
-		
-		//repaint
-		super.repaint();
-	
-	}
-	
-	//Remove all elements in marklist
-	public void RemoveAllMark()
-	{
-	
-		markList.clear();
-		markHashTable.clear();
-		
-		super.repaint();
-	
-	}
-	
-	public void SetVisibleAmount(int i_visibleAmount)
-	{
-		visibleAmount = i_visibleAmount;
-	}
-	
-	public void SetVisibleTopValue(int i_visibleTopValue)
-	{
-		visibleTopValue = i_visibleTopValue;
-	}
-	
-	public void SetMaximumScrollValue(int i_maximumScrollValue)
-	{
-		maximumScrollValue = i_maximumScrollValue;
-	}
-	
-	public int GetVisibleAmount()
-	{
-		return visibleAmount;
-	}
-	
-	public int GetVisibleTopValue()
-	{
-		return visibleTopValue;
-	}
-	
-	public int GetMaximumScrollValue()
-	{
-		return maximumScrollValue;
-	}
-	
-	//////////////////////////////////////////////////////////////////
-	
-	//Paint All mark
-	private void PaintQuickLook(Graphics g)
-	{
-
-		int width, height, i, len;
-		int lineUnit;
-		
-		
-		//if markList is empty, return
-		if(markList.isEmpty())
-			return;
-		
-		//initialize local variables
-		width = super.getWidth();
-		height = super.getHeight();
-		len = markList.size();
-		lineUnit = (int)((height - 22) / totalLine);
-		
-		//draw outline
-		g.setColor(new Color(255, 0, 0));
-		g.drawRect(10, 10, width - 20, height - 20);
-		
-		g.setColor(new Color(255, 255, 0));
-
-		for(i = 0; i < len; i++)
-			g.fillRect(11, 11 + markList.get(i) * lineUnit, width - 22, lineUnit);
-		
-		g.setColor(new Color(0, 0, 255));
-		//g.drawRect(9, 11 + ((maximumScrollValue / visibleAmount) * visibleTopValue), width - 18, (int)(visibleAmount / maximumScrollValue) * 100);
-		g.drawRect(9, 11 + (int)(((height - 22) * visibleTopValue) / maximumScrollValue), width - 18, (int)((visibleAmount * (height - 22)) / maximumScrollValue));
-		
-	}
-	
-	//Override paintComponent
-	public void paintComponent(Graphics g)
-	{
-		
-		super.paintComponent(g);
-		
-		PaintQuickLook(g);
-
-	}
-	
-}
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-class JMergeEditor extends JTextArea
-{
-	//////////////////////////////////////////////////////////////////
-	//CONSTANTS
-	public final int 		DEFAULT_SHADE_HEIGHT_UNIT = 10;						//default each line's height
-	public final Color 		DEFAULT_SHADE_COLOR = new Color(255, 0, 0, 100);	//default shade color
-	
-	//////////////////////////////////////////////////////////////////
-	//private variables
-	private Color shadeColor;							//shade color value
-	private int shadeHeightUnit;						//each line's height
-	
-	private ArrayList<Integer> markList;				//line which draw shade list
-	private HashMap<Integer, Integer> markHashTable;	//line list hash table
-	
-	//////////////////////////////////////////////////////////////////
-	
-	//Constructor
-	JMergeEditor()
-	{
-		
-		shadeColor = DEFAULT_SHADE_COLOR;
-		shadeHeightUnit = DEFAULT_SHADE_HEIGHT_UNIT;
-		markList = new ArrayList<Integer>();
-		markHashTable = new HashMap<Integer, Integer>();
-		
-	}
-	
-	//////////////////////////////////////////////////////////////////
-	
-	//Get shade color
-	public Color GetShadeColor()
-	{
-		return shadeColor;
-	}
-	
-	//Set shade color
-	public void SetShadeColor(Color i_color)
-	{
-		
-		int t_red, t_green, t_blue;
-		
-		//if input color is not translucent, set default alpha to 100
-		if(i_color.getAlpha() == 0)
-		{
-			t_red = i_color.getRed();
-			t_green = i_color.getGreen();
-			t_blue = i_color.getBlue();
-			shadeColor = new Color(t_red, t_green, t_blue, 100);
-		}
-		else
-			shadeColor = i_color;
-		
-	}
-	
-	//Get shade height unit
-	public int getShadeHeightUnit()
-	{
-		return shadeHeightUnit;
-	}
-	
-	//Set shade height unit
-	public void SetShadeHeightUnit(int i_shadeHeightUnit)
-	{
-		shadeHeightUnit = i_shadeHeightUnit;
-	}
-	
-	//////////////////////////////////////////////////////////////////
-	
-	//Add one elements to marklist
-	public void AddMark(int i_lineNum)
-	{
-		
-		markList.add(i_lineNum);
-		markHashTable.put(i_lineNum, markList.size() - 1);
-		
-		super.repaint();
-		
-	}
-	
-	//Add list to marklist
-	public void AddMarkList(ArrayList<DiffBlock> i_list)
-	{
-		
-		int i, j, t_startIndex, t_blockSize;
-		
-		for(i = 0; i < i_list.size(); i++)
-		{
-			t_startIndex = i_list.get(i).getStartIndex();
-			t_blockSize = i_list.get(i).getLineNumber();
-			for(j = 0; j < t_blockSize; j++)
-				AddMark(t_startIndex + j);
-		}
-		
-		super.repaint();
-		
-	}
-	
-	//Remove one elements in marklist
-	public void RemoveMark(int i_lineNum)
-	{
-
-		markList.remove((int)(markHashTable.get(i_lineNum)));
-		markHashTable.remove(i_lineNum);
-		
-		//repaint
-		super.repaint();
-		
-	}
-	
-	//Remove all elements in marklist
-	public void RemoveAllMark()
-	{
-		
-		markList.clear();
-		markHashTable.clear();
-
-		super.repaint();
-		
-	}
-	
-	//////////////////////////////////////////////////////////////////
-	
-	//Paint All marklist
-	private void PaintShade(Graphics g)
-	{
-		
-		int i, len, width;
-		
-		//if markList is empty, return
-		if(markList.isEmpty())
-			return;
-		
-		//initialize local variables
-		len = markList.size();
-		width = super.getWidth();
-		
-		//set paint color
-		g.setColor(shadeColor);
-		
-		//paint all
-		for(i = 0; i < len; i++)
-			g.fillRect(0, markList.get(i) * shadeHeightUnit, width, shadeHeightUnit);
-		
-	}
-	
-	//Override paintComponent
-	public void paintComponent(Graphics g)
-	{
-		
-		super.paintComponent(g);
-		
-		PaintShade(g);
-
-	}
-	
-}
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -356,18 +41,9 @@ public class ClsView
 	public final String 	LOAD_BTN_IMG_ADDRESS = "Images/Load01.png";		//address of load button image
 	//EDITOR
 	public final String		DEFAULT_FONT_PATH = "Fonts/D2Coding.ttc";
-	public final String 	EDITOR_FONT = "D2Coding";						//editor's font
-	public final float 		EDITOR_FONT_SIZE = 12.0f;						//editor's font size
-	public final int 		EDITOR_TAB_SIZE = 4;							//editor's tab size
-	public final Color 		EDITOR_BG_COLOR = Color.WHITE;					//editor's background color
-	public final Color 		EDITOR_FONT_COLOR = Color.BLACK;				//editor's font color
-	public final Color 		EDITOR_SELECTION_COLOR = Color.BLACK;			//editor's selection color (when blocked)
-	public final Color 		EDITOR_SELECTED_FONT_COLOR = Color.YELLOW;		//editor's selected font color (when blocked)
+	public final float		DEFAULT_FONT_SIZE = 12.0f;
 	//SCROLL
 	public final int 		WHEEL_SCROLL_AMOUNT = 54;						//scroll amount when mouse wheel
-	//SHADE
-	public final int 		EDITOR_LINE_HEIGHT = 15;						//line height in editor
-	public final Color 		SHADE_COLOR = new Color(255, 255, 0, 100);		//shade color
 	
 	//////////////////////////////////////////////////////////////////
 	//GUI Components
@@ -379,19 +55,17 @@ public class ClsView
 	private JButton 		undoBtn, redoBtn;
 	//form - west
 	private JPanel			leftSearchPanel;
-	private JMergeQuickLook	quickLook;
+	private JQuickView		quickView;
 	//form - center
 	private JSplitPane 		seperator;
 	//center - left side
 	private JPanel 			leftPanel, left_TopPanel;
 	private JButton 		leftSaveBtn, leftLoadBtn;
-	private JMergeEditor 	leftEditor;
-	private JScrollPane 	leftScrollPane;
+	private JScrollTextArea	leftEditor;
 	//center - right side
 	private JPanel 			rightPanel, right_TopPanel;
 	private JButton 		rightSaveBtn, rightLoadBtn;
-	private JMergeEditor 	rightEditor;
-	private JScrollPane 	rightScrollPane;
+	private JScrollTextArea rightEditor;
 
 	//////////////////////////////////////////////////////////////////
 	//private variables
@@ -441,13 +115,12 @@ public class ClsView
 	{
 
 		OSBasedSetting();
-		TakeFont();
 		
 		Init_Variables();
 		Init_Form();
 		Init_TopBounds();
-		Init_WestBounds();
 		Init_CenterBounds();
+		Init_WestBounds();
 
 	}
 	
@@ -469,26 +142,6 @@ public class ClsView
 			windowMarginY = 0;
 		}
 
-	}
-	
-	//Get font
-	private void TakeFont()
-	{
-
-		try
-		{
-			//Get font file
-			File installFontFile = new File(DEFAULT_FONT_PATH);
-			
-			//make font variable to use
-			editorFont = Font.createFont(Font.TRUETYPE_FONT, installFontFile);
-			
-			System.out.println("Font is taken successfully.");
-		}catch(Exception e)
-		{
-			System.out.println("Cannot find font file.");
-		}
-		
 	}
 	
 	//Initialize class variables
@@ -578,12 +231,8 @@ public class ClsView
 		leftSearchPanel.setPreferredSize(new Dimension(50, internalHeight));
 		viewForm.getContentPane().add(leftSearchPanel, BorderLayout.WEST);
 		
-		quickLook = new JMergeQuickLook();
-		leftSearchPanel.add(quickLook, BorderLayout.CENTER);
-		quickLook.AddMark(0);
-		quickLook.AddMark(3);
-		quickLook.AddMark(5);
-		quickLook.AddMark(10);
+		quickView = new JQuickView(leftEditor);
+		leftSearchPanel.add(quickView, BorderLayout.CENTER);
 		
 	}
 	
@@ -648,10 +297,7 @@ public class ClsView
 		{
 			public void mouseClicked(MouseEvent e)
 			{
-				//JOptionPane.showMessageDialog(leftSaveBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-				System.out.println(leftEditor.getLineCount());
-				System.out.println(leftEditor.getCaretPosition());
-				System.out.println(leftEditor.getFontMetrics(leftEditor.getFont()).getHeight());
+				JOptionPane.showMessageDialog(leftSaveBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		
@@ -665,80 +311,18 @@ public class ClsView
 		});
 		
 		//Create editor of left side
-		leftEditor = new JMergeEditor();
-		leftEditor.setFont(editorFont.deriveFont(EDITOR_FONT_SIZE));
-		leftEditor.setTabSize(EDITOR_TAB_SIZE);
-		leftEditor.setBackground(EDITOR_BG_COLOR);
-		leftEditor.setForeground(EDITOR_FONT_COLOR);
-		leftEditor.setSelectionColor(EDITOR_SELECTION_COLOR);
-		leftEditor.setSelectedTextColor(EDITOR_SELECTED_FONT_COLOR);
-		leftEditor.SetShadeColor(SHADE_COLOR);
-		leftEditor.SetShadeHeightUnit(15);
-		
-		ArrayList<DiffBlock> a = new ArrayList<DiffBlock>();
-		a.add(new DiffBlock(0, 3));
-		leftEditor.AddMarkList(a);
+		leftEditor = new JScrollTextArea();
+		leftEditor.GetTextPad().TakeFontFileAndSet(DEFAULT_FONT_PATH);
+		leftEditor.GetTextPad().SetFontSize(DEFAULT_FONT_SIZE);
+		leftPanel.add(leftEditor, BorderLayout.CENTER);
 
-		//Create editor's mouse wheel listener
-		leftEditor.addMouseWheelListener(new MouseAdapter()
-		{
-			public void mouseWheelMoved(MouseWheelEvent e)
-			{
-				if(e.getWheelRotation() < 0)
-					WheelScroll(false);
-				else
-					WheelScroll(true);
-			}
-		});
-		
-		//Create editor's document listener
-		leftEditor.getDocument().addDocumentListener(new DocumentListener()
-		{
-			public void insertUpdate(DocumentEvent e)
-			{
-				System.out.print("INSERT ");
-				System.out.print(e.getLength() + " ");
-				System.out.print(e.getOffset() + " ");
-				
-				try
-				{
-					System.out.print(leftEditor.getLineOfOffset(e.getOffset()));
-					System.out.println(e.getDocument().getText(e.getOffset(), e.getLength()));
-				} catch (BadLocationException e1) {}
-			}
-			
-			public void changedUpdate(DocumentEvent e)
-			{
-				System.out.println("CHANGE");
-			}
-			public void removeUpdate(DocumentEvent e)
-			{
-				System.out.print("REMOVE ");
-				System.out.print(e.getLength() + " ");
-				System.out.print(e.getOffset() + " ");
-				
-				try
-				{
-					System.out.println(e.getDocument().getText(e.getOffset(), e.getLength()));
-				} catch (BadLocationException e1) {}
-			}
-		});
-		
-		//Create scrollpane of left side
-		leftScrollPane = new JScrollPane(leftEditor, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		leftPanel.add(leftScrollPane, BorderLayout.CENTER);
-		
-		//Create scrollbar listener of scrollpane
-		leftScrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener()
+		//Create scrollbar listener
+		leftEditor.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener()
 		{
 			public void adjustmentValueChanged(AdjustmentEvent e)
 			{
-				rightScrollPane.getVerticalScrollBar().setValue(leftScrollPane.getVerticalScrollBar().getValue());
-				quickLook.SetVisibleTopValue(e.getValue());
-				quickLook.SetVisibleAmount(leftScrollPane.getVerticalScrollBar().getVisibleAmount());
-				quickLook.SetMaximumScrollValue(leftScrollPane.getVerticalScrollBar().getMaximum());
-				quickLook.repaint();
-				System.out.println(e.getValue() + " " + leftScrollPane.getVerticalScrollBar().getVisibleAmount());
+				leftEditor.SyncVertScrollVal(rightEditor);
+				quickView.repaint();
 			}
 		});
 		
@@ -787,65 +371,19 @@ public class ClsView
 			}
 		});
 		
-		//Create editor of right side
-		rightEditor = new JMergeEditor();
-		rightEditor.setFont(editorFont.deriveFont(EDITOR_FONT_SIZE));
-		rightEditor.setTabSize(EDITOR_TAB_SIZE);
-		rightEditor.setBackground(EDITOR_BG_COLOR);
-		rightEditor.setForeground(EDITOR_FONT_COLOR);
-		rightEditor.setSelectionColor(EDITOR_SELECTION_COLOR);
-		rightEditor.setSelectedTextColor(EDITOR_SELECTED_FONT_COLOR);
-		rightEditor.SetShadeColor(SHADE_COLOR);
-		rightEditor.SetShadeHeightUnit(15);
-		
-		//Create editor's mouse wheel listener
-		rightEditor.addMouseWheelListener(new MouseAdapter()
-		{
-			public void mouseWheelMoved(MouseWheelEvent e)
-			{
-				if(e.getWheelRotation() < 0)
-					WheelScroll(false);
-				else
-					WheelScroll(true);
-			}
-		});
-		
-		//Create editor's document listener
-		rightEditor.getDocument().addDocumentListener(new DocumentListener()
-		{
-			public void insertUpdate(DocumentEvent e)
-			{
-				System.out.print("INSERT ");
-				System.out.print(e.getLength() + " ");
-				System.out.print(e.getOffset() + " ");
-				try
-				{
-					System.out.println(e.getDocument().getText(e.getOffset(), e.getLength()));
-				} catch (BadLocationException e1) {}
-			}
-			
-			public void changedUpdate(DocumentEvent e)
-			{
-				
-			}
-			public void removeUpdate(DocumentEvent e)
-			{
-				System.out.print("REMOVE ");
-				System.out.print(e.getLength() + " ");
-				System.out.println(e.getOffset() + " ");
-			}
-		});
-		
-		//Create scrollpane of right side
-		rightScrollPane = new JScrollPane(rightEditor, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
-		rightPanel.add(rightScrollPane, BorderLayout.CENTER);
-		
-		//Create scrollbar listener of scrollpane
-		rightScrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener()
+		//Create editor of left side
+		rightEditor = new JScrollTextArea();
+		rightEditor.GetTextPad().TakeFontFileAndSet(DEFAULT_FONT_PATH);
+		rightEditor.GetTextPad().SetFontSize(DEFAULT_FONT_SIZE);
+		rightPanel.add(rightEditor, BorderLayout.CENTER);
+
+		//Create scrollbar listener
+		rightEditor.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener()
 		{
 			public void adjustmentValueChanged(AdjustmentEvent e)
 			{
-				leftScrollPane.getVerticalScrollBar().setValue(rightScrollPane.getVerticalScrollBar().getValue());
+				rightEditor.SyncVertScrollVal(leftEditor);
+				quickView.repaint();
 			}
 		});
 		
@@ -872,24 +410,8 @@ public class ClsView
 		//Maintain divider's location ratio
 		seperator.setDividerLocation((int)(internalWidth * spRatio));
 
-		quickLook.SetVisibleAmount(leftScrollPane.getVerticalScrollBar().getVisibleAmount());
-		quickLook.SetMaximumScrollValue(leftScrollPane.getVerticalScrollBar().getMaximum());
+		quickView.repaint();
+		
 	}
-	
-	//when mouse wheel scrolled
-	private void WheelScroll(boolean upDown)
-	{
-		//Synchronize scroll value of left and right side
-		if(upDown == false)
-		{
-			leftScrollPane.getVerticalScrollBar().setValue(leftScrollPane.getVerticalScrollBar().getValue() - WHEEL_SCROLL_AMOUNT);
-			rightScrollPane.getVerticalScrollBar().setValue(rightScrollPane.getVerticalScrollBar().getValue() - WHEEL_SCROLL_AMOUNT);
-		}
-		else
-		{
-			leftScrollPane.getVerticalScrollBar().setValue(leftScrollPane.getVerticalScrollBar().getValue() + WHEEL_SCROLL_AMOUNT);
-			rightScrollPane.getVerticalScrollBar().setValue(rightScrollPane.getVerticalScrollBar().getValue() + WHEEL_SCROLL_AMOUNT);
-		}
-	}
-	
+
 }
