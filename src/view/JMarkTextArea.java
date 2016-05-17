@@ -96,6 +96,8 @@ public class JMarkTextArea extends JTextArea
 		
 		int t_line, t_offset, t_length, i;
 		
+		System.out.println("INSERT");
+		
 		try
 		{
 			t_offset = e.getOffset();
@@ -160,35 +162,6 @@ public class JMarkTextArea extends JTextArea
 	}
 	
 	//////////////////////////////////////////////////////////////////
-	/*
-	private int GetCurrentLine(int i_offset)
-	{
-		
-		int curLine, len, i;
-		
-		curLine = 0;
-		len = super.getDocument().getLength();
-		
-		if(i_offset > len)
-			return -1;
-		
-		try
-		{
-			for(i = 0; i < i_offset; i++)
-			{
-				if(super.getDocument().getText(i, 1) == "\n")
-					curLine++;
-			}
-		}
-		catch(BadLocationException ex)
-		{
-			System.out.println("ERROR : BadLocationException : JMarkTextArea : GetCurrentLine");
-		}
-		
-		return curLine;
-		
-	}
-	*/
 	
 	//return if this line is fake line or real line
 	private boolean CheckLineBool(int i_lineNum)

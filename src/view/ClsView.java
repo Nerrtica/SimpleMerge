@@ -31,19 +31,26 @@ public class ClsView
 	//CONSTANTS
 	//////////////////////
 	//FORM
-	public final int 		DEFAULT_WINDOW_WIDTH = 800;						//Window default width size
-	public final int 		DEFAULT_WINDOW_HEIGHT = 600;					//Window default height size
-	public final String 	WINDOW_CAPTION = "Simple_Merge_TEAM_11";		//Window caption name
+	public final int		DEFAULT_WINDOW_X = 100;									//Window default x position
+	public final int		DEFAULT_WINDOW_Y = 100;									//Window default y position
+	public final int 		DEFAULT_WINDOW_WIDTH = 1000;							//Window default width size
+	public final int 		DEFAULT_WINDOW_HEIGHT = 700;							//Window default height size
+	public final String 	WINDOW_CAPTION = "Simple_Merge_TEAM_11";				//Window caption name
 	//SPLITPANE
-	public final int 		DIVIDER_THICKNESS = 3;							//size of seperating bar in splitpane
-	//IMAGE ADDRESS
-	public final String 	SAVE_BTN_IMG_ADDRESS = "Images/Save01.png";		//address of save button image
-	public final String 	LOAD_BTN_IMG_ADDRESS = "Images/Load01.png";		//address of load button image
+	public final int 		DIVIDER_THICKNESS = 3;									//size of seperating bar in splitpane
+	//IMAGE PATH
+	public final String 	SAVE_BTN_IMG_ADDRESS = "Images/Save01.png";				//path of save button image
+	public final String 	LOAD_BTN_IMG_ADDRESS = "Images/Load01.png";				//path of load button image
+	public final String		TO_LEFT_BTN_IMG_ADDRESS = "Images/ToLeft01.png";		//path of to left button image
 	//EDITOR
-	public final String		DEFAULT_FONT_PATH = "Fonts/D2Coding.ttc";
-	public final float		DEFAULT_FONT_SIZE = 12.0f;
+	public final String		DEFAULT_FONT_PATH = "Fonts/D2Coding.ttc";				//path of editor font
+	public final float		DEFAULT_FONT_SIZE = 12.0f;								//size of editor font
 	//SCROLL
-	public final int 		WHEEL_SCROLL_AMOUNT = 54;						//scroll amount when mouse wheel
+	public final int 		WHEEL_SCROLL_AMOUNT = 54;								//scroll amount when mouse wheel
+	//DIALOGBOX
+	public final int		DEFAULT_DIALOG_WIDTH = 800;								//dialog box default width
+	public final int		DEFAULT_DIALOG_HEIGHT = 400;							//dialog box default height
+	public final Font		DEFAULT_DIALOG_FONT = new Font("돋움", Font.PLAIN, 12);	//dialog box default font
 	
 	//////////////////////////////////////////////////////////////////
 	//GUI Components
@@ -53,6 +60,8 @@ public class ClsView
 	//form - north
 	private JPanel 			topPanel;
 	private JButton 		undoBtn, redoBtn;
+	private JButton			mergeToLeftBtn, mergeToRightBtn;
+	private JButton			compareBtn;
 	//form - west
 	private JPanel			leftSearchPanel;
 	private JQuickView		quickView;
@@ -66,6 +75,8 @@ public class ClsView
 	private JPanel 			rightPanel, right_TopPanel;
 	private JButton 		rightSaveBtn, rightLoadBtn;
 	private JScrollTextArea rightEditor;
+	//dialog box
+	private JFileChooser	fileDialogBox;
 
 	//////////////////////////////////////////////////////////////////
 	//private variables
@@ -78,8 +89,8 @@ public class ClsView
 	//clipping area size
 	private int 	internalWidth;		//real form's clipping area width
 	private int 	internalHeight;		//real form's clipping area height
-	//font
-	private Font 	editorFont;			//font instance that will be used setting editor's font
+	
+	private ImportedFile imf1, imf2;
 	
 	//////////////////////////////////////////////////////////////////
 	
@@ -158,6 +169,7 @@ public class ClsView
 		
 		//Create main window
 		viewForm = new JFrame(WINDOW_CAPTION);
+		viewForm.setLocation(DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y);
 		viewForm.setSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
 		viewForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		viewForm.getContentPane().setLayout(new BorderLayout(0,0));
@@ -180,8 +192,33 @@ public class ClsView
 			}
 		});
 		
+		//set file dialog box window
+		fileDialogBox = new JFileChooser();
+		fileDialogBox.setMultiSelectionEnabled(false);
+		fileDialogBox.setPreferredSize(new Dimension(DEFAULT_DIALOG_WIDTH, DEFAULT_DIALOG_HEIGHT));
+		InitDialogBoxFont(fileDialogBox.getComponents());
+		
 		//Reset Internal form size
 		ResetInternalFormSize();
+		
+	}
+	
+	//Initialize dialogbox font
+	private void InitDialogBoxFont(Component[] comp)
+	{
+		
+		int i;
+		Font dialogFont = new Font("돋움", Font.PLAIN, 12);
+		
+		for(i = 0; i < comp.length; i++)
+		{
+			if(comp[i] instanceof Container)
+				InitDialogBoxFont(((Container)comp[i]).getComponents());
+			try
+			{
+				comp[i].setFont(dialogFont);
+			}catch(Exception ex){}
+		}
 		
 	}
 	
@@ -217,6 +254,45 @@ public class ClsView
 			public void mouseClicked(MouseEvent e)
 			{
 				JOptionPane.showMessageDialog(redoBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		
+		//Create merge to left button
+		mergeToLeftBtn = new JButton("<<");
+		topPanel.add(mergeToLeftBtn);
+		
+		//Create redo button listenser
+		mergeToLeftBtn.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				JOptionPane.showMessageDialog(mergeToLeftBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+			}
+		});
+		
+		//Create merge to right button
+		mergeToRightBtn = new JButton(">>");
+		topPanel.add(mergeToRightBtn);
+		
+		//Create redo button listenser
+		mergeToRightBtn.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				JOptionPane.showMessageDialog(mergeToRightBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+			}
+		});
+				
+		//Create compare button
+		compareBtn = new JButton("COMP");
+		topPanel.add(compareBtn);
+		
+		//Create redo button listenser
+		compareBtn.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				JOptionPane.showMessageDialog(compareBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		
@@ -297,7 +373,10 @@ public class ClsView
 		{
 			public void mouseClicked(MouseEvent e)
 			{
-				JOptionPane.showMessageDialog(leftSaveBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
+				{
+					JOptionPane.showMessageDialog(leftSaveBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		
@@ -306,7 +385,12 @@ public class ClsView
 		{
 			public void mouseClicked(MouseEvent e)
 			{
-				JOptionPane.showMessageDialog(leftLoadBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
+				{
+					//JOptionPane.showMessageDialog(leftLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					imf1 = new ImportedFile(fileDialogBox.getSelectedFile().toString());
+					leftEditor.GetTextPad().SetText(imf1.getText());
+				}
 			}
 		});
 		
@@ -358,7 +442,10 @@ public class ClsView
 		{
 			public void mouseClicked(MouseEvent e)
 			{
-				JOptionPane.showMessageDialog(rightSaveBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
+				{
+					JOptionPane.showMessageDialog(rightSaveBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 		
@@ -367,7 +454,12 @@ public class ClsView
 		{
 			public void mouseClicked(MouseEvent e)
 			{
-				JOptionPane.showMessageDialog(rightLoadBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
+				{
+					//JOptionPane.showMessageDialog(rightLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					imf2 = new ImportedFile(fileDialogBox.getSelectedFile().toString());
+					rightEditor.GetTextPad().SetText(imf2.getText());
+				}
 			}
 		});
 		

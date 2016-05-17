@@ -9,7 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ImportedFile {
-    private List<String> text = new ArrayList<String>();
+    private ArrayList<String> text = new ArrayList<String>();
     private String fileRoute;
 
     public ImportedFile (String fileRoute){
@@ -113,7 +113,7 @@ public class ImportedFile {
 		}
     }
 
-    public List<String> getText () {
+    public ArrayList<String> getText () {
         return text;
     }
 
