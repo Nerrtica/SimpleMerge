@@ -292,6 +292,12 @@ public class JMarkTextArea extends JTextArea
 		return markColor;
 	}
 	
+	//get mark list
+	public ArrayList<Boolean> GetMarkList()
+	{
+		return markList;
+	}
+	
 	//////////////////////////////////////////////////////////////////
 	
 	//set font file
