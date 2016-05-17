@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class ImportedFile {
-    private List<String> text = new ArrayList<String>();
+    private ArrayList<String> text = new ArrayList<String>();
     private String fileRoute;
 
     public ImportedFile (String fileRoute){
@@ -94,9 +94,16 @@ public class ImportedFile {
 				diffBlockList.add(tempBlock);
 				continue;
 			}
-			//최초에 값이 건너뛰어지는 블록이 생성될 경우
+			//처음에 값이 건너뛰어지는 블록이 생성될 경우
 			if (i == 0 && diffList[i] != 0) {
 				DiffBlock tempBlock = new DiffBlock(0, -1);
+				diffBlockList.add(tempBlock);
+				continue;
+			}
+
+			//마지막에 값이 건너뛰어지는 블록이 생성될 경우
+			if (i == diffList.length - 1 && diffList[i] != oppositeFile.getText().size() - 1) {
+				DiffBlock tempBlock = new DiffBlock(i + 1, i);
 				diffBlockList.add(tempBlock);
 				continue;
 			}
@@ -105,20 +112,25 @@ public class ImportedFile {
 		return diffBlockList;
     }
 
-    public void merge (ImportedFile oppositeFile, DiffBlock originalBlock, DiffBlock targetBlock) {
-		int startIndex = originalBlock.getStartIndex();
+    public void merge (ImportedFile oppositeFile, List<DiffBlock> originalBlockList, List<DiffBlock> targetBlockList, int blockIndex) {
+		int startIndex = originalBlockList.get(blockIndex).getStartIndex();
+		int changedIndexNumber = targetBlockList.get(blockIndex).getLineNumber() - originalBlockList.get(blockIndex).getLineNumber();
 
-		for(int i = 0; i < originalBlock.getLineNumber(); i++) {
+		for(int i = 0; i < originalBlockList.get(blockIndex).getLineNumber(); i++) {
 			text.remove(startIndex);
 		}
-		for(int i = 0; i < targetBlock.getLineNumber(); i++) {
-			text.add(startIndex + i, oppositeFile.getText().get(targetBlock.getStartIndex() + i));
+		for(int i = 0; i < targetBlockList.get(blockIndex).getLineNumber(); i++) {
+			text.add(startIndex + i, oppositeFile.getText().get(targetBlockList.get(blockIndex).getStartIndex() + i));
+		}
+
+		for (int i = blockIndex + 1; i < originalBlockList.size(); i++) {
+			originalBlockList.get(i).changeStartIndex(originalBlockList.get(i).getStartIndex() + changedIndexNumber);
+			originalBlockList.get(i).changeEndIndex(originalBlockList.get(i).getEndIndex() + changedIndexNumber);
 		}
     }
 
-    public List<String> getText () {
+    public ArrayList<String> getText () {
         return text;
     }
-
-
+	
 }
