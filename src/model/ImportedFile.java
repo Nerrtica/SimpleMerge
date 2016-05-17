@@ -67,7 +67,37 @@ public class ImportedFile {
     public List<DiffBlock> compare (ImportedFile oppositeFile) {
 		List<DiffBlock> diffBlockList = new ArrayList<DiffBlock>();
 
-
+		LCSAlgo.LCSLength(this.getText(), oppositeFile.getText());
+		LCSAlgo.makeDiffList(this.getText(), oppositeFile.getText(), this.getText().size(), oppositeFile.getText().size());
+		int[] diffList = LCSAlgo.getDiffList();
+		for (int i = 0; i < diffList.length; i++) {
+			// 연속된 -1을 찾아 Block으로 만듬
+			if (diffList[i] == -1) {
+				DiffBlock tempBlock;
+				int startIndex = i;
+				for (; i < diffList.length; i++) {
+					if (diffList[i] == -1) { continue; }
+					else { break; }
+				}
+				int endIndex = i - 1;
+				tempBlock = new DiffBlock(startIndex, endIndex);
+				diffBlockList.add(tempBlock);
+				i--;
+				continue;
+			}
+			//값이 건너뛰어지는 부분을 찾아 Block으로 만듬
+			if ((i != diffList.length - 1 && diffList[i + 1] - diffList[i] != 1 && diffList[i + 1] != -1)) {
+				DiffBlock tempBlock = new DiffBlock(i + 1, i);
+				diffBlockList.add(tempBlock);
+				continue;
+			}
+			//최초에 값이 건너뛰어지는 블록이 생성될 경우
+			if (i == 0 && diffList[i] != 0) {
+				DiffBlock tempBlock = new DiffBlock(0, -1);
+				diffBlockList.add(tempBlock);
+				continue;
+			}
+		}
 
 		return diffBlockList;
     }
