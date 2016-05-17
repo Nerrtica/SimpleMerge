@@ -8,9 +8,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JTextArea;
+import javax.swing.event.CaretEvent;
+import javax.swing.event.CaretListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
+import javax.swing.text.Position;
 
 import model.DiffBlock;
 
@@ -79,7 +83,7 @@ public class JMarkTextArea extends JTextArea
 			{
 				DocListener_InsertUpdate(e);
 			}
-			public void changedUpdate(DocumentEvent e)
+			public void changedUpdate(DocumentEvent e)	//I don't know
 			{
 				System.out.println("CHANGE");
 			}
@@ -145,6 +149,47 @@ public class JMarkTextArea extends JTextArea
 		
 		int t_line, t_offset;
 		
+//		Position startPosition;
+		Position endPosition;
+//		int startOffset;
+		int endOffset;
+//		int startLine;
+		int endLine;
+		
+		Document removeDocument = e.getDocument();
+		
+//		startPosition = removeDocument.getStartPosition();
+		endPosition = removeDocument.getEndPosition();
+		
+//		startOffset = startPosition.getOffset();
+		endOffset = endPosition.getOffset();
+		try{
+//			startLine = super.getLineOfOffset(startOffset);
+			endLine = super.getLineOfOffset(endOffset);
+			t_offset = e.getOffset();
+			t_line = super.getLineOfOffset(t_offset);
+			for(int i = t_line+1 ; i < t_line + endLine - 1 ; i++)
+			{
+				lineBoolList.remove(i);
+				markList.remove(i);
+			}
+		}
+		catch(BadLocationException ex)
+		{
+			System.out.println("ERROR : BadLocationException : JMarkTextArea : DocListener_RemoveUpdate");
+		}
+
+		/*
+		super.addCaretListener(new CaretListener(){
+
+			@Override
+			public void caretUpdate(CaretEvent arg0) {
+				
+				
+			}
+			
+		});*/
+		/*
 		try
 		{
 			t_offset = e.getOffset();
@@ -152,15 +197,14 @@ public class JMarkTextArea extends JTextArea
 			
 			//if this line is fake line, set this line to real line
 			if(CheckLineBool(t_line) == false)
-				lineBoolList.set(t_line, true);
+				lineBoolList.set(t_line, true);				
 
 		}
 		catch(BadLocationException ex)
 		{
 			System.out.println("ERROR : BadLocationException : JMarkTextArea : DocListener_RemoveUpdate");
-		}
+		}*/
 	}
-	
 	//////////////////////////////////////////////////////////////////
 	
 	//return if this line is fake line or real line
