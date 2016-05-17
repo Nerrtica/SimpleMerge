@@ -10,7 +10,6 @@
 #include <string.h>
 #include <limits.h>
 
-void readList (FILE *inputFile, int *list, int listLength);
 void readQuery (FILE *inputFile, int **query, int queryNum);
 int linearSearch (int *list, int listLength, int num, char *isFound);
 
@@ -62,14 +61,6 @@ int main(int argc, const char * argv[]) {
     fclose(outputFile);
     
     return 0;
-}
-
-void readList (FILE *inputFile, int *list, int listLength) {
-    int i;
-    
-    for (i = 0; i < listLength; i++) {
-        fscanf(inputFile, "%d", &list[i]);
-    }
 }
 
 void readQuery (FILE *inputFile, int **query, int queryNum) {

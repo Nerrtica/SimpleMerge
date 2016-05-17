@@ -64,10 +64,6 @@ public class ImportedFile {
     	}
     }
 
-    public void modify (List<String> modifiedText) {
-
-    }
-
     public List<DiffBlock> compare (ImportedFile oppositeFile) {
 		List<DiffBlock> diffBlockList = new ArrayList<DiffBlock>();
 
