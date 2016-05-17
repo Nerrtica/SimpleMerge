@@ -146,24 +146,26 @@ public class JMarkTextArea extends JTextArea
 	{
 		
 		int t_line, t_offset;
-		
-//		Position startPosition;
+		/*
+		Position startPosition;
 		Position endPosition;
-//		int startOffset;
+		int startOffset;
 		int endOffset;
-//		int startLine;
+		int startLine;
 		int endLine;
-		
+
 		Document removeDocument = e.getDocument();
 		
-//		startPosition = removeDocument.getStartPosition();
+		startPosition = removeDocument.getStartPosition();
 		endPosition = removeDocument.getEndPosition();
 		
-//		startOffset = startPosition.getOffset();
+		startOffset = startPosition.getOffset();
 		endOffset = endPosition.getOffset();
+		System.out.println(startOffset);
+		System.out.println(endOffset);
 		try{
-//			startLine = super.getLineOfOffset(startOffset);
-			endLine = super.getLineOfOffset(endOffset);
+			startLine = super.getLineOfOffset(startOffset);
+			endLine = super.getLineOfOffset(endOffset);		//에러
 			t_offset = e.getOffset();
 			t_line = super.getLineOfOffset(t_offset);
 			for(int i = t_line+1 ; i < t_line + endLine - 1 ; i++)
@@ -172,20 +174,18 @@ public class JMarkTextArea extends JTextArea
 				markList.remove(i);
 			}
 		}
+		
 		catch(BadLocationException ex)
 		{
 			System.out.println("ERROR : BadLocationException : JMarkTextArea : DocListener_RemoveUpdate");
 		}
-
+*/
 		/*
 		super.addCaretListener(new CaretListener(){
-
 			@Override
-			public void caretUpdate(CaretEvent arg0) {
-				
-				
+			public void caretUpdate(CaretEvent e) {
+				e.getDot();
 			}
-			
 		});*/
 		/*
 		try
