@@ -69,7 +69,7 @@ public class ClsController {
         }
     }
 
-    public List<DiffBlock> compare (boolean isLeftFile) {
+    public ArrayList<DiffBlock> compare (boolean isLeftFile) {
         if (isLeftFile) {
             return leftFile.compare(rightFile);
         } else {

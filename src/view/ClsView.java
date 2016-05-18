@@ -575,7 +575,8 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_COMPARE_BTN))
 			{
-				System.out.println(NAME_COMPARE_BTN);
+				leftEditor.GetTextPad().AddMarkList(refController.compare(true));
+				rightEditor.GetTextPad().AddMarkList(refController.compare(false));
 			}
 			else if(t_srcName.equals(NAME_TO_LEFT_BTN))
 			{

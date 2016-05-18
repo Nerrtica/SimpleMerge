@@ -149,8 +149,8 @@ public class ImportedFile {
 		}
     }
 
-    public List<DiffBlock> compare (ImportedFile oppositeFile) {
-		List<DiffBlock> diffBlockList = new ArrayList<DiffBlock>();
+    public ArrayList<DiffBlock> compare (ImportedFile oppositeFile) {
+		ArrayList<DiffBlock> diffBlockList = new ArrayList<DiffBlock>();
 
 		LCSAlgo.LCSLength(this.getText(), oppositeFile.getText());
 		LCSAlgo.makeDiffList(this.getText(), oppositeFile.getText(), this.getText().size(), oppositeFile.getText().size());
