@@ -3,8 +3,10 @@ package controller;
 import view.ClsView;
 import java.awt.EventQueue;
 
-public class ClsController {
+import model.ImportedFile;
 
+public class ClsController {
+	
     public ClsController()
     {
         EventQueue.invokeLater(new Runnable()
