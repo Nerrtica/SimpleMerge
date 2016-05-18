@@ -5,15 +5,19 @@ import java.util.List;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class ImportedFile {
     private ArrayList<String> text = new ArrayList<String>();
     private String fileRoute;
+	private String checkCode = null;
     
     public ImportedFile (){
     	
@@ -21,7 +25,7 @@ public class ImportedFile {
 
     public void load (String fileRoute){
     	this.fileRoute = fileRoute;	//fileRoute 저장
-    	String checkCode = null;
+
     
     	try{	
 			FileInputStream check = new FileInputStream(fileRoute);
@@ -71,8 +75,7 @@ public class ImportedFile {
 		try {
 			// BufferedReader br = new BufferedReader(new
 			// FileReader(fileRoute)); // 파일 reader
-			if (checkCode == "UTF-8") {
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "UTF-8"));
+				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), checkCode));
 				String line;
 				while (true) {
 					line = br.readLine();
@@ -82,62 +85,6 @@ public class ImportedFile {
 				}
 
 				br.close();
-			} else if (checkCode == "UTF-16BE") {
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "UTF-16BE"));
-				String line;
-				while (true) {
-					line = br.readLine();
-					if (line == null) // 더 이상 불러올 문자열 없으면 break;
-						break;
-					text.add(line); // text 리스트에 문자열 추가
-				}
-
-				br.close();
-			} else if (checkCode == "UTF-16LE") {
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "UTF-16LE"));
-				String line;
-				while (true) {
-					line = br.readLine();
-					if (line == null) // 더 이상 불러올 문자열 없으면 break;
-						break;
-					text.add(line); // text 리스트에 문자열 추가
-				}
-
-				br.close();
-			} else if (checkCode == "UTF-32BE") {
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "UTF-32BE"));
-				String line;
-				while (true) {
-					line = br.readLine();
-					if (line == null) // 더 이상 불러올 문자열 없으면 break;
-						break;
-					text.add(line); // text 리스트에 문자열 추가
-				}
-
-				br.close();
-			} else if (checkCode == "UTF-32LE") {
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "UTF-32LE"));
-				String line;
-				while (true) {
-					line = br.readLine();
-					if (line == null) // 더 이상 불러올 문자열 없으면 break;
-						break;
-					text.add(line); // text 리스트에 문자열 추가
-				}
-
-				br.close();
-			} else if (checkCode == "EUC-KR") {
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "EUC-KR"));
-				String line;
-				while (true) {
-					line = br.readLine();
-					if (line == null) // 더 이상 불러올 문자열 없으면 break;
-						break;
-					text.add(line); // text 리스트에 문자열 추가
-				}
-
-				br.close();
-			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -162,18 +109,44 @@ public class ImportedFile {
     }
 
     public void save (){
-    	try{
-	    	PrintWriter pw = new PrintWriter(fileRoute);
-	    	
-	    	for(int i = 0 ; i<text.size() ; i++){
-	    		pw.println(text.get(i));
-	    	}
-	    	
-	    	pw.close();
+
+//    	PrintWriter pw = new PrintWriter(fileRoute);
+		try {
+			BufferedWriter pw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileRoute), checkCode));
+
+			for (int i = 0; i < text.size(); i++) {
+				pw.write(text.get(i));
+			}
+
+			pw.close();
     	}
     	catch(FileNotFoundException e){
-    		System.out.println("파일을 찾을 수 없습니다.");
+    		e.printStackTrace();
+    	} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+    
+    public void saveAs (String asFileRoute){
+
+		try {
+			BufferedWriter pw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(asFileRoute), checkCode));
+
+			for (int i = 0; i < text.size(); i++) {
+				pw.write(text.get(i));
+			}
+
+			pw.close();
     	}
+    	catch(FileNotFoundException e){
+    		e.printStackTrace();
+    	} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
     }
 
     public List<DiffBlock> compare (ImportedFile oppositeFile) {
