@@ -4,7 +4,7 @@
 //Developer         : Do-Gun Park
 //School            : Chung-Ang Univ.
 //Student num       : 20123272
-//Developing period : 2016.05.05 ~ 2016.05.14
+//Developing period : 2016.05.05 ~ 2016.05.18
 
 package view;
 
@@ -31,46 +31,46 @@ public class ClsView
 	//CONSTANTS
 	//////////////////////
 	//FORM
-	public final int		DEFAULT_WINDOW_X = 100;									//Window default x position
-	public final int		DEFAULT_WINDOW_Y = 100;									//Window default y position
-	public final int 		DEFAULT_WINDOW_WIDTH = 1000;							//Window default width size
-	public final int 		DEFAULT_WINDOW_HEIGHT = 700;							//Window default height size
-	public final int		DEFAULT_WEST_WIDTH = 100;								//Window default west bounds width size
-	public final String 	WINDOW_CAPTION = "Simple_Merge_TEAM_11";				//Window caption name
-	public final Color		COMPONENT_BG_COLOR = Color.WHITE;						//Component's background color
+	public final int		DEFAULT_WINDOW_X 		= 100;								//Window default x position
+	public final int		DEFAULT_WINDOW_Y 		= 100;								//Window default y position
+	public final int 		DEFAULT_WINDOW_WIDTH 	= 1000;								//Window default width size
+	public final int 		DEFAULT_WINDOW_HEIGHT 	= 700;								//Window default height size
+	public final int		DEFAULT_WEST_WIDTH 		= 100;								//Window default west bounds width size
+	public final String 	WINDOW_CAPTION 			= "Simple_Merge_TEAM_11";			//Window caption name
+	public final Color		COMPONENT_BG_COLOR 		= Color.WHITE;						//Component's background color
 	//SPLITPANE
-	public final int 		DIVIDER_THICKNESS = 3;									//size of seperating bar in splitpane
+	public final int 		DIVIDER_THICKNESS = 5;										//size of seperating bar in splitpane
 	//IMAGE PATH
-	public final String 	SAVE_BTN_IMG_PATH = "Images/Save01.png";				//path of save button image
-	public final String 	LOAD_BTN_IMG_PATH = "Images/Open01.png";				//path of load button image
-	public final String		TO_LEFT_BTN_IMG_PATH = "Images/ToLeft01.png";			//path of to left button image
-	public final String		TO_RIGHT_BTN_IMG_PATH = "Images/ToRight01.png";			//path of to right button image
-	public final String		TO_ALL_LEFT_BTN_IMG_PATH = "Images/AllToLeft01.png";	//path of all to left button image
-	public final String		TO_ALL_RIGHT_BTN_IMG_PATH = "Images/AllToRight01.png";	//path of all to right button image	
-	public final String		COMPARE_BTN_IMG_PATH = "Images/Compare01.png";			//path of compare button image
-	public final String		UNDO_BTN_IMG_PATH = "Images/Undo01.png";				//path of undo button image
-	public final String		REDO_BTN_IMG_PATH = "Images/Redo01.png";				//path of redo button image
-	public final String		EDIT_BTN_IMG_PATH = "Images/Edit01.png";				//path of edit button image
+	public final String 	SAVE_BTN_IMG_PATH 			= "Images/Save01.png";			//path of save button image
+	public final String 	LOAD_BTN_IMG_PATH 			= "Images/Open01.png";			//path of load button image
+	public final String		TO_LEFT_BTN_IMG_PATH 		= "Images/ToLeft01.png";		//path of to left button image
+	public final String		TO_RIGHT_BTN_IMG_PATH 		= "Images/ToRight01.png";		//path of to right button image
+	public final String		TO_ALL_LEFT_BTN_IMG_PATH 	= "Images/AllToLeft01.png";		//path of all to left button image
+	public final String		TO_ALL_RIGHT_BTN_IMG_PATH 	= "Images/AllToRight01.png";	//path of all to right button image	
+	public final String		COMPARE_BTN_IMG_PATH 		= "Images/Compare01.png";		//path of compare button image
+	public final String		UNDO_BTN_IMG_PATH 			= "Images/Undo01.png";			//path of undo button image
+	public final String		REDO_BTN_IMG_PATH 			= "Images/Redo01.png";			//path of redo button image
+	public final String		EDIT_BTN_IMG_PATH 			= "Images/Edit01.png";			//path of edit button image
 	//TOOLTIP TEXT
-	public final String		TOOLTIP_UNDO_BTN = "Undo";
-	public final String		TOOLTIP_REDO_BTN = "Redo";
-	public final String		TOOLTIP_COMPARE_BTN = "Compare";
-	public final String		TOOLTIP_TO_LEFT_BTN = "Merge to Left";
-	public final String		TOOLTIP_TO_RIGHT_BTN = "Merge to Right";
-	public final String		TOOLTIP_ALL_TO_LEFT_BTN = "Merge all to Left";
-	public final String		TOOLTIP_ALL_TO_RIGHT_BTN = "Merge all to Right";
-	public final String		TOOLTIP_SAVE_BTN = "Save";
-	public final String		TOOLTIP_LOAD_BTN = "Open";
-	public final String		TOOLTIP_EDIT_BTN = "Edit";
+	public final String		TOOLTIP_UNDO_BTN 			= "Undo";						//tooltip of undo button
+	public final String		TOOLTIP_REDO_BTN 			= "Redo";						//tooltip of redo button
+	public final String		TOOLTIP_COMPARE_BTN 		= "Compare";					//tooltip of compare button
+	public final String		TOOLTIP_TO_LEFT_BTN 		= "Merge to Left";				//tooltip of merge to left button
+	public final String		TOOLTIP_TO_RIGHT_BTN 		= "Merge to Right";				//tooltip of merge to right button
+	public final String		TOOLTIP_ALL_TO_LEFT_BTN 	= "Merge all to Left";			//tooltip of merge all to left button
+	public final String		TOOLTIP_ALL_TO_RIGHT_BTN 	= "Merge all to Right";			//tooltip of merge all to right button
+	public final String		TOOLTIP_SAVE_BTN 			= "Save";						//tooltip of save button
+	public final String		TOOLTIP_LOAD_BTN 			= "Open";						//tooltip of load button
+	public final String		TOOLTIP_EDIT_BTN 			= "Edit";						//tooltip of edit button
 	//EDITOR
-	public final String		DEFAULT_FONT_PATH = "Fonts/D2Coding.ttc";				//path of editor font
-	public final float		DEFAULT_FONT_SIZE = 12.0f;								//size of editor font
+	public final String		DEFAULT_FONT_PATH = "Fonts/D2Coding.ttc";					//path of editor font
+	public final float		DEFAULT_FONT_SIZE = 12.0f;									//size of editor font
 	//SCROLL
-	public final int 		WHEEL_SCROLL_AMOUNT = 54;								//scroll amount when mouse wheel
+	public final int 		WHEEL_SCROLL_AMOUNT = 54;									//scroll amount when mouse wheel
 	//DIALOGBOX
-	public final int		DEFAULT_DIALOG_WIDTH = 800;								//dialog box default width
-	public final int		DEFAULT_DIALOG_HEIGHT = 400;							//dialog box default height
-	public final Font		DEFAULT_DIALOG_FONT = new Font("돋움", Font.PLAIN, 12);	//dialog box default font
+	public final int		DEFAULT_DIALOG_WIDTH 	= 800;								//dialog box default width
+	public final int		DEFAULT_DIALOG_HEIGHT 	= 400;								//dialog box default height
+	public final Font		DEFAULT_DIALOG_FONT 	= new Font("돋움", Font.PLAIN, 12);	//dialog box default font
 	
 	//////////////////////////////////////////////////////////////////
 	//GUI Components
@@ -464,6 +464,8 @@ public class ClsView
 					//JOptionPane.showMessageDialog(leftLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 					imf1 = new ImportedFile(fileDialogBox.getSelectedFile().toString());
 					leftEditor.GetTextPad().SetText(imf1.getText());
+					leftEditor.GetTextPad().setEditable(false);
+					leftEditBtn.setEnabled(true);
 				}
 			}
 		});
@@ -474,6 +476,7 @@ public class ClsView
 			public void mouseClicked(MouseEvent e)
 			{
 				leftEditor.GetTextPad().setEditable(true);
+				leftEditBtn.setEnabled(false);
 			}
 		});
 		
@@ -551,6 +554,8 @@ public class ClsView
 					//JOptionPane.showMessageDialog(rightLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 					imf2 = new ImportedFile(fileDialogBox.getSelectedFile().toString());
 					rightEditor.GetTextPad().SetText(imf2.getText());
+					rightEditor.GetTextPad().setEditable(false);
+					rightEditBtn.setEnabled(true);
 				}
 			}
 		});
@@ -561,6 +566,7 @@ public class ClsView
 			public void mouseClicked(MouseEvent e)
 			{
 				rightEditor.GetTextPad().setEditable(true);
+				rightEditBtn.setEnabled(false);
 			}
 		});
 		

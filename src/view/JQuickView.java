@@ -1,3 +1,11 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Project name      : Simple Merge - SE Term Project 11 team
+//File name         : JQuickView.java
+//Developer         : Do-Gun Park
+//School            : Chung-Ang Univ.
+//Student num       : 20123272
+//Developing period : 2016.05.05 ~ 2016.05.18
+
 package view;
 
 import java.awt.Color;

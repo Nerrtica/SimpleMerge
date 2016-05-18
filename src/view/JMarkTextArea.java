@@ -1,3 +1,11 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Project name      : Simple Merge - SE Term Project 11 team
+//File name         : JMarkTextArea.java
+//Developer         : Do-Gun Park
+//School            : Chung-Ang Univ.
+//Student num       : 20123272
+//Developing period : 2016.05.05 ~ 2016.05.18
+
 package view;
 
 import java.awt.Color;
@@ -99,8 +107,6 @@ public class JMarkTextArea extends JTextArea
 	{
 		
 		int t_line, t_offset, t_length, i;
-		
-		System.out.println("INSERT");
 		
 		try
 		{
@@ -460,11 +466,7 @@ public class JMarkTextArea extends JTextArea
 		super.repaint();
 		
 	}
-	
-	//////////////////////////////////////////////////////////////////
-	
-	
-	
+
 	//Override paintComponent
 	public void paintComponent(Graphics g)
 	{
@@ -474,8 +476,5 @@ public class JMarkTextArea extends JTextArea
 		PaintMark(g);
 
 	}
-	
-	//////////////////////////////////////////////////////////////////
 
-	
 }
