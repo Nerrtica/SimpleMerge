@@ -135,6 +135,7 @@ public class ClsView
 	private int 	internalWidth;		//real form's clipping area width
 	private int 	internalHeight;		//real form's clipping area height
 	
+	private boolean	isEdited;
 	
 	private ButtonListener btnListener;
 	
@@ -185,6 +186,7 @@ public class ClsView
 	private void Init_Variables()
 	{
 		
+		isEdited = false;
 		spRatio = 0.5f;
 		
 	}
@@ -577,6 +579,10 @@ public class ClsView
 			{
 				leftEditor.GetTextPad().AddMarkList(refController.compare(true));
 				rightEditor.GetTextPad().AddMarkList(refController.compare(false));
+				mergeToLeftBtn.setEnabled(true);
+				mergeToRightBtn.setEnabled(true);
+				mergeAllToLeftBtn.setEnabled(true);
+				mergeAllToRightBtn.setEnabled(true);
 			}
 			else if(t_srcName.equals(NAME_TO_LEFT_BTN))
 			{
@@ -617,12 +623,19 @@ public class ClsView
 			else if(t_srcName.equals(NAME_LEFT_EDIT_BTN))
 			{
 				leftEditor.GetTextPad().setEditable(true);
+				compareBtn.setEnabled(false);
+				mergeToLeftBtn.setEnabled(false);
+				mergeToRightBtn.setEnabled(false);
+				mergeAllToLeftBtn.setEnabled(false);
+				mergeAllToRightBtn.setEnabled(false);
 				leftEditBtn.setEnabled(false);
 				leftCompleteBtn.setEnabled(true);
 			}
 			else if(t_srcName.equals(NAME_LEFT_COMPLETE_BTN))
 			{
 				leftEditor.GetTextPad().setEditable(false);
+				if(!rightCompleteBtn.isEnabled())
+					compareBtn.setEnabled(true);
 				leftEditBtn.setEnabled(true);
 				leftCompleteBtn.setEnabled(false);
 			}
@@ -649,12 +662,19 @@ public class ClsView
 			else if(t_srcName.equals(NAME_RIGHT_EDIT_BTN))
 			{
 				rightEditor.GetTextPad().setEditable(true);
+				compareBtn.setEnabled(false);
+				mergeToLeftBtn.setEnabled(false);
+				mergeToRightBtn.setEnabled(false);
+				mergeAllToLeftBtn.setEnabled(false);
+				mergeAllToRightBtn.setEnabled(false);
 				rightEditBtn.setEnabled(false);
 				rightCompleteBtn.setEnabled(true);
 			}
 			else if(t_srcName.equals(NAME_RIGHT_COMPLETE_BTN))
 			{
 				rightEditor.GetTextPad().setEditable(false);
+				if(!leftCompleteBtn.isEnabled())
+					compareBtn.setEnabled(true);
 				rightEditBtn.setEnabled(true);
 				rightCompleteBtn.setEnabled(false);
 			}
