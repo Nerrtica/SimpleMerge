@@ -31,6 +31,20 @@ public class ClsView
 	//////////////////////////////////////////////////////////////////
 	//CONSTANTS
 	//////////////////////
+	//BUTTON NAME
+	public final String		NAME_LEFT_SAVE_BTN 		= "LeftSaveButton";
+	public final String		NAME_LEFT_LOAD_BTN 		= "LeftLoadButton";
+	public final String		NAME_LEFT_EDIT_BTN 		= "LeftEditButton";
+	public final String		NAME_RIGHT_SAVE_BTN 	= "RightSaveButton";
+	public final String		NAME_RIGHT_LOAD_BTN	 	= "RightLoadButton";
+	public final String		NAME_RIGHT_EDIT_BTN 	= "RightEditButton";
+	public final String		NAME_UNDO_BTN 			= "UndoButton";
+	public final String		NAME_REDO_BTN 			= "RedoButton";
+	public final String		NAME_COMPARE_BTN 		= "CompareButton";
+	public final String		NAME_TO_LEFT_BTN 		= "MergeToLeftButton";
+	public final String		NAME_TO_RIGHT_BTN 		= "MergeToRightButton";
+	public final String		NAME_ALL_TO_LEFT_BTN 	= "MergeAllToLeftButton";
+	public final String		NAME_ALL_TO_RIGHT_BTN 	= "MergeAllToRightButton";
 	//FORM
 	public final int		DEFAULT_WINDOW_X 		= 100;								//Window default x position
 	public final int		DEFAULT_WINDOW_Y 		= 100;								//Window default y position
@@ -114,14 +128,14 @@ public class ClsView
 	private int 	internalHeight;		//real form's clipping area height
 	
 	
-	private ButtonListener bListener;
+	private ButtonListener btnListener;
 	
 	private ClsController refController;
 
 	//Constructor
-	public ClsView(ClsController i_ctrl)
+	public ClsView(ClsController i_controller)
 	{
-		refController = i_ctrl;
+		refController = i_controller;
 		InitView();
 	}
 	
@@ -171,7 +185,7 @@ public class ClsView
 	private void Init_Form()
 	{
 		
-		bListener = new ButtonListener();
+		btnListener = new ButtonListener();
 		
 		//Create main window
 		viewForm = new JFrame(WINDOW_CAPTION);
@@ -273,6 +287,22 @@ public class ClsView
 		mergeAllToLeftBtn.setToolTipText(TOOLTIP_ALL_TO_LEFT_BTN);
 		mergeAllToRightBtn.setToolTipText(TOOLTIP_ALL_TO_RIGHT_BTN);
 		
+		undoBtn.setName(NAME_UNDO_BTN);
+		redoBtn.setName(NAME_REDO_BTN);
+		compareBtn.setName(NAME_COMPARE_BTN);
+		mergeToLeftBtn.setName(NAME_TO_LEFT_BTN);
+		mergeToRightBtn.setName(NAME_TO_RIGHT_BTN);
+		mergeAllToLeftBtn.setName(NAME_ALL_TO_LEFT_BTN);
+		mergeAllToRightBtn.setName(NAME_ALL_TO_RIGHT_BTN);
+		
+		undoBtn.addActionListener(btnListener);
+		redoBtn.addActionListener(btnListener);
+		compareBtn.addActionListener(btnListener);
+		mergeToLeftBtn.addActionListener(btnListener);
+		mergeToRightBtn.addActionListener(btnListener);
+		mergeAllToLeftBtn.addActionListener(btnListener);
+		mergeAllToRightBtn.addActionListener(btnListener);
+		
 		topPanel.add(undoBtn);
 		topPanel.add(redoBtn);
 		topPanel.add(compareBtn);
@@ -280,69 +310,6 @@ public class ClsView
 		topPanel.add(mergeToRightBtn);
 		topPanel.add(mergeAllToLeftBtn);
 		topPanel.add(mergeAllToRightBtn);
-		
-		//Create undo button listenser
-		undoBtn.addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent e)
-			{
-				JOptionPane.showMessageDialog(undoBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-			}
-		});
-
-		//Create redo button listenser
-		redoBtn.addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent e)
-			{
-				JOptionPane.showMessageDialog(redoBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-			}
-		});
-
-		//Create merge to left button listenser
-		mergeToLeftBtn.addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent e)
-			{
-				JOptionPane.showMessageDialog(mergeToLeftBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-			}
-		});
-
-		//Create merge to right button listenser
-		mergeToRightBtn.addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent e)
-			{
-				JOptionPane.showMessageDialog(mergeToRightBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-			}
-		});
-		
-		//Create merge all to left button listenser
-		mergeAllToLeftBtn.addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent e)
-			{
-				JOptionPane.showMessageDialog(mergeAllToLeftBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-			}
-		});
-
-		//Create merge all to right button listenser
-		mergeAllToRightBtn.addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent e)
-			{
-				JOptionPane.showMessageDialog(mergeAllToRightBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-			}
-		});
-
-		//Create compare button listenser
-		compareBtn.addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent e)
-			{
-				JOptionPane.showMessageDialog(compareBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-			}
-		});
 		
 	}
 	
@@ -423,48 +390,15 @@ public class ClsView
 		leftSaveBtn.setToolTipText(TOOLTIP_SAVE_BTN);
 		leftLoadBtn.setToolTipText(TOOLTIP_LOAD_BTN);
 		leftEditBtn.setToolTipText(TOOLTIP_EDIT_BTN);
+		leftSaveBtn.setName(NAME_LEFT_SAVE_BTN);
+		leftLoadBtn.setName(NAME_LEFT_LOAD_BTN);
+		leftEditBtn.setName(NAME_LEFT_EDIT_BTN);
+		leftSaveBtn.addActionListener(btnListener);
+		leftLoadBtn.addActionListener(btnListener);
+		leftEditBtn.addActionListener(btnListener);
 		left_TopPanel.add(leftSaveBtn);
 		left_TopPanel.add(leftLoadBtn);
 		left_TopPanel.add(leftEditBtn);
-		
-		leftSaveBtn.setName("LeftSaveButton");
-		leftSaveBtn.addActionListener(bListener);
-		
-		//Create left save button listenser
-		leftSaveBtn.addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent e)
-			{
-				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
-				{
-					JOptionPane.showMessageDialog(leftSaveBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		
-		//Create left load button listenser
-		leftLoadBtn.addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent e)
-			{
-				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
-				{
-					//JOptionPane.showMessageDialog(leftLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-					leftEditor.GetTextPad().setEditable(false);
-					leftEditBtn.setEnabled(true);
-				}
-			}
-		});
-		
-		//Create left edit button listenser
-		leftEditBtn.addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent e)
-			{
-				leftEditor.GetTextPad().setEditable(true);
-				leftEditBtn.setEnabled(false);
-			}
-		});
 		
 		//Create editor of left side
 		leftEditor = new JScrollTextArea();
@@ -514,45 +448,15 @@ public class ClsView
 		rightSaveBtn.setToolTipText(TOOLTIP_SAVE_BTN);
 		rightLoadBtn.setToolTipText(TOOLTIP_LOAD_BTN);
 		rightEditBtn.setToolTipText(TOOLTIP_EDIT_BTN);
+		rightSaveBtn.setName(NAME_RIGHT_SAVE_BTN);
+		rightLoadBtn.setName(NAME_RIGHT_LOAD_BTN);
+		rightEditBtn.setName(NAME_RIGHT_EDIT_BTN);
+		rightSaveBtn.addActionListener(btnListener);
+		rightLoadBtn.addActionListener(btnListener);
+		rightEditBtn.addActionListener(btnListener);
 		right_TopPanel.add(rightSaveBtn);
 		right_TopPanel.add(rightLoadBtn);
 		right_TopPanel.add(rightEditBtn);
-		
-		//Create right save button listenser
-		rightSaveBtn.addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent e)
-			{
-				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
-				{
-					JOptionPane.showMessageDialog(rightSaveBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		
-		//Create right load button listenser
-		rightLoadBtn.addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent e)
-			{
-				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
-				{
-					//JOptionPane.showMessageDialog(rightLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-					rightEditor.GetTextPad().setEditable(false);
-					rightEditBtn.setEnabled(true);
-				}
-			}
-		});
-		
-		//Create right edit button listenser
-		rightEditBtn.addMouseListener(new MouseAdapter()
-		{
-			public void mouseClicked(MouseEvent e)
-			{
-				rightEditor.GetTextPad().setEditable(true);
-				rightEditBtn.setEnabled(false);
-			}
-		});
 		
 		//Create editor of left side
 		rightEditor = new JScrollTextArea();
@@ -599,17 +503,83 @@ public class ClsView
 		rightQuickView.repaint();
 		
 	}
-
 	
 	private class ButtonListener implements ActionListener
 	{
 		
 		public void actionPerformed(ActionEvent e)
 		{
-			
-			if(((JButton)e.getSource()).getName().equals("LeftSaveButton"))
+			String t_srcName = ((JButton)e.getSource()).getName();
+
+			if(t_srcName.equals(NAME_UNDO_BTN))
 			{
-				System.out.println("??");
+				System.out.println(NAME_UNDO_BTN);
+			}
+			else if(t_srcName.equals(NAME_REDO_BTN))
+			{
+				System.out.println(NAME_REDO_BTN);
+			}
+			else if(t_srcName.equals(NAME_COMPARE_BTN))
+			{
+				System.out.println(NAME_COMPARE_BTN);
+			}
+			else if(t_srcName.equals(NAME_TO_LEFT_BTN))
+			{
+				System.out.println(NAME_TO_LEFT_BTN);
+			}
+			else if(t_srcName.equals(NAME_TO_RIGHT_BTN))
+			{
+				System.out.println(NAME_TO_RIGHT_BTN);
+			}
+			else if(t_srcName.equals(NAME_ALL_TO_LEFT_BTN))
+			{
+				System.out.println(NAME_ALL_TO_LEFT_BTN);
+			}
+			else if(t_srcName.equals(NAME_ALL_TO_RIGHT_BTN))
+			{
+				System.out.println(NAME_ALL_TO_RIGHT_BTN);
+			}
+			else if(t_srcName.equals(NAME_LEFT_SAVE_BTN))
+			{
+				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
+				{
+					JOptionPane.showMessageDialog(leftSaveBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			else if(t_srcName.equals(NAME_LEFT_LOAD_BTN))
+			{
+				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
+				{
+					//JOptionPane.showMessageDialog(leftLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					leftEditor.GetTextPad().setEditable(false);
+					leftEditBtn.setEnabled(true);
+				}
+			}
+			else if(t_srcName.equals(NAME_LEFT_EDIT_BTN))
+			{
+				leftEditor.GetTextPad().setEditable(true);
+				leftEditBtn.setEnabled(false);
+			}
+			else if(t_srcName.equals(NAME_RIGHT_SAVE_BTN))
+			{
+				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
+				{
+					JOptionPane.showMessageDialog(rightSaveBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				}
+			}
+			else if(t_srcName.equals(NAME_RIGHT_LOAD_BTN))
+			{
+				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
+				{
+					//JOptionPane.showMessageDialog(rightLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					rightEditor.GetTextPad().setEditable(false);
+					rightEditBtn.setEnabled(true);
+				}
+			}
+			else if(t_srcName.equals(NAME_RIGHT_EDIT_BTN))
+			{
+				rightEditor.GetTextPad().setEditable(true);
+				rightEditBtn.setEnabled(false);
 			}
 			
 		}
