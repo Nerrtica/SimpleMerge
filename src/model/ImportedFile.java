@@ -3,38 +3,146 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 public class ImportedFile {
-    private List<String> text = new ArrayList<String>();
+    private ArrayList<String> text = new ArrayList<String>();
     private String fileRoute;
 
     public ImportedFile (String fileRoute){
     	this.fileRoute = fileRoute;	//fileRoute 저장
+    	String checkCode = null;
     
-    	try{
-    		BufferedReader br = new BufferedReader(new FileReader(fileRoute));	// 파일 reader	
-    		
-	    	String line;	//파일에서 불러온 문자열을 임시로 저장할 String
-	    	
-	    	while(true){
-	    		line = br.readLine();
-	    		if(line == null)	//더 이상 불러올 문자열 없으면 break;
-	    			break;
-	    		text.add(line);	//text 리스트에 문자열 추가
-	    	}
-	    	
-	    	br.close();
-    	}
-    	catch(FileNotFoundException e){
-    		System.out.println("파일을 찾을 수 없습니다..");
-    	}
-    	catch(IOException e){
-    		System.out.println("입출력 오류가 발생하였습니다.");
-    	}
+    	try{	
+			FileInputStream check = new FileInputStream(fileRoute);
+			
+			byte[] BOM = new byte[4];
+			check.read(BOM, 0, 4);
+			         
+			// 파일 인코딩 확인하기
+			if( (BOM[0] & 0xFF) == 0xEF && (BOM[1] & 0xFF) == 0xBB && (BOM[2] & 0xFF) == 0xBF ){
+				checkCode = "UTF-8";
+			    System.out.println("UTF-8");
+			}
+			else if( (BOM[0] & 0xFF) == 0xFE && (BOM[1] & 0xFF) == 0xFF ){
+				checkCode = "UTF-16BE";
+			    System.out.println("UTF-16BE");
+			}
+			else if( (BOM[0] & 0xFF) == 0xFF && (BOM[1] & 0xFF) == 0xFE ){
+				checkCode = "UTF-16LE";
+			    System.out.println("UTF-16LE");
+			}
+			else if( (BOM[0] & 0xFF) == 0x00 && (BOM[1] & 0xFF) == 0x00 && (BOM[0] & 0xFF) == 0xFE && (BOM[1] & 0xFF) == 0xFF ){
+				checkCode = "UTF-32BE";
+			    System.out.println("UTF-32BE");
+			}
+			else if( (BOM[0] & 0xFF) == 0xFF && (BOM[1] & 0xFF) == 0xFE && (BOM[0] & 0xFF) == 0x00 && (BOM[1] & 0xFF) == 0x00 ){
+				checkCode = "UTF-32LE";
+			    System.out.println("UTF-32LE");
+			}
+			else{
+				checkCode = "EUC-KR";
+			    System.out.println("EUC-KR");   
+			}
+			
+			
+		}
+		catch(FileNotFoundException e){
+			e.printStackTrace();
+		}
+		catch(UnsupportedEncodingException e){
+			e.printStackTrace();
+		} 
+		catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			// BufferedReader br = new BufferedReader(new
+			// FileReader(fileRoute)); // 파일 reader
+			if (checkCode == "UTF-8") {
+				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "UTF-8"));
+				String line;
+				while (true) {
+					line = br.readLine();
+					if (line == null) // 더 이상 불러올 문자열 없으면 break;
+						break;
+					text.add(line); // text 리스트에 문자열 추가
+				}
+
+				br.close();
+			} else if (checkCode == "UTF-16BE") {
+				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "UTF-16BE"));
+				String line;
+				while (true) {
+					line = br.readLine();
+					if (line == null) // 더 이상 불러올 문자열 없으면 break;
+						break;
+					text.add(line); // text 리스트에 문자열 추가
+				}
+
+				br.close();
+			} else if (checkCode == "UTF-16LE") {
+				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "UTF-16LE"));
+				String line;
+				while (true) {
+					line = br.readLine();
+					if (line == null) // 더 이상 불러올 문자열 없으면 break;
+						break;
+					text.add(line); // text 리스트에 문자열 추가
+				}
+
+				br.close();
+			} else if (checkCode == "UTF-32BE") {
+				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "UTF-32BE"));
+				String line;
+				while (true) {
+					line = br.readLine();
+					if (line == null) // 더 이상 불러올 문자열 없으면 break;
+						break;
+					text.add(line); // text 리스트에 문자열 추가
+				}
+
+				br.close();
+			} else if (checkCode == "UTF-32LE") {
+				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "UTF-32LE"));
+				String line;
+				while (true) {
+					line = br.readLine();
+					if (line == null) // 더 이상 불러올 문자열 없으면 break;
+						break;
+					text.add(line); // text 리스트에 문자열 추가
+				}
+
+				br.close();
+			} else if (checkCode == "EUC-KR") {
+				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "EUC-KR"));
+				String line;
+				while (true) {
+					line = br.readLine();
+					if (line == null) // 더 이상 불러올 문자열 없으면 break;
+						break;
+					text.add(line); // text 리스트에 문자열 추가
+				}
+
+				br.close();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		for (int i = 0; i < text.size(); i++) {
+			System.out.println(text.get(i));
+		}
 
     }
     public void convert(String document, ArrayList<Boolean> bool){
@@ -126,7 +234,7 @@ public class ImportedFile {
 		}
     }
 
-    public List<String> getText () {
+    public ArrayList<String> getText () {
         return text;
     }
 

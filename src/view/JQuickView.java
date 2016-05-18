@@ -1,3 +1,11 @@
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//Project name      : Simple Merge - SE Term Project 11 team
+//File name         : JQuickView.java
+//Developer         : Do-Gun Park
+//School            : Chung-Ang Univ.
+//Student num       : 20123272
+//Developing period : 2016.05.05 ~ 2016.05.18
+
 package view;
 
 import java.awt.Color;
@@ -10,9 +18,9 @@ public class JQuickView extends JComponent
 
 	public final int DEFAULT_MARGIN = 10;
 	
-	public final Color DEFAULT_MARK_COLOR = Color.YELLOW;
+	public final Color DEFAULT_MARK_COLOR = new Color(255, 100, 100);
 	public final Color DEFAULT_BORDER_COLOR = Color.BLACK;
-	public final Color DEFAULT_RECT_COLOR = new Color(0, 0, 255, 100);
+	public final Color DEFAULT_RECT_COLOR = new Color(0, 0, 255, 50);
 	
 	private JScrollTextArea linkedTextArea;
 	
@@ -75,7 +83,7 @@ public class JQuickView extends JComponent
 			for(i = 0; i < len; i++)
 			{
 				if(linkedTextArea.GetTextPad().GetMarkList().get(i) == true)
-					g.drawRect(internalMargin, internalMargin + i * lineUnit, width, lineUnit);
+					g.fillRect(internalMargin, internalMargin + i * lineUnit, width, lineUnit);
 			}
 			
 		}
