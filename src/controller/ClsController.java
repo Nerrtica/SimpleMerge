@@ -6,7 +6,7 @@ import java.awt.EventQueue;
 public class ClsController {
 
 
-    public void ClsController()
+    public ClsController()
     {
         EventQueue.invokeLater(new Runnable()
         {
