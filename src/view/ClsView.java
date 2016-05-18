@@ -35,13 +35,20 @@ public class ClsView
 	public final int		DEFAULT_WINDOW_Y = 100;									//Window default y position
 	public final int 		DEFAULT_WINDOW_WIDTH = 1000;							//Window default width size
 	public final int 		DEFAULT_WINDOW_HEIGHT = 700;							//Window default height size
+	public final int		DEFAULT_WEST_WIDTH = 100;								//Window default west bounds width size
 	public final String 	WINDOW_CAPTION = "Simple_Merge_TEAM_11";				//Window caption name
 	//SPLITPANE
 	public final int 		DIVIDER_THICKNESS = 3;									//size of seperating bar in splitpane
 	//IMAGE PATH
-	public final String 	SAVE_BTN_IMG_ADDRESS = "Images/Save01.png";				//path of save button image
-	public final String 	LOAD_BTN_IMG_ADDRESS = "Images/Load01.png";				//path of load button image
-	public final String		TO_LEFT_BTN_IMG_ADDRESS = "Images/ToLeft01.png";		//path of to left button image
+	public final String 	SAVE_BTN_IMG_PATH = "Images/Save01.png";				//path of save button image
+	public final String 	LOAD_BTN_IMG_PATH = "Images/Open01.png";				//path of load button image
+	public final String		TO_LEFT_BTN_IMG_PATH = "Images/ToLeft01.png";			//path of to left button image
+	public final String		TO_RIGHT_BTN_IMG_PATH = "Images/ToRight01.png";			//path of to right button image
+	public final String		TO_ALL_LEFT_BTN_IMG_PATH = "Images/AllToLeft01.png";	//path of all to left button image
+	public final String		TO_ALL_RIGHT_BTN_IMG_PATH = "Images/AllToRight01.png";	//path of all to right button image	
+	public final String		COMPARE_BTN_IMG_PATH = "Images/Compare01.png";			//path of compare button image
+	public final String		UNDO_BTN_IMG_PATH = "Images/Undo01.png";				//path of undo button image
+	public final String		REDO_BTN_IMG_PATH = "Images/Redo01.png";				//path of redo button image
 	//EDITOR
 	public final String		DEFAULT_FONT_PATH = "Fonts/D2Coding.ttc";				//path of editor font
 	public final float		DEFAULT_FONT_SIZE = 12.0f;								//size of editor font
@@ -61,10 +68,12 @@ public class ClsView
 	private JPanel 			topPanel;
 	private JButton 		undoBtn, redoBtn;
 	private JButton			mergeToLeftBtn, mergeToRightBtn;
+	private JButton			mergeAllToLeftBtn, mergeAllToRightBtn;
 	private JButton			compareBtn;
 	//form - west
 	private JPanel			leftSearchPanel;
-	private JQuickView		quickView;
+	private JQuickView		leftQuickView;
+	private JQuickView		rightQuickView;
 	//form - center
 	private JSplitPane 		seperator;
 	//center - left side
@@ -159,7 +168,7 @@ public class ClsView
 	private void Init_Variables()
 	{
 		
-		spRatio = 0.47f;
+		spRatio = 0.5f;
 		
 	}
 	
@@ -201,6 +210,8 @@ public class ClsView
 		//Reset Internal form size
 		ResetInternalFormSize();
 		
+		spRatio = (float)((internalWidth - DEFAULT_WEST_WIDTH) / 2) / (internalWidth - DEFAULT_WEST_WIDTH);
+		
 	}
 	
 	//Initialize dialogbox font
@@ -231,9 +242,37 @@ public class ClsView
 		topPanel.setLayout(new FlowLayout());
 		viewForm.getContentPane().add(topPanel, BorderLayout.NORTH);
 		
-		//Create undo button
-		undoBtn = new JButton("UNDO");
+		//Create button and get button images
+		try
+		{
+			undoBtn = new JButton(new ImageIcon(ImageIO.read(new File(UNDO_BTN_IMG_PATH))));
+			redoBtn = new JButton(new ImageIcon(ImageIO.read(new File(REDO_BTN_IMG_PATH))));
+			mergeToLeftBtn = new JButton(new ImageIcon(ImageIO.read(new File(TO_LEFT_BTN_IMG_PATH))));
+			mergeToRightBtn = new JButton(new ImageIcon(ImageIO.read(new File(TO_RIGHT_BTN_IMG_PATH))));
+			mergeAllToLeftBtn = new JButton(new ImageIcon(ImageIO.read(new File(TO_ALL_LEFT_BTN_IMG_PATH))));
+			mergeAllToRightBtn = new JButton(new ImageIcon(ImageIO.read(new File(TO_ALL_RIGHT_BTN_IMG_PATH))));
+			compareBtn = new JButton(new ImageIcon(ImageIO.read(new File(COMPARE_BTN_IMG_PATH))));
+		}
+		catch(IOException ex)
+		{
+			System.out.println("ERROR : IOException : ClsView : Init_TopBounds");
+		}
+		
+		undoBtn.setMargin(new Insets(0, 0, 0, 0));
+		redoBtn.setMargin(new Insets(0, 0, 0, 0));
+		compareBtn.setMargin(new Insets(0, 0, 0, 0));
+		mergeToLeftBtn.setMargin(new Insets(0, 0, 0, 0));
+		mergeToRightBtn.setMargin(new Insets(0, 0, 0, 0));
+		mergeAllToLeftBtn.setMargin(new Insets(0, 0, 0, 0));
+		mergeAllToRightBtn.setMargin(new Insets(0, 0, 0, 0));
+		
 		topPanel.add(undoBtn);
+		topPanel.add(redoBtn);
+		topPanel.add(compareBtn);
+		topPanel.add(mergeToLeftBtn);
+		topPanel.add(mergeToRightBtn);
+		topPanel.add(mergeAllToLeftBtn);
+		topPanel.add(mergeAllToRightBtn);
 		
 		//Create undo button listenser
 		undoBtn.addMouseListener(new MouseAdapter()
@@ -243,11 +282,7 @@ public class ClsView
 				JOptionPane.showMessageDialog(undoBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 			}
 		});
-		
-		//Create redo button
-		redoBtn = new JButton("REDO");
-		topPanel.add(redoBtn);
-		
+
 		//Create redo button listenser
 		redoBtn.addMouseListener(new MouseAdapter()
 		{
@@ -256,12 +291,8 @@ public class ClsView
 				JOptionPane.showMessageDialog(redoBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 			}
 		});
-		
-		//Create merge to left button
-		mergeToLeftBtn = new JButton("<<");
-		topPanel.add(mergeToLeftBtn);
-		
-		//Create redo button listenser
+
+		//Create merge to left button listenser
 		mergeToLeftBtn.addMouseListener(new MouseAdapter()
 		{
 			public void mouseClicked(MouseEvent e)
@@ -269,12 +300,8 @@ public class ClsView
 				JOptionPane.showMessageDialog(mergeToLeftBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 			}
 		});
-		
-		//Create merge to right button
-		mergeToRightBtn = new JButton(">>");
-		topPanel.add(mergeToRightBtn);
-		
-		//Create redo button listenser
+
+		//Create merge to right button listenser
 		mergeToRightBtn.addMouseListener(new MouseAdapter()
 		{
 			public void mouseClicked(MouseEvent e)
@@ -282,12 +309,26 @@ public class ClsView
 				JOptionPane.showMessageDialog(mergeToRightBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 			}
 		});
-				
-		//Create compare button
-		compareBtn = new JButton("COMP");
-		topPanel.add(compareBtn);
 		
-		//Create redo button listenser
+		//Create merge all to left button listenser
+		mergeAllToLeftBtn.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				JOptionPane.showMessageDialog(mergeAllToLeftBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+			}
+		});
+
+		//Create merge all to right button listenser
+		mergeAllToRightBtn.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				JOptionPane.showMessageDialog(mergeAllToRightBtn, "DO NOT PRESS.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+			}
+		});
+
+		//Create compare button listenser
 		compareBtn.addMouseListener(new MouseAdapter()
 		{
 			public void mouseClicked(MouseEvent e)
@@ -303,12 +344,15 @@ public class ClsView
 	{
 		
 		leftSearchPanel = new JPanel();
-		leftSearchPanel.setLayout(new BorderLayout());
-		leftSearchPanel.setPreferredSize(new Dimension(50, internalHeight));
+		leftSearchPanel.setLayout(new GridLayout(1, 2));
+		leftSearchPanel.setPreferredSize(new Dimension(100, internalHeight));
 		viewForm.getContentPane().add(leftSearchPanel, BorderLayout.WEST);
 		
-		quickView = new JQuickView(leftEditor);
-		leftSearchPanel.add(quickView, BorderLayout.CENTER);
+		leftQuickView = new JQuickView(leftEditor);
+		leftSearchPanel.add(leftQuickView);
+		
+		rightQuickView = new JQuickView(rightEditor);
+		leftSearchPanel.add(rightQuickView);
 		
 	}
 	
@@ -319,7 +363,7 @@ public class ClsView
 		//Create splitpane
 		seperator = new JSplitPane();
 		seperator.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
-		seperator.setDividerLocation((int)(internalWidth * spRatio));
+		seperator.setDividerLocation((int)((internalWidth - DEFAULT_WEST_WIDTH) * spRatio));
 		seperator.setDividerSize(DIVIDER_THICKNESS);
 		viewForm.getContentPane().add(seperator, BorderLayout.CENTER);
 		
@@ -360,8 +404,8 @@ public class ClsView
 		//Create save and load buttons of left side
 		try
 		{
-			leftSaveBtn = new JButton(new ImageIcon(ImageIO.read(new File(SAVE_BTN_IMG_ADDRESS))));
-			leftLoadBtn = new JButton(new ImageIcon(ImageIO.read(new File(LOAD_BTN_IMG_ADDRESS))));
+			leftSaveBtn = new JButton(new ImageIcon(ImageIO.read(new File(SAVE_BTN_IMG_PATH))));
+			leftLoadBtn = new JButton(new ImageIcon(ImageIO.read(new File(LOAD_BTN_IMG_PATH))));
 		}catch(IOException ex){}
 		leftSaveBtn.setMargin(new Insets(0, 0, 0, 0));
 		leftLoadBtn.setMargin(new Insets(0, 0, 0, 0));
@@ -406,7 +450,8 @@ public class ClsView
 			public void adjustmentValueChanged(AdjustmentEvent e)
 			{
 				leftEditor.SyncVertScrollVal(rightEditor);
-				quickView.repaint();
+				leftQuickView.repaint();
+				rightQuickView.repaint();
 			}
 		});
 		
@@ -429,8 +474,8 @@ public class ClsView
 		//Create save and load buttons of right side
 		try
 		{
-			rightSaveBtn = new JButton(new ImageIcon(ImageIO.read(new File(SAVE_BTN_IMG_ADDRESS))));
-			rightLoadBtn = new JButton(new ImageIcon(ImageIO.read(new File(LOAD_BTN_IMG_ADDRESS))));
+			rightSaveBtn = new JButton(new ImageIcon(ImageIO.read(new File(SAVE_BTN_IMG_PATH))));
+			rightLoadBtn = new JButton(new ImageIcon(ImageIO.read(new File(LOAD_BTN_IMG_PATH))));
 		}catch(IOException ex){}
 		rightSaveBtn.setMargin(new Insets(0, 0, 0, 0));
 		rightLoadBtn.setMargin(new Insets(0, 0, 0, 0));
@@ -475,7 +520,8 @@ public class ClsView
 			public void adjustmentValueChanged(AdjustmentEvent e)
 			{
 				rightEditor.SyncVertScrollVal(leftEditor);
-				quickView.repaint();
+				leftQuickView.repaint();
+				rightQuickView.repaint();
 			}
 		});
 		
@@ -500,9 +546,10 @@ public class ClsView
 		ResetInternalFormSize();
 		
 		//Maintain divider's location ratio
-		seperator.setDividerLocation((int)(internalWidth * spRatio));
+		seperator.setDividerLocation((int)((internalWidth - DEFAULT_WEST_WIDTH) * spRatio));
 
-		quickView.repaint();
+		leftQuickView.repaint();
+		rightQuickView.repaint();
 		
 	}
 
