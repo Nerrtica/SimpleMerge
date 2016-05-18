@@ -449,6 +449,7 @@ public class ClsView
 			{
 				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
+					imf1.save();
 					JOptionPane.showMessageDialog(leftSaveBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -462,7 +463,8 @@ public class ClsView
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
 					//JOptionPane.showMessageDialog(leftLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-					imf1 = new ImportedFile(fileDialogBox.getSelectedFile().toString());
+					imf1 = new ImportedFile();
+					imf1.load(fileDialogBox.getSelectedFile().toString());
 					leftEditor.GetTextPad().SetText(imf1.getText());
 					leftEditor.GetTextPad().setEditable(false);
 					leftEditBtn.setEnabled(true);
@@ -552,7 +554,8 @@ public class ClsView
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
 					//JOptionPane.showMessageDialog(rightLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-					imf2 = new ImportedFile(fileDialogBox.getSelectedFile().toString());
+					imf2 = new ImportedFile();
+					imf2.load(fileDialogBox.getSelectedFile().toString());
 					rightEditor.GetTextPad().SetText(imf2.getText());
 					rightEditor.GetTextPad().setEditable(false);
 					rightEditBtn.setEnabled(true);

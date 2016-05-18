@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.lang.Boolean;
 
 public class MainClass {
-    public static void main (String args[]) {
+    public static void main (String args[]) {/*
         ImportedFile file1 = new ImportedFile("TempFile/factorial.c");
         ImportedFile file2 = new ImportedFile("TempFile/factorial_2.c");
 
@@ -22,6 +22,6 @@ public class MainClass {
 
         for (int i = 0; i < file1.getText().size(); i++) {
             System.out.println(file1.getText().get(i));
-        }
+        }*/
     }
 }

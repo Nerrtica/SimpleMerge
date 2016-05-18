@@ -14,8 +14,12 @@ import java.io.InputStreamReader;
 public class ImportedFile {
     private ArrayList<String> text = new ArrayList<String>();
     private String fileRoute;
+    
+    public ImportedFile (){
+    	
+    }
 
-    public ImportedFile (String fileRoute){
+    public void load (String fileRoute){
     	this.fileRoute = fileRoute;	//fileRoute 저장
     	String checkCode = null;
     
