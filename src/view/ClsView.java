@@ -111,8 +111,6 @@ public class ClsView
 	//clipping area size
 	private int 	internalWidth;		//real form's clipping area width
 	private int 	internalHeight;		//real form's clipping area height
-	
-	private ImportedFile imf1, imf2;
 
 	//Constructor
 	public ClsView()
@@ -440,8 +438,6 @@ public class ClsView
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
 					//JOptionPane.showMessageDialog(leftLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-					imf1 = new ImportedFile(fileDialogBox.getSelectedFile().toString());
-					leftEditor.GetTextPad().SetText(imf1.getText());
 					leftEditor.GetTextPad().setEditable(false);
 					leftEditBtn.setEnabled(true);
 				}
@@ -530,8 +526,6 @@ public class ClsView
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
 					//JOptionPane.showMessageDialog(rightLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-					imf2 = new ImportedFile(fileDialogBox.getSelectedFile().toString());
-					rightEditor.GetTextPad().SetText(imf2.getText());
 					rightEditor.GetTextPad().setEditable(false);
 					rightEditBtn.setEnabled(true);
 				}
