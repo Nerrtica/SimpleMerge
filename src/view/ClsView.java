@@ -37,6 +37,7 @@ public class ClsView
 	public final int 		DEFAULT_WINDOW_HEIGHT = 700;							//Window default height size
 	public final int		DEFAULT_WEST_WIDTH = 100;								//Window default west bounds width size
 	public final String 	WINDOW_CAPTION = "Simple_Merge_TEAM_11";				//Window caption name
+	public final Color		COMPONENT_BG_COLOR = Color.WHITE;						//Component's background color
 	//SPLITPANE
 	public final int 		DIVIDER_THICKNESS = 3;									//size of seperating bar in splitpane
 	//IMAGE PATH
@@ -49,6 +50,18 @@ public class ClsView
 	public final String		COMPARE_BTN_IMG_PATH = "Images/Compare01.png";			//path of compare button image
 	public final String		UNDO_BTN_IMG_PATH = "Images/Undo01.png";				//path of undo button image
 	public final String		REDO_BTN_IMG_PATH = "Images/Redo01.png";				//path of redo button image
+	public final String		EDIT_BTN_IMG_PATH = "Images/Edit01.png";				//path of edit button image
+	//TOOLTIP TEXT
+	public final String		TOOLTIP_UNDO_BTN = "Undo";
+	public final String		TOOLTIP_REDO_BTN = "Redo";
+	public final String		TOOLTIP_COMPARE_BTN = "Compare";
+	public final String		TOOLTIP_TO_LEFT_BTN = "Merge to Left";
+	public final String		TOOLTIP_TO_RIGHT_BTN = "Merge to Right";
+	public final String		TOOLTIP_ALL_TO_LEFT_BTN = "Merge all to Left";
+	public final String		TOOLTIP_ALL_TO_RIGHT_BTN = "Merge all to Right";
+	public final String		TOOLTIP_SAVE_BTN = "Save";
+	public final String		TOOLTIP_LOAD_BTN = "Open";
+	public final String		TOOLTIP_EDIT_BTN = "Edit";
 	//EDITOR
 	public final String		DEFAULT_FONT_PATH = "Fonts/D2Coding.ttc";				//path of editor font
 	public final float		DEFAULT_FONT_SIZE = 12.0f;								//size of editor font
@@ -78,11 +91,11 @@ public class ClsView
 	private JSplitPane 		seperator;
 	//center - left side
 	private JPanel 			leftPanel, left_TopPanel;
-	private JButton 		leftSaveBtn, leftLoadBtn;
+	private JButton 		leftSaveBtn, leftLoadBtn, leftEditBtn;
 	private JScrollTextArea	leftEditor;
 	//center - right side
 	private JPanel 			rightPanel, right_TopPanel;
-	private JButton 		rightSaveBtn, rightLoadBtn;
+	private JButton 		rightSaveBtn, rightLoadBtn, rightEditBtn;
 	private JScrollTextArea rightEditor;
 	//dialog box
 	private JFileChooser	fileDialogBox;
@@ -239,7 +252,8 @@ public class ClsView
 		
 		//Create base top panel
 		topPanel = new JPanel();
-		topPanel.setLayout(new FlowLayout());
+		topPanel.setBackground(COMPONENT_BG_COLOR);
+		topPanel.setLayout(new FlowLayout(0));
 		viewForm.getContentPane().add(topPanel, BorderLayout.NORTH);
 		
 		//Create button and get button images
@@ -265,6 +279,14 @@ public class ClsView
 		mergeToRightBtn.setMargin(new Insets(0, 0, 0, 0));
 		mergeAllToLeftBtn.setMargin(new Insets(0, 0, 0, 0));
 		mergeAllToRightBtn.setMargin(new Insets(0, 0, 0, 0));
+		
+		undoBtn.setToolTipText(TOOLTIP_UNDO_BTN);
+		redoBtn.setToolTipText(TOOLTIP_REDO_BTN);
+		compareBtn.setToolTipText(TOOLTIP_COMPARE_BTN);
+		mergeToLeftBtn.setToolTipText(TOOLTIP_TO_LEFT_BTN);
+		mergeToRightBtn.setToolTipText(TOOLTIP_TO_RIGHT_BTN);
+		mergeAllToLeftBtn.setToolTipText(TOOLTIP_ALL_TO_LEFT_BTN);
+		mergeAllToRightBtn.setToolTipText(TOOLTIP_ALL_TO_RIGHT_BTN);
 		
 		topPanel.add(undoBtn);
 		topPanel.add(redoBtn);
@@ -344,6 +366,7 @@ public class ClsView
 	{
 		
 		leftSearchPanel = new JPanel();
+		leftSearchPanel.setBackground(COMPONENT_BG_COLOR);
 		leftSearchPanel.setLayout(new GridLayout(1, 2));
 		leftSearchPanel.setPreferredSize(new Dimension(100, internalHeight));
 		viewForm.getContentPane().add(leftSearchPanel, BorderLayout.WEST);
@@ -398,7 +421,8 @@ public class ClsView
 		
 		//Create top panel in left side
 		left_TopPanel = new JPanel();
-		left_TopPanel.setLayout(new FlowLayout());
+		left_TopPanel.setBackground(COMPONENT_BG_COLOR);
+		left_TopPanel.setLayout(new FlowLayout(0));
 		leftPanel.add(left_TopPanel, BorderLayout.NORTH);
 		
 		//Create save and load buttons of left side
@@ -406,11 +430,17 @@ public class ClsView
 		{
 			leftSaveBtn = new JButton(new ImageIcon(ImageIO.read(new File(SAVE_BTN_IMG_PATH))));
 			leftLoadBtn = new JButton(new ImageIcon(ImageIO.read(new File(LOAD_BTN_IMG_PATH))));
+			leftEditBtn = new JButton(new ImageIcon(ImageIO.read(new File(EDIT_BTN_IMG_PATH))));
 		}catch(IOException ex){}
 		leftSaveBtn.setMargin(new Insets(0, 0, 0, 0));
 		leftLoadBtn.setMargin(new Insets(0, 0, 0, 0));
+		leftEditBtn.setMargin(new Insets(0, 0, 0, 0));
+		leftSaveBtn.setToolTipText(TOOLTIP_SAVE_BTN);
+		leftLoadBtn.setToolTipText(TOOLTIP_LOAD_BTN);
+		leftEditBtn.setToolTipText(TOOLTIP_EDIT_BTN);
 		left_TopPanel.add(leftSaveBtn);
 		left_TopPanel.add(leftLoadBtn);
+		left_TopPanel.add(leftEditBtn);
 		
 		//Create left save button listenser
 		leftSaveBtn.addMouseListener(new MouseAdapter()
@@ -438,10 +468,20 @@ public class ClsView
 			}
 		});
 		
+		//Create left edit button listenser
+		leftEditBtn.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				leftEditor.GetTextPad().setEditable(true);
+			}
+		});
+		
 		//Create editor of left side
 		leftEditor = new JScrollTextArea();
 		leftEditor.GetTextPad().TakeFontFileAndSet(DEFAULT_FONT_PATH);
 		leftEditor.GetTextPad().SetFontSize(DEFAULT_FONT_SIZE);
+		leftEditor.GetTextPad().setEditable(false);
 		leftPanel.add(leftEditor, BorderLayout.CENTER);
 
 		//Create scrollbar listener
@@ -468,7 +508,8 @@ public class ClsView
 		
 		//Create top panel in right side
 		right_TopPanel = new JPanel();
-		right_TopPanel.setLayout(new FlowLayout());
+		right_TopPanel.setBackground(COMPONENT_BG_COLOR);
+		right_TopPanel.setLayout(new FlowLayout(0));
 		rightPanel.add(right_TopPanel, BorderLayout.NORTH);
 		
 		//Create save and load buttons of right side
@@ -476,11 +517,17 @@ public class ClsView
 		{
 			rightSaveBtn = new JButton(new ImageIcon(ImageIO.read(new File(SAVE_BTN_IMG_PATH))));
 			rightLoadBtn = new JButton(new ImageIcon(ImageIO.read(new File(LOAD_BTN_IMG_PATH))));
+			rightEditBtn = new JButton(new ImageIcon(ImageIO.read(new File(EDIT_BTN_IMG_PATH))));
 		}catch(IOException ex){}
 		rightSaveBtn.setMargin(new Insets(0, 0, 0, 0));
 		rightLoadBtn.setMargin(new Insets(0, 0, 0, 0));
+		rightEditBtn.setMargin(new Insets(0, 0, 0, 0));
+		rightSaveBtn.setToolTipText(TOOLTIP_SAVE_BTN);
+		rightLoadBtn.setToolTipText(TOOLTIP_LOAD_BTN);
+		rightEditBtn.setToolTipText(TOOLTIP_EDIT_BTN);
 		right_TopPanel.add(rightSaveBtn);
 		right_TopPanel.add(rightLoadBtn);
+		right_TopPanel.add(rightEditBtn);
 		
 		//Create right save button listenser
 		rightSaveBtn.addMouseListener(new MouseAdapter()
@@ -508,10 +555,20 @@ public class ClsView
 			}
 		});
 		
+		//Create right edit button listenser
+		rightEditBtn.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				rightEditor.GetTextPad().setEditable(true);
+			}
+		});
+		
 		//Create editor of left side
 		rightEditor = new JScrollTextArea();
 		rightEditor.GetTextPad().TakeFontFileAndSet(DEFAULT_FONT_PATH);
 		rightEditor.GetTextPad().SetFontSize(DEFAULT_FONT_SIZE);
+		rightEditor.GetTextPad().setEditable(false);
 		rightPanel.add(rightEditor, BorderLayout.CENTER);
 
 		//Create scrollbar listener
