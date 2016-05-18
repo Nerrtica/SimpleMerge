@@ -114,29 +114,6 @@ public class ClsView
 	
 	private ImportedFile imf1, imf2;
 	
-	//////////////////////////////////////////////////////////////////
-	
-	public static void main(String args[])
-	{
-
-		EventQueue.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				try
-				{
-					ClsView window = new ClsView();
-					window.viewForm.setVisible(true);
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
-	//////////////////////////////////////////////////////////////////
-	
 	//Constructor
 	public ClsView()
 	{
