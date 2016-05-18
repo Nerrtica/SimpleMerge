@@ -14,13 +14,15 @@ public class ClsController {
             {
                 try
                 {
-                    ClsView window = new ClsView();
+                    ClsView window = new ClsView(this);
                 } catch (Exception e)
                 {
                     e.printStackTrace();
                 }
             }
         });
+
+
     }
 
 }
