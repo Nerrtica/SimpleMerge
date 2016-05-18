@@ -111,32 +111,7 @@ public class ClsView
 	//clipping area size
 	private int 	internalWidth;		//real form's clipping area width
 	private int 	internalHeight;		//real form's clipping area height
-	
-	private ImportedFile imf1, imf2;
-	
-	//////////////////////////////////////////////////////////////////
-	
-	public static void main(String args[])
-	{
 
-		EventQueue.invokeLater(new Runnable()
-		{
-			public void run()
-			{
-				try
-				{
-					ClsView window = new ClsView();
-					window.viewForm.setVisible(true);
-				} catch (Exception e)
-				{
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
-	//////////////////////////////////////////////////////////////////
-	
 	//Constructor
 	public ClsView()
 	{
@@ -195,6 +170,7 @@ public class ClsView
 		viewForm.setSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
 		viewForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		viewForm.getContentPane().setLayout(new BorderLayout(0,0));
+		viewForm.setVisible(true);
 		
 		//Create listener when window's size is changed
 		viewForm.addComponentListener(new ComponentAdapter()
@@ -463,9 +439,6 @@ public class ClsView
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
 					//JOptionPane.showMessageDialog(leftLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-					imf1 = new ImportedFile();
-					imf1.load(fileDialogBox.getSelectedFile().toString());
-					leftEditor.GetTextPad().SetText(imf1.getText());
 					leftEditor.GetTextPad().setEditable(false);
 					leftEditBtn.setEnabled(true);
 				}
@@ -554,9 +527,6 @@ public class ClsView
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
 					//JOptionPane.showMessageDialog(rightLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-					imf2 = new ImportedFile();
-					imf2.load(fileDialogBox.getSelectedFile().toString());
-					rightEditor.GetTextPad().SetText(imf2.getText());
 					rightEditor.GetTextPad().setEditable(false);
 					rightEditBtn.setEnabled(true);
 				}
