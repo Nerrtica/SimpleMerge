@@ -588,4 +588,17 @@ public class ClsView
 		
 	}
 
+	
+	private class ButtonListener implements ActionListener
+	{
+		
+		public void actionPerformed(ActionEvent e)
+		{
+			
+			
+			
+		}
+		
+	}
+	
 }
