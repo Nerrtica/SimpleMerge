@@ -543,7 +543,8 @@ public class ClsView
 			{
 				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
-					JOptionPane.showMessageDialog(leftSaveBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					//JOptionPane.showMessageDialog(leftSaveBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					refController.saveAs(fileDialogBox.getSelectedFile().toString(), true);
 				}
 			}
 			else if(t_srcName.equals(NAME_LEFT_LOAD_BTN))
@@ -551,6 +552,7 @@ public class ClsView
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
 					//JOptionPane.showMessageDialog(leftLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					leftEditor.GetTextPad().SetText(refController.load(fileDialogBox.getSelectedFile().toString(), true));
 					leftEditor.GetTextPad().setEditable(false);
 					leftEditBtn.setEnabled(true);
 				}
@@ -564,7 +566,8 @@ public class ClsView
 			{
 				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
-					JOptionPane.showMessageDialog(rightSaveBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					//JOptionPane.showMessageDialog(rightSaveBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					refController.saveAs(fileDialogBox.getSelectedFile().toString(), false);
 				}
 			}
 			else if(t_srcName.equals(NAME_RIGHT_LOAD_BTN))
@@ -572,6 +575,7 @@ public class ClsView
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
 					//JOptionPane.showMessageDialog(rightLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					rightEditor.GetTextPad().SetText(refController.load(fileDialogBox.getSelectedFile().toString(), false));
 					rightEditor.GetTextPad().setEditable(false);
 					rightEditBtn.setEnabled(true);
 				}
