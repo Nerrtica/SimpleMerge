@@ -425,7 +425,6 @@ public class ClsView
 			{
 				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
-					imf1.save();
 					JOptionPane.showMessageDialog(leftSaveBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 				}
 			}
