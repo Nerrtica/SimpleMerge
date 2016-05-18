@@ -113,7 +113,7 @@ public class ClsView
 	private int 	internalHeight;		//real form's clipping area height
 	
 	private ImportedFile imf1, imf2;
-	
+
 	//Constructor
 	public ClsView()
 	{
@@ -172,6 +172,7 @@ public class ClsView
 		viewForm.setSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
 		viewForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		viewForm.getContentPane().setLayout(new BorderLayout(0,0));
+		viewForm.setVisible(true);
 		
 		//Create listener when window's size is changed
 		viewForm.addComponentListener(new ComponentAdapter()
