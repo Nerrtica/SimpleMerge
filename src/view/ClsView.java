@@ -16,6 +16,7 @@ import java.awt.event.*;
 
 import javax.swing.plaf.basic.*;
 
+import controller.ClsController;
 import model.*;
 
 import javax.swing.*;
@@ -111,10 +112,16 @@ public class ClsView
 	//clipping area size
 	private int 	internalWidth;		//real form's clipping area width
 	private int 	internalHeight;		//real form's clipping area height
+	
+	
+	private ButtonListener bListener;
+	
+	private ClsController refController;
 
 	//Constructor
-	public ClsView()
+	public ClsView(ClsController i_ctrl)
 	{
+		refController = i_ctrl;
 		InitView();
 	}
 	
@@ -163,6 +170,8 @@ public class ClsView
 	//Initialize form
 	private void Init_Form()
 	{
+		
+		bListener = new ButtonListener();
 		
 		//Create main window
 		viewForm = new JFrame(WINDOW_CAPTION);
@@ -418,6 +427,9 @@ public class ClsView
 		left_TopPanel.add(leftLoadBtn);
 		left_TopPanel.add(leftEditBtn);
 		
+		leftSaveBtn.setName("LeftSaveButton");
+		leftSaveBtn.addActionListener(bListener);
+		
 		//Create left save button listenser
 		leftSaveBtn.addMouseListener(new MouseAdapter()
 		{
@@ -595,7 +607,10 @@ public class ClsView
 		public void actionPerformed(ActionEvent e)
 		{
 			
-			
+			if(((JButton)e.getSource()).getName().equals("LeftSaveButton"))
+			{
+				System.out.println("??");
+			}
 			
 		}
 		
