@@ -7,20 +7,13 @@ import java.awt.EventQueue;
 import java.util.ArrayList;
 import java.util.List;
 
-<<<<<<< HEAD
-import model.ImportedFile;
 
-public class ClsController {
-	
-    public ClsController()
-=======
 public class ClsController {
     ImportedFile leftFile = new ImportedFile();
     ImportedFile rightFile = new ImportedFile();
     ClsView window;
 
     public ClsController ()
->>>>>>> 5057adb58e84143a9075dc3eaa755474ed061681
     {
         EventQueue.invokeLater(new Runnable()
         {
