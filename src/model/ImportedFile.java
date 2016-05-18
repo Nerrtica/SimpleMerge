@@ -75,8 +75,7 @@ public class ImportedFile {
 		try {
 			// BufferedReader br = new BufferedReader(new
 			// FileReader(fileRoute)); // 파일 reader
-			if (checkCode == "UTF-8") {
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "UTF-8"));
+				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), checkCode));
 				String line;
 				while (true) {
 					line = br.readLine();
@@ -86,62 +85,6 @@ public class ImportedFile {
 				}
 
 				br.close();
-			} else if (checkCode == "UTF-16BE") {
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "UTF-16BE"));
-				String line;
-				while (true) {
-					line = br.readLine();
-					if (line == null) // 더 이상 불러올 문자열 없으면 break;
-						break;
-					text.add(line); // text 리스트에 문자열 추가
-				}
-
-				br.close();
-			} else if (checkCode == "UTF-16LE") {
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "UTF-16LE"));
-				String line;
-				while (true) {
-					line = br.readLine();
-					if (line == null) // 더 이상 불러올 문자열 없으면 break;
-						break;
-					text.add(line); // text 리스트에 문자열 추가
-				}
-
-				br.close();
-			} else if (checkCode == "UTF-32BE") {
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "UTF-32BE"));
-				String line;
-				while (true) {
-					line = br.readLine();
-					if (line == null) // 더 이상 불러올 문자열 없으면 break;
-						break;
-					text.add(line); // text 리스트에 문자열 추가
-				}
-
-				br.close();
-			} else if (checkCode == "UTF-32LE") {
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "UTF-32LE"));
-				String line;
-				while (true) {
-					line = br.readLine();
-					if (line == null) // 더 이상 불러올 문자열 없으면 break;
-						break;
-					text.add(line); // text 리스트에 문자열 추가
-				}
-
-				br.close();
-			} else if (checkCode == "EUC-KR") {
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), "EUC-KR"));
-				String line;
-				while (true) {
-					line = br.readLine();
-					if (line == null) // 더 이상 불러올 문자열 없으면 break;
-						break;
-					text.add(line); // text 리스트에 문자열 추가
-				}
-
-				br.close();
-			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
