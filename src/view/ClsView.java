@@ -33,10 +33,12 @@ public class ClsView
 	//////////////////////
 	//BUTTON NAME
 	public final String		NAME_LEFT_SAVE_BTN 		= "LeftSaveButton";
+	public final String		NAME_LEFT_SAVE_AS_BTN	= "LeftSaveAsButton";
 	public final String		NAME_LEFT_LOAD_BTN 		= "LeftLoadButton";
 	public final String		NAME_LEFT_EDIT_BTN 		= "LeftEditButton";
 	public final String		NAME_LEFT_COMPLETE_BTN	= "LeftCompleteButton";
 	public final String		NAME_RIGHT_SAVE_BTN 	= "RightSaveButton";
+	public final String		NAME_RIGHT_SAVE_AS_BTN	= "RightSaveAsButton";
 	public final String		NAME_RIGHT_LOAD_BTN	 	= "RightLoadButton";
 	public final String		NAME_RIGHT_EDIT_BTN 	= "RightEditButton";
 	public final String		NAME_RIGHT_COMPLETE_BTN	= "RightCompleteButton";
@@ -69,6 +71,7 @@ public class ClsView
 	public final String		REDO_BTN_IMG_PATH 			= "Images/Redo01.png";			//path of redo button image
 	public final String		EDIT_BTN_IMG_PATH 			= "Images/Edit01.png";			//path of edit button image
 	public final String		COMPLETE_BTN_IMG_PATH 		= "Images/Complete01.png";		//path of complete button image
+	public final String		SAVE_AS_BTN_IMG_PATH		= "Images/SaveAs01.png";		//path of save as button image
 	//TOOLTIP TEXT
 	public final String		TOOLTIP_UNDO_BTN 			= "Undo";						//tooltip of undo button
 	public final String		TOOLTIP_REDO_BTN 			= "Redo";						//tooltip of redo button
@@ -81,6 +84,7 @@ public class ClsView
 	public final String		TOOLTIP_LOAD_BTN 			= "Open";						//tooltip of load button
 	public final String		TOOLTIP_EDIT_BTN 			= "Edit";						//tooltip of edit button
 	public final String		TOOLTIP_COMPLETE_BTN		= "Complete Edit";				//tooltip of complete button
+	public final String		TOOLTIP_SAVE_AS_BTN			= "Save As";					//tooltip of save as button
 	//EDITOR
 	public final String		DEFAULT_FONT_PATH = "Fonts/D2Coding.ttc";					//path of editor font
 	public final float		DEFAULT_FONT_SIZE = 12.0f;									//size of editor font
@@ -110,11 +114,11 @@ public class ClsView
 	private JSplitPane 		seperator;
 	//center - left side
 	private JPanel 			leftPanel, left_TopPanel;
-	private JButton 		leftSaveBtn, leftLoadBtn, leftEditBtn, leftCompleteBtn;
+	private JButton 		leftSaveBtn, leftSaveAsBtn, leftLoadBtn, leftEditBtn, leftCompleteBtn;
 	private JScrollTextArea	leftEditor;
 	//center - right side
 	private JPanel 			rightPanel, right_TopPanel;
-	private JButton 		rightSaveBtn, rightLoadBtn, rightEditBtn, rightCompleteBtn;
+	private JButton 		rightSaveBtn, rightSaveAsBtn, rightLoadBtn, rightEditBtn, rightCompleteBtn;
 	private JScrollTextArea rightEditor;
 	//dialog box
 	private JFileChooser	fileDialogBox;
@@ -218,7 +222,7 @@ public class ClsView
 		});
 		
 		//set file dialog box window
-		fileDialogBox = new JFileChooser();
+		fileDialogBox = new JFileChooser(System.getProperty("user.home") + "/Desktop");
 		fileDialogBox.setMultiSelectionEnabled(false);
 		fileDialogBox.setPreferredSize(new Dimension(DEFAULT_DIALOG_WIDTH, DEFAULT_DIALOG_HEIGHT));
 		InitDialogBoxFont(fileDialogBox.getComponents());
@@ -385,27 +389,42 @@ public class ClsView
 		try
 		{
 			leftSaveBtn = new JButton(new ImageIcon(ImageIO.read(new File(SAVE_BTN_IMG_PATH))));
+			leftSaveAsBtn = new JButton(new ImageIcon(ImageIO.read(new File(SAVE_AS_BTN_IMG_PATH))));
 			leftLoadBtn = new JButton(new ImageIcon(ImageIO.read(new File(LOAD_BTN_IMG_PATH))));
 			leftEditBtn = new JButton(new ImageIcon(ImageIO.read(new File(EDIT_BTN_IMG_PATH))));
 			leftCompleteBtn = new JButton(new ImageIcon(ImageIO.read(new File(COMPLETE_BTN_IMG_PATH))));
-		}catch(IOException ex){}
+		}
+		catch(IOException ex)
+		{
+			System.out.println("ERROR : IOException : ClsView : Init_LeftBounds");
+		}
+		
 		leftSaveBtn.setMargin(new Insets(0, 0, 0, 0));
+		leftSaveAsBtn.setMargin(new Insets(0, 0, 0, 0));
 		leftLoadBtn.setMargin(new Insets(0, 0, 0, 0));
 		leftEditBtn.setMargin(new Insets(0, 0, 0, 0));
 		leftCompleteBtn.setMargin(new Insets(0, 0, 0, 0));
+		
 		leftSaveBtn.setToolTipText(TOOLTIP_SAVE_BTN);
+		leftSaveAsBtn.setToolTipText(TOOLTIP_SAVE_AS_BTN);
 		leftLoadBtn.setToolTipText(TOOLTIP_LOAD_BTN);
 		leftEditBtn.setToolTipText(TOOLTIP_EDIT_BTN);
 		leftCompleteBtn.setToolTipText(TOOLTIP_COMPLETE_BTN);
+		
 		leftSaveBtn.setName(NAME_LEFT_SAVE_BTN);
+		leftSaveAsBtn.setName(NAME_LEFT_SAVE_AS_BTN);
 		leftLoadBtn.setName(NAME_LEFT_LOAD_BTN);
 		leftEditBtn.setName(NAME_LEFT_EDIT_BTN);
 		leftCompleteBtn.setName(NAME_LEFT_COMPLETE_BTN);
+		
 		leftSaveBtn.addActionListener(btnListener);
+		leftSaveAsBtn.addActionListener(btnListener);
 		leftLoadBtn.addActionListener(btnListener);
 		leftEditBtn.addActionListener(btnListener);
 		leftCompleteBtn.addActionListener(btnListener);
+		
 		left_TopPanel.add(leftSaveBtn);
+		left_TopPanel.add(leftSaveAsBtn);
 		left_TopPanel.add(leftLoadBtn);
 		left_TopPanel.add(leftEditBtn);
 		left_TopPanel.add(leftCompleteBtn);
@@ -451,27 +470,42 @@ public class ClsView
 		try
 		{
 			rightSaveBtn = new JButton(new ImageIcon(ImageIO.read(new File(SAVE_BTN_IMG_PATH))));
+			rightSaveAsBtn = new JButton(new ImageIcon(ImageIO.read(new File(SAVE_AS_BTN_IMG_PATH))));
 			rightLoadBtn = new JButton(new ImageIcon(ImageIO.read(new File(LOAD_BTN_IMG_PATH))));
 			rightEditBtn = new JButton(new ImageIcon(ImageIO.read(new File(EDIT_BTN_IMG_PATH))));
 			rightCompleteBtn = new JButton(new ImageIcon(ImageIO.read(new File(COMPLETE_BTN_IMG_PATH))));
-		}catch(IOException ex){}
+		}
+		catch(IOException ex)
+		{
+			System.out.println("ERROR : IOException : ClsView : Init_RightBounds");
+		}
+		
 		rightSaveBtn.setMargin(new Insets(0, 0, 0, 0));
+		rightSaveAsBtn.setMargin(new Insets(0, 0, 0, 0));
 		rightLoadBtn.setMargin(new Insets(0, 0, 0, 0));
 		rightEditBtn.setMargin(new Insets(0, 0, 0, 0));
 		rightCompleteBtn.setMargin(new Insets(0, 0, 0, 0));
+		
 		rightSaveBtn.setToolTipText(TOOLTIP_SAVE_BTN);
+		rightSaveAsBtn.setToolTipText(TOOLTIP_SAVE_AS_BTN);
 		rightLoadBtn.setToolTipText(TOOLTIP_LOAD_BTN);
 		rightEditBtn.setToolTipText(TOOLTIP_EDIT_BTN);
 		rightCompleteBtn.setToolTipText(TOOLTIP_COMPLETE_BTN);
+		
 		rightSaveBtn.setName(NAME_RIGHT_SAVE_BTN);
+		rightSaveAsBtn.setName(NAME_RIGHT_SAVE_AS_BTN);
 		rightLoadBtn.setName(NAME_RIGHT_LOAD_BTN);
 		rightEditBtn.setName(NAME_RIGHT_EDIT_BTN);
 		rightCompleteBtn.setName(NAME_RIGHT_COMPLETE_BTN);
+		
 		rightSaveBtn.addActionListener(btnListener);
+		rightSaveAsBtn.addActionListener(btnListener);
 		rightLoadBtn.addActionListener(btnListener);
 		rightEditBtn.addActionListener(btnListener);
 		rightCompleteBtn.addActionListener(btnListener);
+		
 		right_TopPanel.add(rightSaveBtn);
+		right_TopPanel.add(rightSaveAsBtn);
 		right_TopPanel.add(rightLoadBtn);
 		right_TopPanel.add(rightEditBtn);
 		right_TopPanel.add(rightCompleteBtn);
@@ -561,9 +595,12 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_LEFT_SAVE_BTN))
 			{
+				refController.save(true);
+			}
+			else if(t_srcName.equals(NAME_LEFT_SAVE_AS_BTN))
+			{
 				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
-					//JOptionPane.showMessageDialog(leftSaveBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 					refController.saveAs(fileDialogBox.getSelectedFile().toString(), true);
 				}
 			}
@@ -571,7 +608,6 @@ public class ClsView
 			{
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
-					//JOptionPane.showMessageDialog(leftLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 					leftEditor.GetTextPad().SetText(refController.load(fileDialogBox.getSelectedFile().toString(), true));
 					leftEditor.GetTextPad().setEditable(false);
 					leftEditBtn.setEnabled(true);
@@ -591,9 +627,12 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_RIGHT_SAVE_BTN))
 			{
+				refController.save(false);
+			}
+			else if(t_srcName.equals(NAME_RIGHT_SAVE_AS_BTN))
+			{
 				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
-					//JOptionPane.showMessageDialog(rightSaveBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 					refController.saveAs(fileDialogBox.getSelectedFile().toString(), false);
 				}
 			}
@@ -601,7 +640,6 @@ public class ClsView
 			{
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
-					//JOptionPane.showMessageDialog(rightLoadBtn, fileDialogBox.getSelectedFile().toString(), WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 					rightEditor.GetTextPad().SetText(refController.load(fileDialogBox.getSelectedFile().toString(), false));
 					rightEditor.GetTextPad().setEditable(false);
 					rightEditBtn.setEnabled(true);
