@@ -61,6 +61,7 @@ public class ClsView
 	public final int 		DIVIDER_THICKNESS = 5;										//size of seperating bar in splitpane
 	//IMAGE PATH
 	public final String		FORM_ICON_PATH				= "Images/Form01.png";			//path of form icon image
+	public final String		LOGO_IMG_PATH				= "Images/Logo2.png";			//path of logo image
 	public final String 	SAVE_BTN_IMG_PATH 			= "Images/Save01.png";			//path of save button image
 	public final String 	LOAD_BTN_IMG_PATH 			= "Images/Open01.png";			//path of load button image
 	public final String		TO_LEFT_BTN_IMG_PATH 		= "Images/ToLeft01.png";		//path of to left button image
@@ -103,6 +104,9 @@ public class ClsView
 	private JFrame 			viewForm;
 	//form - north
 	private JPanel 			topPanel;
+	private JPanel			topButtonPanel;
+	private JPanel			topLogoPanel;
+	private JLabel			topLogoLabel;
 	private JButton 		undoBtn, redoBtn;
 	private JButton			mergeToLeftBtn, mergeToRightBtn;
 	private JButton			mergeAllToLeftBtn, mergeAllToRightBtn;
@@ -274,8 +278,31 @@ public class ClsView
 		//Create base top panel
 		topPanel = new JPanel();
 		topPanel.setBackground(COMPONENT_BG_COLOR);
-		topPanel.setLayout(new FlowLayout(0));
+		topPanel.setLayout(new GridLayout(1, 2));
 		viewForm.getContentPane().add(topPanel, BorderLayout.NORTH);
+		
+		//Create top panel that has buttons
+		topButtonPanel = new JPanel();
+		topButtonPanel.setBackground(COMPONENT_BG_COLOR);
+		topButtonPanel.setLayout(new FlowLayout(0));
+		topPanel.add(topButtonPanel);
+		
+		//Create top panel that has logo image
+		topLogoPanel = new JPanel();
+		topLogoPanel.setBackground(COMPONENT_BG_COLOR);
+		topLogoPanel.setLayout(new FlowLayout(2));
+		topPanel.add(topLogoPanel);
+		
+		//Create Logo
+		try
+		{
+			topLogoLabel = new JLabel("", new ImageIcon(ImageIO.read(new File(LOGO_IMG_PATH))), JLabel.CENTER);
+			topLogoPanel.add(topLogoLabel);
+		}
+		catch(IOException ex)
+		{
+			System.out.println("ERROR : IOException : ClsView : Init_TopBounds");
+		}
 		
 		//Create button and get button images
 		try
@@ -325,13 +352,13 @@ public class ClsView
 		mergeAllToLeftBtn.addActionListener(btnListener);
 		mergeAllToRightBtn.addActionListener(btnListener);
 		
-		topPanel.add(undoBtn);
-		topPanel.add(redoBtn);
-		topPanel.add(compareBtn);
-		topPanel.add(mergeToLeftBtn);
-		topPanel.add(mergeToRightBtn);
-		topPanel.add(mergeAllToLeftBtn);
-		topPanel.add(mergeAllToRightBtn);
+		topButtonPanel.add(undoBtn);
+		topButtonPanel.add(redoBtn);
+		topButtonPanel.add(compareBtn);
+		topButtonPanel.add(mergeToLeftBtn);
+		topButtonPanel.add(mergeToRightBtn);
+		topButtonPanel.add(mergeAllToLeftBtn);
+		topButtonPanel.add(mergeAllToRightBtn);
 		
 	}
 	
