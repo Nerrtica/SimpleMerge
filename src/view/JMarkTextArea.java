@@ -117,16 +117,16 @@ public class JMarkTextArea extends JTextArea
 	{
 		super.addMouseListener(new MouseAdapter()
 		{
-			public void mouseClicked(MouseEvent e)
+			public void mousePressed(MouseEvent e)
 			{
 				System.out.println("x : " + e.getX() + " y : " + e.getY());
-				MouseListener_MouseClicked(e);
+				MouseListener_MousePressed(e);
 			}
 		});
 	}
 	
 	//listener when mouse ls clicked
-	private void MouseListener_MouseClicked(MouseEvent e)
+	private void MouseListener_MousePressed(MouseEvent e)
 	{
 		int t_selectedLine, i;
 		

@@ -60,6 +60,7 @@ public class ClsView
 	//SPLITPANE
 	public final int 		DIVIDER_THICKNESS = 5;										//size of seperating bar in splitpane
 	//IMAGE PATH
+	public final String		FORM_ICON_PATH				= "Images/Form01.png";			//path of form icon image
 	public final String 	SAVE_BTN_IMG_PATH 			= "Images/Save01.png";			//path of save button image
 	public final String 	LOAD_BTN_IMG_PATH 			= "Images/Open01.png";			//path of load button image
 	public final String		TO_LEFT_BTN_IMG_PATH 		= "Images/ToLeft01.png";		//path of to left button image
@@ -135,8 +136,6 @@ public class ClsView
 	private int 	internalWidth;		//real form's clipping area width
 	private int 	internalHeight;		//real form's clipping area height
 	
-	private boolean	isEdited;
-	
 	private ButtonListener btnListener;
 	
 	private ClsController refController;
@@ -186,7 +185,6 @@ public class ClsView
 	private void Init_Variables()
 	{
 		
-		isEdited = false;
 		spRatio = 0.5f;
 		
 	}
@@ -199,6 +197,14 @@ public class ClsView
 		
 		//Create main window
 		viewForm = new JFrame(WINDOW_CAPTION);
+		try
+		{
+			viewForm.setIconImage(new ImageIcon(ImageIO.read(new File(FORM_ICON_PATH))).getImage());
+		}
+		catch(IOException ex)
+		{
+			System.out.println("ERROR : IOException : ClsView : Init_Form");
+		}
 		viewForm.setLocation(DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y);
 		viewForm.setSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
 		viewForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -232,6 +238,7 @@ public class ClsView
 		//Reset Internal form size
 		ResetInternalFormSize();
 		
+		//recalculate separate ratio
 		spRatio = (float)((internalWidth - DEFAULT_WEST_WIDTH) / 2) / (internalWidth - DEFAULT_WEST_WIDTH);
 		
 	}
@@ -241,16 +248,21 @@ public class ClsView
 	{
 		
 		int i;
-		Font dialogFont = new Font("돋움", Font.PLAIN, 12);
+		Font dialogFont = DEFAULT_DIALOG_FONT;
 		
 		for(i = 0; i < comp.length; i++)
 		{
 			if(comp[i] instanceof Container)
 				InitDialogBoxFont(((Container)comp[i]).getComponents());
+			
 			try
 			{
 				comp[i].setFont(dialogFont);
-			}catch(Exception ex){}
+			}
+			catch(Exception ex)
+			{
+				System.out.println("ERROR : Exception : ClsView : InitDialogBoxFont");
+			}
 		}
 		
 	}
@@ -633,6 +645,7 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_LEFT_COMPLETE_BTN))
 			{
+				refController.edit(leftEditor.GetTextPad().GetText(), leftEditor.GetTextPad().GetLineBoolList(), true);
 				leftEditor.GetTextPad().setEditable(false);
 				if(!rightCompleteBtn.isEnabled())
 					compareBtn.setEnabled(true);
@@ -672,6 +685,7 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_RIGHT_COMPLETE_BTN))
 			{
+				refController.edit(rightEditor.GetTextPad().GetText(), rightEditor.GetTextPad().GetLineBoolList(), true);
 				rightEditor.GetTextPad().setEditable(false);
 				if(!leftCompleteBtn.isEnabled())
 					compareBtn.setEnabled(true);
