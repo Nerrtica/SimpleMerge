@@ -11,6 +11,8 @@ package view;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,21 +33,25 @@ public class JMarkTextArea extends JTextArea
 	//////////////////////////////////////////////////////////////////
 	//CONSTANTS
 	//font
-	public final String 	DEFALUT_FONT = "Consolas";						//default font
-	public final float 		DEFAULT_FONT_SIZE = 12.0f;						//default font size
-	public final int 		DEFAULT_TAB_SIZE = 4;							//default tab size
+	public final String 	DEFALUT_FONT = "Consolas";									//default font
+	public final float 		DEFAULT_FONT_SIZE = 12.0f;									//default font size
+	public final int 		DEFAULT_TAB_SIZE = 4;										//default tab size
 	//editor colors
-	public final Color 		DEFAULT_FONT_COLOR = Color.BLACK;				//default font color
-	public final Color 		DEFAULT_BG_COLOR = Color.WHITE;					//default background color
-	public final Color 		DEFAULT_SELECTED_FONT_COLOR = Color.YELLOW;		//default selected font color (when blocked)
-	public final Color 		DEFAULT_SELECTION_COLOR = Color.BLACK;			//default selection color (when blocked)
+	public final Color 		DEFAULT_FONT_COLOR = Color.BLACK;							//default font color
+	public final Color 		DEFAULT_BG_COLOR = Color.WHITE;								//default background color
+	public final Color 		DEFAULT_SELECTED_FONT_COLOR = Color.YELLOW;					//default selected font color (when blocked)
+	public final Color 		DEFAULT_SELECTION_COLOR = Color.BLACK;						//default selection color (when blocked)
 	//mark color
-	public final Color 		DEFAULT_MARK_COLOR = new Color(255, 0, 0, 100);	//default mark color
+	public final Color 		DEFAULT_MARK_COLOR = new Color(255, 0, 0, 100);				//default mark color
+	public final Color		DEFAULT_SELECTED_MARK_COLOR = new Color(200, 200, 0, 100);	//default selected mark color
 	
 	//////////////////////////////////////////////////////////////////
 	//private variables
 	private Color markColor;					//mark color value
+	private Color selectedMarkColor;			//selected mark color value
 	private int lineHeight;						//each line's height
+	
+	private int selectLineStart, selectLineEnd;
 	
 	private ArrayList<Boolean> markList;		//if true, mark that line
 	private ArrayList<Boolean> lineBoolList;	//if false, that line won't be save (fake line)
@@ -58,13 +64,14 @@ public class JMarkTextArea extends JTextArea
 		InitializeGUIComponent();
 		InitializeLocalVariables();
 		InitializeDocListener();
+		InitializeMouseListener();
 	}
 	
 	//Initialize about GUI component
 	private void InitializeGUIComponent()
 	{
 
-		SetColors(DEFAULT_FONT_COLOR, DEFAULT_BG_COLOR, DEFAULT_SELECTED_FONT_COLOR, DEFAULT_SELECTION_COLOR, DEFAULT_MARK_COLOR);
+		SetColors(DEFAULT_FONT_COLOR, DEFAULT_BG_COLOR, DEFAULT_SELECTED_FONT_COLOR, DEFAULT_SELECTION_COLOR, DEFAULT_MARK_COLOR, DEFAULT_SELECTED_MARK_COLOR);
 		SetFont(new Font(DEFALUT_FONT, Font.PLAIN, 12), DEFAULT_FONT_SIZE);
 		SetTabSize(DEFAULT_TAB_SIZE);
 
@@ -73,6 +80,9 @@ public class JMarkTextArea extends JTextArea
 	//Initialize local variables
 	private void InitializeLocalVariables()
 	{
+		
+		selectLineStart = -1;
+		selectLineEnd = -1;
 		
 		markList = new ArrayList<Boolean>();
 		markList.add(false);					//add first line
@@ -100,6 +110,54 @@ public class JMarkTextArea extends JTextArea
 				DocListener_RemoveUpdate(e);
 			}
 		});
+	}
+	
+	//Initialize mouse listener
+	private void InitializeMouseListener()
+	{
+		super.addMouseListener(new MouseAdapter()
+		{
+			public void mouseClicked(MouseEvent e)
+			{
+				System.out.println("x : " + e.getX() + " y : " + e.getY());
+				MouseListener_MouseClicked(e);
+			}
+		});
+	}
+	
+	//listener when mouse ls clicked
+	private void MouseListener_MouseClicked(MouseEvent e)
+	{
+		int t_selectedLine, i;
+		
+		t_selectedLine = e.getY() / lineHeight;
+		
+		if(markList.get(t_selectedLine))
+		{
+			selectLineStart = t_selectedLine;
+			selectLineEnd = t_selectedLine;
+			
+			for(i = t_selectedLine; i >= 0; i--)
+			{
+				if(markList.get(i))
+					selectLineStart = i;
+				else
+					break;
+			}
+			
+			for(i = t_selectedLine; i < markList.size(); i++)
+			{
+				if(markList.get(i))
+					selectLineEnd = i;
+				else
+					break;
+			}
+			
+			System.out.println("S : " + selectLineStart + " E : " + selectLineEnd);
+			
+			super.repaint();
+			
+		}
 	}
 	
 	//listener when something is inserted in document
@@ -247,8 +305,14 @@ public class JMarkTextArea extends JTextArea
 		//paint all
 		for(i = 0; i < len; i++)
 		{
+			if(i == selectLineStart)
+				g.setColor(selectedMarkColor);
+			
 			if(markList.get(i) == true)
 				g.fillRect(0, i * lineHeight, width, lineHeight);
+			
+			if(i == selectLineEnd)
+				g.setColor(markColor);
 		}
 		
 	}
@@ -274,7 +338,7 @@ public class JMarkTextArea extends JTextArea
 	//////////////////////////////////////////////////////////////////
 	
 	//set all colors
-	public void SetColors(Color i_fontColor, Color i_backColor, Color i_selectFontColor, Color i_selectionColor, Color i_markColor)
+	public void SetColors(Color i_fontColor, Color i_backColor, Color i_selectFontColor, Color i_selectionColor, Color i_markColor, Color i_selectedMarkColor)
 	{
 		
 		if(i_fontColor != null)
@@ -291,6 +355,9 @@ public class JMarkTextArea extends JTextArea
 		
 		if(i_markColor != null)
 			SetMarkColor(i_markColor);
+		
+		if(i_selectedMarkColor != null)
+			SetSelectedMarkColor(i_selectedMarkColor);
 		
 	}
 	
@@ -309,6 +376,23 @@ public class JMarkTextArea extends JTextArea
 		}
 		else
 			markColor = i_color;
+	}
+	
+	//set selected mark color
+	public void SetSelectedMarkColor(Color i_color)
+	{
+		int t_red, t_green, t_blue;
+		
+		//if input color is not translucent, set default alpha to 100
+		if(i_color.getAlpha() == 0)
+		{
+			t_red = i_color.getRed();
+			t_green = i_color.getGreen();
+			t_blue = i_color.getBlue();
+			selectedMarkColor = new Color(t_red, t_green, t_blue, 100);
+		}
+		else
+			selectedMarkColor = i_color;
 	}
 	
 	//get mark color
