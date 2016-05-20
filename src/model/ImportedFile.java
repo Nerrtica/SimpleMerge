@@ -118,7 +118,7 @@ public class ImportedFile {
 
 			for (int i = 0; i < text.size(); i++) {
 				pw.write(text.get(i));
-				pw.write("\n");
+				pw.write("\r\n");
 			}
 
 			pw.close();
@@ -139,7 +139,7 @@ public class ImportedFile {
 
 			for (int i = 0; i < text.size(); i++) {
 				pw.write(text.get(i));
-				pw.write("\n");
+				pw.write("\r\n");
 			}
 
 			pw.close();
