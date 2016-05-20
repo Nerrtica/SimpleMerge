@@ -664,6 +664,8 @@ public class ClsView
 					leftEditor.GetTextPad().SetText(refController.load(fileDialogBox.getSelectedFile().toString(), true));
 					rightEditor.GetTextPad().RemoveAllMark();
 					leftEditor.GetTextPad().setEditable(false);
+					leftSaveBtn.setEnabled(true);
+					leftSaveAsBtn.setEnabled(true);
 					leftEditBtn.setEnabled(true);
 					leftCompleteBtn.setEnabled(false);
 					compareBtn.setEnabled(true);
@@ -675,6 +677,8 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_LEFT_EDIT_BTN))
 			{
+				leftSaveBtn.setEnabled(false);
+				leftSaveAsBtn.setEnabled(false);
 				leftEditor.GetTextPad().setEditable(true);
 				leftEditor.GetTextPad().ResetSelectedMark();
 				compareBtn.setEnabled(false);
@@ -687,6 +691,8 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_LEFT_COMPLETE_BTN))
 			{
+				leftSaveBtn.setEnabled(true);
+				leftSaveAsBtn.setEnabled(true);
 				refController.edit(leftEditor.GetTextPad().GetText(), leftEditor.GetTextPad().GetLineBoolList(), true);
 				leftEditor.GetTextPad().setEditable(false);
 				if(!rightCompleteBtn.isEnabled())
@@ -712,6 +718,8 @@ public class ClsView
 					rightEditor.GetTextPad().SetText(refController.load(fileDialogBox.getSelectedFile().toString(), false));
 					leftEditor.GetTextPad().RemoveAllMark();
 					rightEditor.GetTextPad().setEditable(false);
+					rightSaveBtn.setEnabled(true);
+					rightSaveAsBtn.setEnabled(true);
 					rightEditBtn.setEnabled(true);
 					rightCompleteBtn.setEnabled(false);
 					compareBtn.setEnabled(true);
@@ -723,6 +731,8 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_RIGHT_EDIT_BTN))
 			{
+				rightSaveBtn.setEnabled(false);
+				rightSaveAsBtn.setEnabled(false);
 				rightEditor.GetTextPad().setEditable(true);
 				rightEditor.GetTextPad().ResetSelectedMark();
 				compareBtn.setEnabled(false);
@@ -735,6 +745,8 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_RIGHT_COMPLETE_BTN))
 			{
+				rightSaveBtn.setEnabled(true);
+				rightSaveAsBtn.setEnabled(true);
 				refController.edit(rightEditor.GetTextPad().GetText(), rightEditor.GetTextPad().GetLineBoolList(), true);
 				rightEditor.GetTextPad().setEditable(false);
 				if(!leftCompleteBtn.isEnabled())
