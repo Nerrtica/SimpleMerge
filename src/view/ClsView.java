@@ -747,7 +747,7 @@ public class ClsView
 			{
 				rightSaveBtn.setEnabled(true);
 				rightSaveAsBtn.setEnabled(true);
-				refController.edit(rightEditor.GetTextPad().GetText(), rightEditor.GetTextPad().GetLineBoolList(), true);
+				refController.edit(rightEditor.GetTextPad().GetText(), rightEditor.GetTextPad().GetLineBoolList(), false);
 				rightEditor.GetTextPad().setEditable(false);
 				if(!leftCompleteBtn.isEnabled())
 					compareBtn.setEnabled(true);
