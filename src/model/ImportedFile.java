@@ -25,7 +25,8 @@ public class ImportedFile {
 
     public void load (String fileRoute){
     	this.fileRoute = fileRoute;	//fileRoute 저장
-
+    	ArrayList<String> temp = new ArrayList<String>();
+    		
     
     	try{	
 			FileInputStream check = new FileInputStream(fileRoute);
@@ -59,7 +60,7 @@ public class ImportedFile {
 			    System.out.println("EUC-KR");   
 			}
 			
-			
+			check.close();
 		}
 		catch(FileNotFoundException e){
 			e.printStackTrace();
@@ -81,9 +82,10 @@ public class ImportedFile {
 					line = br.readLine();
 					if (line == null) // 더 이상 불러올 문자열 없으면 break;
 						break;
-					text.add(line); // text 리스트에 문자열 추가
+					temp.add(line); // text 리스트에 문자열 추가
 				}
-
+				text = temp;
+				temp = new ArrayList<String>();
 				br.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
