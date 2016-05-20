@@ -676,6 +676,7 @@ public class ClsView
 			else if(t_srcName.equals(NAME_LEFT_EDIT_BTN))
 			{
 				leftEditor.GetTextPad().setEditable(true);
+				leftEditor.GetTextPad().ResetSelectedMark();
 				compareBtn.setEnabled(false);
 				mergeToLeftBtn.setEnabled(false);
 				mergeToRightBtn.setEnabled(false);
@@ -723,6 +724,7 @@ public class ClsView
 			else if(t_srcName.equals(NAME_RIGHT_EDIT_BTN))
 			{
 				rightEditor.GetTextPad().setEditable(true);
+				rightEditor.GetTextPad().ResetSelectedMark();
 				compareBtn.setEnabled(false);
 				mergeToLeftBtn.setEnabled(false);
 				mergeToRightBtn.setEnabled(false);
