@@ -99,7 +99,7 @@ public class ImportedFile {
 
     }
     public void convert(String document, ArrayList<Boolean> bool){
-    	String[] temp = document.split(System.getProperty("line.separator"));	//개행 문자를 기준으로 문자열 나눔
+    	String[] temp = document.split("\\n");	//개행 문자를 기준으로 문자열 나눔
     	text = new ArrayList<String>();			//text 초기화
     	
     	for(int i = 0 ; i < temp.length ; i++){
