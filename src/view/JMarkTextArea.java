@@ -131,32 +131,35 @@ public class JMarkTextArea extends JTextArea
 		int t_selectedLine, i;
 		
 		t_selectedLine = e.getY() / lineHeight;
-		
-		if(markList.get(t_selectedLine))
+
+		if(markList.size() > t_selectedLine)
 		{
-			selectLineStart = t_selectedLine;
-			selectLineEnd = t_selectedLine;
-			
-			for(i = t_selectedLine; i >= 0; i--)
+			if(markList.get(t_selectedLine))
 			{
-				if(markList.get(i))
-					selectLineStart = i;
-				else
-					break;
+				selectLineStart = t_selectedLine;
+				selectLineEnd = t_selectedLine;
+				
+				for(i = t_selectedLine; i >= 0; i--)
+				{
+					if(markList.get(i))
+						selectLineStart = i;
+					else
+						break;
+				}
+				
+				for(i = t_selectedLine; i < markList.size(); i++)
+				{
+					if(markList.get(i))
+						selectLineEnd = i;
+					else
+						break;
+				}
+				
+				System.out.println("S : " + selectLineStart + " E : " + selectLineEnd);
+				
+				super.repaint();
+				
 			}
-			
-			for(i = t_selectedLine; i < markList.size(); i++)
-			{
-				if(markList.get(i))
-					selectLineEnd = i;
-				else
-					break;
-			}
-			
-			System.out.println("S : " + selectLineStart + " E : " + selectLineEnd);
-			
-			super.repaint();
-			
 		}
 	}
 	
@@ -483,6 +486,7 @@ public class JMarkTextArea extends JTextArea
 		
 		//initialize document and relate lists
 		super.setText("");
+
 		lineBoolList.clear();
 		markList.clear();
 		lineBoolList.add(true);
@@ -548,6 +552,14 @@ public class JMarkTextArea extends JTextArea
 			RemoveMark(i);
 		
 		super.repaint();
+		
+	}
+	
+	public void ResetSelectedMark()
+	{
+		
+		selectLineStart = -1;
+		selectLineEnd = -1;
 		
 	}
 
