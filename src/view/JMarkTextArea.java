@@ -555,6 +555,7 @@ public class JMarkTextArea extends JTextArea
 		
 	}
 	
+	//reset selected mark
 	public void ResetSelectedMark()
 	{
 		
