@@ -360,6 +360,11 @@ public class ClsView
 		topButtonPanel.add(mergeAllToLeftBtn);
 		topButtonPanel.add(mergeAllToRightBtn);
 		
+		mergeToLeftBtn.setEnabled(false);
+		mergeToRightBtn.setEnabled(false);
+		mergeAllToLeftBtn.setEnabled(false);
+		mergeAllToRightBtn.setEnabled(false);
+		
 	}
 	
 	//Initialize west bounds of form
@@ -618,6 +623,8 @@ public class ClsView
 			{
 				leftEditor.GetTextPad().AddMarkList(refController.compare(true));
 				rightEditor.GetTextPad().AddMarkList(refController.compare(false));
+				leftEditor.GetTextPad().ResetSelectedMark();
+				rightEditor.GetTextPad().ResetSelectedMark();
 				mergeToLeftBtn.setEnabled(true);
 				mergeToRightBtn.setEnabled(true);
 				mergeAllToLeftBtn.setEnabled(true);
