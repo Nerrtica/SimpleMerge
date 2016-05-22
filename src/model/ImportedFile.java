@@ -218,5 +218,7 @@ public class ImportedFile {
     public ArrayList<String> getText () {
         return text;
     }
+    
+    
 
 }
