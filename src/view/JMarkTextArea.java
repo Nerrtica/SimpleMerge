@@ -412,11 +412,13 @@ public class JMarkTextArea extends JTextArea
 	{
 		return markList;
 	}
-	
-	public int GetBlockIndex()
+	/*
+	public int GetMergeBlockList()
 	{
 		
 		int i;
+		
+		DiffBlock t_block;
 		
 		if(selectLineStart == -1)
 		{
@@ -426,13 +428,16 @@ public class JMarkTextArea extends JTextArea
 		
 		for(i = 0; i < blockIndexList.size(); i++)
 		{
-			
+			if(blockIndexList.get(i) == selectLineStart)
+			{
+				return i;
+			}
 			
 		}
 		
 		
 	}
-	
+	*/
 	//////////////////////////////////////////////////////////////////
 	
 	//set font file
