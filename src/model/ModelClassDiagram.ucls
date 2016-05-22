@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<class-diagram version="1.1.9" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
-  associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
+<class-diagram version="1.1.9" icons="true" always-add-relationships="true" generalizations="true" realizations="true" 
+  associations="true" dependencies="true" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="model.DiffBlock" project="SE_Term_Project" 
     file="/SE_Term_Project/src/model/DiffBlock.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="232" width="175" x="831" y="37"/>    
+    <position height="-1" width="-1" x="656" y="169"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="model.ImportedFile" project="SE_Term_Project" 
     file="/SE_Term_Project/src/model/ImportedFile.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="268" width="369" x="422" y="37"/>    
+    <position height="-1" width="-1" x="408" y="502"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      

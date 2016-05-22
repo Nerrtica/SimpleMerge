@@ -55,6 +55,7 @@ public class JMarkTextArea extends JTextArea
 	
 	private ArrayList<Boolean> markList;		//if true, mark that line
 	private ArrayList<Boolean> lineBoolList;	//if false, that line won't be save (fake line)
+	private ArrayList<Integer> blockIndexList;
 	
 	//////////////////////////////////////////////////////////////////
 	
@@ -89,6 +90,8 @@ public class JMarkTextArea extends JTextArea
 		
 		lineBoolList = new ArrayList<Boolean>();
 		lineBoolList.add(true);					//add first line
+		
+		blockIndexList = new ArrayList<Integer>();
 		
 	}
 	
@@ -410,6 +413,26 @@ public class JMarkTextArea extends JTextArea
 		return markList;
 	}
 	
+	public int GetBlockIndex()
+	{
+		
+		int i;
+		
+		if(selectLineStart == -1)
+		{
+			System.out.println("Select block please.");
+			return -1;
+		}
+		
+		for(i = 0; i < blockIndexList.size(); i++)
+		{
+			
+			
+		}
+		
+		
+	}
+	
 	//////////////////////////////////////////////////////////////////
 	
 	//set font file
@@ -521,6 +544,8 @@ public class JMarkTextArea extends JTextArea
 		
 		for(i = 0; i < i_list.size(); i++)
 		{
+			blockIndexList.add(i_list.get(i).getStartIndex());
+			
 			t_startIndex = i_list.get(i).getStartIndex();
 			t_blockSize = i_list.get(i).getLineNumber();
 			for(j = 0; j < t_blockSize; j++)
@@ -545,6 +570,8 @@ public class JMarkTextArea extends JTextArea
 	{
 		
 		int i, size;
+		
+		blockIndexList.clear();
 		
 		size = markList.size();
 		
