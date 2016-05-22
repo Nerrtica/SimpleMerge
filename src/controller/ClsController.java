@@ -85,4 +85,7 @@ public class ClsController {
         }
     }
 
+    public int compareBlockLine (DiffBlock originalBlock, DiffBlock targetBlock) {
+        return targetBlock.getLineNumber() - originalBlock.getLineNumber();
+    }
 }
