@@ -219,11 +219,5 @@ public class ImportedFile {
     public ArrayList<String> getText () {
         return text;
     }
-    
-    public void setText(ArrayList<String> i_text)
-    {
-    	text.clear();
-    	text = i_text;
-    }
-
+	
 }

@@ -92,20 +92,11 @@ public class ClsController {
     
     public ArrayList<String> mergeAll (boolean isLeftFile)
     {
-    	if(isLeftFile)
-    	{
-    		leftFile.setText(rightFile.getText());
-    		leftDiffBlockList.clear();
-    		rightDiffBlockList.clear();
-    		return leftFile.getText();
-    	}
-    	else
-    	{
-    		rightFile.setText(leftFile.getText());
-    		leftDiffBlockList.clear();
-    		rightDiffBlockList.clear();
-    		return rightFile.getText();
-    	}
+        ArrayList<String> temp = null;
+    	for (int i = 0; i < leftDiffBlockList.size(); i++) {
+            temp = merge(i, isLeftFile);
+        }
+        return temp;
     }
 
     public int compareBlockLine (int blockIndex, boolean isLeftFile) {
