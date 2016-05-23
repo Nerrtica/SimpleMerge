@@ -80,12 +80,32 @@ public class ClsController {
         }
     }
 
-    public void merge (int blockIndex, boolean isLeftFile) {
+    public ArrayList<String> merge (int blockIndex, boolean isLeftFile) {
         if (isLeftFile) {
             leftFile.merge(rightFile, leftDiffBlockList, rightDiffBlockList, blockIndex);
+            return leftFile.getText();
         } else {
             rightFile.merge(leftFile, rightDiffBlockList, leftDiffBlockList, blockIndex);
+            return rightFile.getText();
         }
+    }
+    
+    public ArrayList<String> mergeAll (boolean isLeftFile)
+    {
+    	if(isLeftFile)
+    	{
+    		leftFile.setText(rightFile.getText());
+    		leftDiffBlockList.clear();
+    		rightDiffBlockList.clear();
+    		return leftFile.getText();
+    	}
+    	else
+    	{
+    		rightFile.setText(leftFile.getText());
+    		leftDiffBlockList.clear();
+    		rightDiffBlockList.clear();
+    		return rightFile.getText();
+    	}
     }
 
     public int compareBlockLine (int blockIndex, boolean isLeftFile) {

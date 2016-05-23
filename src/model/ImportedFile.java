@@ -93,9 +93,10 @@ public class ImportedFile {
 			e.printStackTrace();
 		}
 
+		/*
 		for (int i = 0; i < text.size(); i++) {
 			System.out.println(text.get(i));
-		}
+		}*/
 
     }
     public void convert(String document, ArrayList<Boolean> bool){
@@ -219,6 +220,10 @@ public class ImportedFile {
         return text;
     }
     
-    
+    public void setText(ArrayList<String> i_text)
+    {
+    	text.clear();
+    	text = i_text;
+    }
 
 }

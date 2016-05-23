@@ -621,8 +621,10 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_COMPARE_BTN))
 			{
-				leftEditor.GetTextPad().AddMarkList(refController.compare(true));
-				rightEditor.GetTextPad().AddMarkList(refController.compare(false));
+				refController.compare(true);
+				refController.compare(false);
+				leftEditor.GetTextPad().AddMarkList(refController.getLeftDiffBlockList());
+				rightEditor.GetTextPad().AddMarkList(refController.getRightDiffBlockList());
 				leftEditor.GetTextPad().ResetSelectedMark();
 				rightEditor.GetTextPad().ResetSelectedMark();
 				mergeToLeftBtn.setEnabled(true);
@@ -632,19 +634,43 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_TO_LEFT_BTN))
 			{
-				System.out.println(NAME_TO_LEFT_BTN);
+				leftEditor.GetTextPad().SetText(refController.merge(rightEditor.GetTextPad().GetMergeBlockIndex(), true));
+				leftEditor.GetTextPad().RemoveAllMark();
+				rightEditor.GetTextPad().RemoveAllMark();
+				refController.compare(true);
+				refController.compare(false);
+				leftEditor.GetTextPad().AddMarkList(refController.getLeftDiffBlockList());
+				rightEditor.GetTextPad().AddMarkList(refController.getRightDiffBlockList());
+				leftEditor.GetTextPad().ResetSelectedMark();
+				rightEditor.GetTextPad().ResetSelectedMark();
 			}
 			else if(t_srcName.equals(NAME_TO_RIGHT_BTN))
 			{
-				System.out.println(NAME_TO_RIGHT_BTN);
+				rightEditor.GetTextPad().SetText(refController.merge(leftEditor.GetTextPad().GetMergeBlockIndex(), false));
+				leftEditor.GetTextPad().RemoveAllMark();
+				rightEditor.GetTextPad().RemoveAllMark();
+				refController.compare(true);
+				refController.compare(false);
+				leftEditor.GetTextPad().AddMarkList(refController.getLeftDiffBlockList());
+				rightEditor.GetTextPad().AddMarkList(refController.getRightDiffBlockList());
+				leftEditor.GetTextPad().ResetSelectedMark();
+				rightEditor.GetTextPad().ResetSelectedMark();
 			}
 			else if(t_srcName.equals(NAME_ALL_TO_LEFT_BTN))
 			{
-				System.out.println(NAME_ALL_TO_LEFT_BTN);
+				leftEditor.GetTextPad().SetText(refController.mergeAll(true));
+				leftEditor.GetTextPad().RemoveAllMark();
+				rightEditor.GetTextPad().RemoveAllMark();
+				leftEditor.GetTextPad().ResetSelectedMark();
+				rightEditor.GetTextPad().ResetSelectedMark();
 			}
 			else if(t_srcName.equals(NAME_ALL_TO_RIGHT_BTN))
 			{
-				System.out.println(NAME_ALL_TO_RIGHT_BTN);
+				rightEditor.GetTextPad().SetText(refController.mergeAll(false));
+				leftEditor.GetTextPad().RemoveAllMark();
+				rightEditor.GetTextPad().RemoveAllMark();
+				leftEditor.GetTextPad().ResetSelectedMark();
+				rightEditor.GetTextPad().ResetSelectedMark();
 			}
 			else if(t_srcName.equals(NAME_LEFT_SAVE_BTN))
 			{
