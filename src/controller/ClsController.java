@@ -4,9 +4,7 @@ import view.ClsView;
 import model.ImportedFile;
 import model.DiffBlock;
 import java.awt.EventQueue;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 
 public class ClsController {

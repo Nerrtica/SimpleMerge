@@ -2,12 +2,10 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
