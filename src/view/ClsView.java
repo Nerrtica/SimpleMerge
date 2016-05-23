@@ -32,23 +32,23 @@ public class ClsView
 	//CONSTANTS
 	//////////////////////
 	//BUTTON NAME
-	public final String		NAME_LEFT_SAVE_BTN 		= "LeftSaveButton";
-	public final String		NAME_LEFT_SAVE_AS_BTN	= "LeftSaveAsButton";
-	public final String		NAME_LEFT_LOAD_BTN 		= "LeftLoadButton";
-	public final String		NAME_LEFT_EDIT_BTN 		= "LeftEditButton";
-	public final String		NAME_LEFT_COMPLETE_BTN	= "LeftCompleteButton";
-	public final String		NAME_RIGHT_SAVE_BTN 	= "RightSaveButton";
-	public final String		NAME_RIGHT_SAVE_AS_BTN	= "RightSaveAsButton";
-	public final String		NAME_RIGHT_LOAD_BTN	 	= "RightLoadButton";
-	public final String		NAME_RIGHT_EDIT_BTN 	= "RightEditButton";
-	public final String		NAME_RIGHT_COMPLETE_BTN	= "RightCompleteButton";
-	public final String		NAME_UNDO_BTN 			= "UndoButton";
-	public final String		NAME_REDO_BTN 			= "RedoButton";
-	public final String		NAME_COMPARE_BTN 		= "CompareButton";
-	public final String		NAME_TO_LEFT_BTN 		= "MergeToLeftButton";
-	public final String		NAME_TO_RIGHT_BTN 		= "MergeToRightButton";
-	public final String		NAME_ALL_TO_LEFT_BTN 	= "MergeAllToLeftButton";
-	public final String		NAME_ALL_TO_RIGHT_BTN 	= "MergeAllToRightButton";
+	public final String		NAME_LEFT_SAVE_BTN 		= "LeftSaveButton";					//left save button name
+	public final String		NAME_LEFT_SAVE_AS_BTN	= "LeftSaveAsButton";				//left save as button  name
+	public final String		NAME_LEFT_LOAD_BTN 		= "LeftLoadButton";					//left load button name
+	public final String		NAME_LEFT_EDIT_BTN 		= "LeftEditButton";					//left edit button name
+	public final String		NAME_LEFT_COMPLETE_BTN	= "LeftCompleteButton";				//left complete button name
+	public final String		NAME_RIGHT_SAVE_BTN 	= "RightSaveButton";				//right save button name
+	public final String		NAME_RIGHT_SAVE_AS_BTN	= "RightSaveAsButton";				//right save as button name
+	public final String		NAME_RIGHT_LOAD_BTN	 	= "RightLoadButton";				//right load button name
+	public final String		NAME_RIGHT_EDIT_BTN 	= "RightEditButton";				//right edit button name
+	public final String		NAME_RIGHT_COMPLETE_BTN	= "RightCompleteButton";			//right complete button name
+	public final String		NAME_UNDO_BTN 			= "UndoButton";						//undo button name
+	public final String		NAME_REDO_BTN 			= "RedoButton";						//redo button name
+	public final String		NAME_COMPARE_BTN 		= "CompareButton";					//compare button name
+	public final String		NAME_TO_LEFT_BTN 		= "MergeToLeftButton";				//merge to left button name
+	public final String		NAME_TO_RIGHT_BTN 		= "MergeToRightButton";				//merge to right button name
+	public final String		NAME_ALL_TO_LEFT_BTN 	= "MergeAllToLeftButton";			//merge all to left button name
+	public final String		NAME_ALL_TO_RIGHT_BTN 	= "MergeAllToRightButton";			//merge all to right button name
 	//FORM
 	public final int		DEFAULT_WINDOW_X 		= 100;								//Window default x position
 	public final int		DEFAULT_WINDOW_Y 		= 100;								//Window default y position
