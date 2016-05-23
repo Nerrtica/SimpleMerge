@@ -80,12 +80,9 @@ public class ClsController {
         }
     }
 
-    public void merge (int blockIndex, boolean isLeftFile) {
-        if (isLeftFile) {
-            leftFile.merge(rightFile, leftDiffBlockList, rightDiffBlockList, blockIndex);
-        } else {
-            rightFile.merge(leftFile, rightDiffBlockList, leftDiffBlockList, blockIndex);
-        }
+    public void merge (int blockIndex) {
+        leftFile.merge(rightFile, leftDiffBlockList, rightDiffBlockList, blockIndex);
+        rightFile.merge(leftFile, rightDiffBlockList, leftDiffBlockList, blockIndex);
     }
 
     public int compareBlockLine (int blockIndex, boolean isLeftFile) {
