@@ -79,11 +79,19 @@ public class ClsController {
         }
     }
 
-    public void merge (int blockIndex, boolean isLeftfile) {
-        if (isLeftfile) {
+    public void merge (int blockIndex, boolean isLeftFile) {
+        if (isLeftFile) {
             leftFile.merge(rightFile, leftDiffBlockList, rightDiffBlockList, blockIndex);
         } else {
             rightFile.merge(leftFile, rightDiffBlockList, leftDiffBlockList, blockIndex);
+        }
+    }
+
+    public int compareBlockLine (int blockIndex, boolean isLeftFile) {
+        if (isLeftFile) {
+            return leftDiffBlockList.get(blockIndex).compareBlockLine(rightDiffBlockList.get(blockIndex));
+        } else {
+            return rightDiffBlockList.get(blockIndex).compareBlockLine(leftDiffBlockList.get(blockIndex));
         }
     }
 
