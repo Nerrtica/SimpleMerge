@@ -214,10 +214,13 @@ public class ImportedFile {
 			originalBlockList.get(i).changeStartIndex(originalBlockList.get(i).getStartIndex() + changedIndexNumber);
 			originalBlockList.get(i).changeEndIndex(originalBlockList.get(i).getEndIndex() + changedIndexNumber);
 		}
+
+		originalBlockList.remove(blockIndex);
+		targetBlockList.remove(blockIndex);
     }
 
     public ArrayList<String> getText () {
         return text;
     }
-	
+
 }
