@@ -11,6 +11,8 @@ import java.util.List;
 public class ClsController {
     ImportedFile leftFile = new ImportedFile();
     ImportedFile rightFile = new ImportedFile();
+    ArrayList<DiffBlock> leftDiffBlockList;
+    ArrayList<DiffBlock> rightDiffBlockList;
     ClsView window;
 
     public ClsController ()
@@ -69,19 +71,19 @@ public class ClsController {
         }
     }
 
-    public ArrayList<DiffBlock> compare (boolean isLeftFile) {
+    public void compare (boolean isLeftFile) {
         if (isLeftFile) {
-            return leftFile.compare(rightFile);
+            leftDiffBlockList = leftFile.compare(rightFile);
         } else {
-            return rightFile.compare(leftFile);
+            rightDiffBlockList = rightFile.compare(leftFile);
         }
     }
 
-    public void merge (List<DiffBlock> originalBlockList, List<DiffBlock> targetBlockList, int blockIndex, boolean isLeftfile) {
+    public void merge (int blockIndex, boolean isLeftfile) {
         if (isLeftfile) {
-            leftFile.merge(rightFile, originalBlockList, targetBlockList, blockIndex);
+            leftFile.merge(rightFile, leftDiffBlockList, rightDiffBlockList, blockIndex);
         } else {
-            rightFile.merge(leftFile, originalBlockList, targetBlockList, blockIndex);
+            rightFile.merge(leftFile, rightDiffBlockList, leftDiffBlockList, blockIndex);
         }
     }
 
