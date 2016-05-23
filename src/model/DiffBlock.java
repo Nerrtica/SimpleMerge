@@ -36,7 +36,7 @@ public class DiffBlock {
         return lineNumber;
     }
     
-    public int compareBlockLine (DiffBlock originalBlock, DiffBlock targetBlock) {
-        return targetBlock.getLineNumber() - originalBlock.getLineNumber();
+    public int compareBlockLine (DiffBlock targetBlock) {
+        return targetBlock.getLineNumber() - this.getLineNumber();
     }
 }
