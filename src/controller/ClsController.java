@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 
 public class ClsController {
+    ClsView window;
     ClsModel model;
 
     public ClsController (ClsModel model)
@@ -49,8 +50,8 @@ public class ClsController {
         model.edit(document, isTrueLineList, isLeftFile);
     }
 
-    public void compare (boolean isLeftFile) {
-        model.compare(isLeftFile);
+    public void compare () {
+        model.compare();
     }
 
     public void merge (int blockIndex, boolean isRightToLeft) {

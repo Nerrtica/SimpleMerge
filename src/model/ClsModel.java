@@ -45,12 +45,9 @@ public class ClsModel {
         }
     }
 
-    public void compare (boolean isLeftFile) {
-        if (isLeftFile) {
-            leftDiffBlockList = leftFile.compare(rightFile);
-        } else {
-            rightDiffBlockList = rightFile.compare(leftFile);
-        }
+    public void compare () {
+        leftDiffBlockList = leftFile.compare(rightFile);
+        rightDiffBlockList = rightFile.compare(leftFile);
     }
 
     public void merge (int blockIndex, boolean isRightToLeft) {
