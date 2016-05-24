@@ -2,12 +2,10 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
-import java.io.FileReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -214,16 +212,13 @@ public class ImportedFile {
 			originalBlockList.get(i).changeStartIndex(originalBlockList.get(i).getStartIndex() + changedIndexNumber);
 			originalBlockList.get(i).changeEndIndex(originalBlockList.get(i).getEndIndex() + changedIndexNumber);
 		}
+
+		originalBlockList.remove(blockIndex);
+		targetBlockList.remove(blockIndex);
     }
 
     public ArrayList<String> getText () {
         return text;
-    }
-    
-    public void setText(ArrayList<String> i_text)
-    {
-    	text.clear();
-    	text = i_text;
     }
 
 }
