@@ -1,21 +1,18 @@
 package controller;
 
 import view.ClsView;
-import model.ImportedFile;
-import model.DiffBlock;
+import model.ClsModel;
 import java.awt.EventQueue;
 import java.util.ArrayList;
 
 
 public class ClsController {
-    ImportedFile leftFile = new ImportedFile();
-    ImportedFile rightFile = new ImportedFile();
-    ArrayList<DiffBlock> leftDiffBlockList;
-    ArrayList<DiffBlock> rightDiffBlockList;
-    ClsView window;
+    ClsModel model;
 
-    public ClsController ()
+    public ClsController (ClsModel model)
     {
+        this.model = model;
+
         EventQueue.invokeLater(new Runnable()
         {
             public void run()
@@ -37,80 +34,57 @@ public class ClsController {
     }
 
     public ArrayList<String> load (String fileRoute, boolean isLeftFile) {
-        if (isLeftFile) {
-            leftFile.load(fileRoute);
-            return leftFile.getText();
-        } else {
-            rightFile.load(fileRoute);
-            return rightFile.getText();
-        }
+        model.load(fileRoute, isLeftFile);
     }
 
     public void save (boolean isLeftFile) {
-        if (isLeftFile) {
-            leftFile.save();
-        } else {
-            rightFile.save();
-        }
+        model.save(isLeftFile);
     }
 
     public void saveAs (String fileRoute, boolean isLeftFile) {
-        if (isLeftFile) {
-            leftFile.saveAs(fileRoute);
-        } else {
-            rightFile.saveAs(fileRoute);
-        }
+        model.saveAs(fileRoute, isLeftFile);
     }
 
-    public void edit (String document, ArrayList<Boolean> bool, boolean isLeftFile) {
-        if (isLeftFile) {
-            leftFile.convert(document, bool);
-        } else {
-            rightFile.convert(document, bool);
-        }
+    public void edit (String document, ArrayList<Boolean> isTrueLineList, boolean isLeftFile) {
+        model.edit(document, isTrueLineList, isLeftFile);
     }
 
     public void compare (boolean isLeftFile) {
-        if (isLeftFile) {
-            leftDiffBlockList = leftFile.compare(rightFile);
-        } else {
-            rightDiffBlockList = rightFile.compare(leftFile);
-        }
+        model.compare(isLeftFile);
     }
 
-    public ArrayList<String> merge (int blockIndex, boolean isLeftFile) {
-        if (isLeftFile) {
-            leftFile.merge(rightFile, leftDiffBlockList, rightDiffBlockList, blockIndex);
-            return leftFile.getText();
-        } else {
-            rightFile.merge(leftFile, rightDiffBlockList, leftDiffBlockList, blockIndex);
-            return rightFile.getText();
-        }
+    public void merge (int blockIndex, boolean isRightToLeft) {
+        model.merge(blockIndex, isRightToLeft);
     }
     
-    public ArrayList<String> mergeAll (boolean isLeftFile)
+    public void mergeAll (boolean isRightToLeft)
     {
-        ArrayList<String> temp = null;
-    	for (int i = 0; i < leftDiffBlockList.size(); i++) {
-            temp = merge(i, isLeftFile);
-        }
-        return temp;
+        model.mergeAll(isRightToLeft);
     }
 
-    public int compareBlockLine (int blockIndex, boolean isLeftFile) {
-        if (isLeftFile) {
-            return leftDiffBlockList.get(blockIndex).compareBlockLine(rightDiffBlockList.get(blockIndex));
-        } else {
-            return rightDiffBlockList.get(blockIndex).compareBlockLine(leftDiffBlockList.get(blockIndex));
-        }
+    //return value : Target Block Line # - Original Block Line #
+    public int getBlockLineDiff (int blockIndex, boolean isLeftFile) {
+        return model.getBlockLineDiff(blockIndex, isLeftFile);
     }
 
-    public ArrayList<DiffBlock> getLeftDiffBlockList () {
-        return leftDiffBlockList;
+    //left file의 text를 return해줌
+    public ArrayList<String> getLeftFileText () {
+        return model.getLeftFile().getText();
     }
 
-    public ArrayList<DiffBlock> getRightDiffBlockList () {
-        return rightDiffBlockList;
+    //right file의 text를 return해줌
+    public ArrayList<String> getRightFileText () {
+        return model.getRightFile().getText();
+    }
+
+    //왼쪽 diffBlockList에서 특정 blockIndex의 startIndex를 return해줌
+    public int getLeftBlockStartIndex (int blockIndex) {
+        return model.getLeftDiffBlockList().get(blockIndex).getStartIndex();
+    }
+
+    //왼쪽 diffBlockList에서 특정 blockIndex의 endIndex를 return해줌
+    public int getLeftBlockEndIndex (int blockIndex) {
+        return model.getLeftDiffBlockList().get(blockIndex).getEndIndex();
     }
     
 }

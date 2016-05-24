@@ -185,24 +185,24 @@ public class ImportedFile {
 		return diffBlockList;
     }
 
-    public void merge (ImportedFile oppositeFile, List<DiffBlock> originalBlockList, List<DiffBlock> targetBlockList, int blockIndex) {
-		int startIndex = originalBlockList.get(blockIndex).getStartIndex();
-		int changedIndexNumber = targetBlockList.get(blockIndex).getLineNumber() - originalBlockList.get(blockIndex).getLineNumber();
+    public void merge (ImportedFile oppositeFile, List<DiffBlock> destBlockList, List<DiffBlock> srcBlockList, int blockIndex) {
+		int startIndex = destBlockList.get(blockIndex).getStartIndex();
+		int changedIndexNumber = srcBlockList.get(blockIndex).getLineNumber() - destBlockList.get(blockIndex).getLineNumber();
 
-		for(int i = 0; i < originalBlockList.get(blockIndex).getLineNumber(); i++) {
+		for(int i = 0; i < destBlockList.get(blockIndex).getLineNumber(); i++) {
 			text.remove(startIndex);
 		}
-		for(int i = 0; i < targetBlockList.get(blockIndex).getLineNumber(); i++) {
-			text.add(startIndex + i, oppositeFile.getText().get(targetBlockList.get(blockIndex).getStartIndex() + i));
+		for(int i = 0; i < srcBlockList.get(blockIndex).getLineNumber(); i++) {
+			text.add(startIndex + i, oppositeFile.getText().get(srcBlockList.get(blockIndex).getStartIndex() + i));
 		}
 
-		for (int i = blockIndex + 1; i < originalBlockList.size(); i++) {
-			originalBlockList.get(i).changeStartIndex(originalBlockList.get(i).getStartIndex() + changedIndexNumber);
-			originalBlockList.get(i).changeEndIndex(originalBlockList.get(i).getEndIndex() + changedIndexNumber);
+		for (int i = blockIndex + 1; i < destBlockList.size(); i++) {
+			destBlockList.get(i).changeStartIndex(destBlockList.get(i).getStartIndex() + changedIndexNumber);
+			destBlockList.get(i).changeEndIndex(destBlockList.get(i).getEndIndex() + changedIndexNumber);
 		}
 
-		originalBlockList.remove(blockIndex);
-		targetBlockList.remove(blockIndex);
+		destBlockList.remove(blockIndex);
+		srcBlockList.remove(blockIndex);
     }
 
     public ArrayList<String> getText () {
