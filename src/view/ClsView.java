@@ -787,4 +787,20 @@ public class ClsView
 		
 	}
 	
+	public void setRightSaveBtnEnable (boolean enable) {
+		rightSaveBtn.setEnabled(enable);
+		rightSaveAsBtn.setEnabled(enable);
+		
+	}
+	public void setLeftSaveBtnEnable (boolean enable) {
+		leftSaveBtn.setEnabled(enable);
+		leftSaveAsBtn.setEnabled(enable);
+	}
+	public void setMergeBtnEnablc (boolean enable) {
+		mergeToLeftBtn.setEnabled(enable);
+		mergeToRightBtn.setEnabled(enable);
+		mergeAllToLeftBtn.setEnabled(enable);
+		mergeAllToRightBtn.setEnabled(enable);
+	}
+	
 }

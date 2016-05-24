@@ -1,7 +1,9 @@
 import controller.ClsController;
+import model.ClsModel;
 
 public class MainClass {
 	public static void main (String args[]) {
-        ClsController controller = new ClsController();
+        ClsModel model = new ClsModel();
+        ClsController controller = new ClsController(model);
     }
 }
