@@ -67,35 +67,27 @@ public class ImportedFile {
 			e.printStackTrace();
 		} 
 		catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		try {
-			// BufferedReader br = new BufferedReader(new
-			// FileReader(fileRoute)); // 파일 reader
-				BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), checkCode));
-				String line;
-				while (true) {
-					line = br.readLine();
-					if (line == null) // 더 이상 불러올 문자열 없으면 break;
-						break;
-					temp.add(line); // text 리스트에 문자열 추가
-				}
-				text = temp;
-				br.close();
+			BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(fileRoute), checkCode));
+			String line;
+			while (true) {
+				line = br.readLine();
+				if (line == null) // 더 이상 불러올 문자열 없으면 break;
+					break;
+				temp.add(line); // text 리스트에 문자열 추가
+			}
+			text = temp;
+			br.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		/*
-		for (int i = 0; i < text.size(); i++) {
-			System.out.println(text.get(i));
-		}*/
-
     }
+
     public void convert(String document, ArrayList<Boolean> bool){
     	String[] temp = document.split("\\n");	//개행 문자를 기준으로 문자열 나눔
     	text = new ArrayList<String>();			//text 초기화
@@ -109,8 +101,6 @@ public class ImportedFile {
     }
 
     public void save (){
-
-//    	PrintWriter pw = new PrintWriter(fileRoute);
 		try {
 			BufferedWriter pw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileRoute), checkCode));
 
@@ -131,7 +121,6 @@ public class ImportedFile {
     }
     
     public void saveAs (String asFileRoute){
-
 		try {
 			BufferedWriter pw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(asFileRoute), checkCode));
 
