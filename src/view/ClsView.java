@@ -635,12 +635,10 @@ public class ClsView
 				mergeToRightBtn.setEnabled(true);
 				mergeAllToLeftBtn.setEnabled(true);
 				mergeAllToRightBtn.setEnabled(true);
-<<<<<<< HEAD
+				*/
 				leftQuickView.repaint();
 				rightQuickView.repaint();
-=======
-				*/
->>>>>>> 7907731053f636523bf97144568e8c9b36b995e7
+
 			}
 			else if(t_srcName.equals(NAME_TO_LEFT_BTN))
 			{
