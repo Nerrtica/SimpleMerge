@@ -360,10 +360,12 @@ public class ClsView
 		topButtonPanel.add(mergeAllToLeftBtn);
 		topButtonPanel.add(mergeAllToRightBtn);
 		
+		setMergeBtnEnable(false);/*
 		mergeToLeftBtn.setEnabled(false);
 		mergeToRightBtn.setEnabled(false);
 		mergeAllToLeftBtn.setEnabled(false);
 		mergeAllToRightBtn.setEnabled(false);
+		*/
 		
 	}
 	
@@ -627,10 +629,13 @@ public class ClsView
 				rightEditor.GetTextPad().AddMarkList(refController.getRightDiffBlockList());
 				leftEditor.GetTextPad().ResetSelectedMark();
 				rightEditor.GetTextPad().ResetSelectedMark();
+				setMergeBtnEnable(true);
+				/*
 				mergeToLeftBtn.setEnabled(true);
 				mergeToRightBtn.setEnabled(true);
 				mergeAllToLeftBtn.setEnabled(true);
 				mergeAllToRightBtn.setEnabled(true);
+				*/
 			}
 			else if(t_srcName.equals(NAME_TO_LEFT_BTN))
 			{
@@ -690,35 +695,42 @@ public class ClsView
 					leftEditor.GetTextPad().SetText(refController.load(fileDialogBox.getSelectedFile().toString(), true));
 					rightEditor.GetTextPad().RemoveAllMark();
 					leftEditor.GetTextPad().setEditable(false);
+					setLeftSaveBtnEnable(true);
+					/*
 					leftSaveBtn.setEnabled(true);
 					leftSaveAsBtn.setEnabled(true);
+					*/
 					leftEditBtn.setEnabled(true);
 					leftCompleteBtn.setEnabled(false);
 					compareBtn.setEnabled(true);
+					setMergeBtnEnable(false);/*
 					mergeToLeftBtn.setEnabled(false);
 					mergeToRightBtn.setEnabled(false);
 					mergeAllToLeftBtn.setEnabled(false);
-					mergeAllToRightBtn.setEnabled(false);
+					mergeAllToRightBtn.setEnabled(false);*/
 				}
 			}
 			else if(t_srcName.equals(NAME_LEFT_EDIT_BTN))
 			{
+				setLeftSaveBtnEnable(false);/*
 				leftSaveBtn.setEnabled(false);
-				leftSaveAsBtn.setEnabled(false);
+				leftSaveAsBtn.setEnabled(false);*/
 				leftEditor.GetTextPad().setEditable(true);
 				leftEditor.GetTextPad().ResetSelectedMark();
 				compareBtn.setEnabled(false);
+				setMergeBtnEnable(false);/*
 				mergeToLeftBtn.setEnabled(false);
 				mergeToRightBtn.setEnabled(false);
 				mergeAllToLeftBtn.setEnabled(false);
-				mergeAllToRightBtn.setEnabled(false);
+				mergeAllToRightBtn.setEnabled(false);*/
 				leftEditBtn.setEnabled(false);
 				leftCompleteBtn.setEnabled(true);
 			}
 			else if(t_srcName.equals(NAME_LEFT_COMPLETE_BTN))
 			{
+				setLeftSaveBtnEnable(true);/*
 				leftSaveBtn.setEnabled(true);
-				leftSaveAsBtn.setEnabled(true);
+				leftSaveAsBtn.setEnabled(true);*/
 				refController.edit(leftEditor.GetTextPad().GetText(), leftEditor.GetTextPad().GetLineBoolList(), true);
 				leftEditor.GetTextPad().setEditable(false);
 				if(!rightCompleteBtn.isEnabled())
@@ -744,35 +756,41 @@ public class ClsView
 					rightEditor.GetTextPad().SetText(refController.load(fileDialogBox.getSelectedFile().toString(), false));
 					leftEditor.GetTextPad().RemoveAllMark();
 					rightEditor.GetTextPad().setEditable(false);
+					setRightSaveBtnEnable(true);/*
 					rightSaveBtn.setEnabled(true);
-					rightSaveAsBtn.setEnabled(true);
+					rightSaveAsBtn.setEnabled(true);*/
 					rightEditBtn.setEnabled(true);
 					rightCompleteBtn.setEnabled(false);
 					compareBtn.setEnabled(true);
+					setMergeBtnEnable(false);/*
 					mergeToLeftBtn.setEnabled(false);
 					mergeToRightBtn.setEnabled(false);
 					mergeAllToLeftBtn.setEnabled(false);
-					mergeAllToRightBtn.setEnabled(false);
+					mergeAllToRightBtn.setEnabled(false);*/
 				}
 			}
 			else if(t_srcName.equals(NAME_RIGHT_EDIT_BTN))
 			{
+				setRightSaveBtnEnable(false);/*
 				rightSaveBtn.setEnabled(false);
-				rightSaveAsBtn.setEnabled(false);
+				rightSaveAsBtn.setEnabled(false);*/
 				rightEditor.GetTextPad().setEditable(true);
 				rightEditor.GetTextPad().ResetSelectedMark();
 				compareBtn.setEnabled(false);
+				setMergeBtnEnable(false);/*
 				mergeToLeftBtn.setEnabled(false);
 				mergeToRightBtn.setEnabled(false);
 				mergeAllToLeftBtn.setEnabled(false);
 				mergeAllToRightBtn.setEnabled(false);
+				*/
 				rightEditBtn.setEnabled(false);
 				rightCompleteBtn.setEnabled(true);
 			}
 			else if(t_srcName.equals(NAME_RIGHT_COMPLETE_BTN))
 			{
+				setRightSaveBtnEnable(true);/*
 				rightSaveBtn.setEnabled(true);
-				rightSaveAsBtn.setEnabled(true);
+				rightSaveAsBtn.setEnabled(true);*/
 				refController.edit(rightEditor.GetTextPad().GetText(), rightEditor.GetTextPad().GetLineBoolList(), false);
 				rightEditor.GetTextPad().setEditable(false);
 				if(!leftCompleteBtn.isEnabled())
@@ -794,7 +812,7 @@ public class ClsView
 		leftSaveBtn.setEnabled(enable);
 		leftSaveAsBtn.setEnabled(enable);
 	}
-	public void setMergeBtnEnablc (boolean enable) {
+	public void setMergeBtnEnable (boolean enable) {
 		mergeToLeftBtn.setEnabled(enable);
 		mergeToRightBtn.setEnabled(enable);
 		mergeAllToLeftBtn.setEnabled(enable);
