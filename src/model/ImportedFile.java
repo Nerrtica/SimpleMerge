@@ -83,7 +83,6 @@ public class ImportedFile {
 					temp.add(line); // text 리스트에 문자열 추가
 				}
 				text = temp;
-				temp = new ArrayList<String>();
 				br.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
