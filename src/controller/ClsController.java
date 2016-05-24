@@ -5,7 +5,6 @@ import model.ClsModel;
 import java.awt.EventQueue;
 import java.util.ArrayList;
 
-
 public class ClsController {
     ClsView window;
     ClsModel model;
@@ -52,40 +51,14 @@ public class ClsController {
 
     public void compare () {
         model.compare();
+
     }
 
     public void merge (int blockIndex, boolean isRightToLeft) {
         model.merge(blockIndex, isRightToLeft);
     }
     
-    public void mergeAll (boolean isRightToLeft)
-    {
+    public void mergeAll (boolean isRightToLeft) {
         model.mergeAll(isRightToLeft);
     }
-
-    //return value : Target Block Line # - Original Block Line #
-    public int getBlockLineDiff (int blockIndex, boolean isLeftFile) {
-        return model.getBlockLineDiff(blockIndex, isLeftFile);
-    }
-
-    //left file의 text를 return해줌
-    public ArrayList<String> getLeftFileText () {
-        return model.getLeftFile().getText();
-    }
-
-    //right file의 text를 return해줌
-    public ArrayList<String> getRightFileText () {
-        return model.getRightFile().getText();
-    }
-
-    //왼쪽 diffBlockList에서 특정 blockIndex의 startIndex를 return해줌
-    public int getLeftBlockStartIndex (int blockIndex) {
-        return model.getLeftDiffBlockList().get(blockIndex).getStartIndex();
-    }
-
-    //왼쪽 diffBlockList에서 특정 blockIndex의 endIndex를 return해줌
-    public int getLeftBlockEndIndex (int blockIndex) {
-        return model.getLeftDiffBlockList().get(blockIndex).getEndIndex();
-    }
-    
 }
