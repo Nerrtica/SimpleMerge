@@ -12,6 +12,7 @@ package view;
 
 import java.awt.*;
 import java.io.*;
+import java.util.ArrayList;
 import java.awt.event.*;
 
 import javax.swing.plaf.basic.*;
@@ -142,7 +143,7 @@ public class ClsView
 	
 	private ButtonListener btnListener;
 	
-	private ClsController refController;
+	private ClsController refCtrler;
 
 	//Constructor
 	public ClsView(ClsController i_controller)
@@ -360,12 +361,7 @@ public class ClsView
 		topButtonPanel.add(mergeAllToLeftBtn);
 		topButtonPanel.add(mergeAllToRightBtn);
 		
-		setMergeBtnEnable(false);/*
-		mergeToLeftBtn.setEnabled(false);
-		mergeToRightBtn.setEnabled(false);
-		mergeAllToLeftBtn.setEnabled(false);
-		mergeAllToRightBtn.setEnabled(false);
-		*/
+		setMergeBtnEnable(false);
 		
 	}
 	
@@ -606,6 +602,62 @@ public class ClsView
 		
 	}
 	
+	//////////////////////////////////////////////////////////////////
+	
+	//set right save, save as button enable true or false
+	public void setRightSaveBtnEnable (boolean i_enable)
+	{
+		rightSaveBtn.setEnabled(i_enable);
+		rightSaveAsBtn.setEnabled(i_enable);
+	}
+	
+	//set left save, save as button enable true or false
+	public void setLeftSaveBtnEnable (boolean i_enable)
+	{
+		leftSaveBtn.setEnabled(i_enable);
+		leftSaveAsBtn.setEnabled(i_enable);
+	}
+	
+	//set buttons relate to merge enable true or false
+	public void setMergeBtnEnable (boolean i_enable)
+	{
+		mergeToLeftBtn.setEnabled(i_enable);
+		mergeToRightBtn.setEnabled(i_enable);
+		mergeAllToLeftBtn.setEnabled(i_enable);
+		mergeAllToRightBtn.setEnabled(i_enable);
+	}
+	
+	//set left side textarea editable or not and toggle related button
+	public void setLeftEditable(boolean i_enable)
+	{
+		leftEditor.GetTextPad().setEnabled(i_enable);
+		leftEditBtn.setEnabled(!i_enable);
+		leftCompleteBtn.setEnabled(i_enable);
+	}
+	
+	//set right side textarea editable or not and toggle related button
+	public void setRightEditable(boolean i_enable)
+	{
+		rightEditor.GetTextPad().setEnabled(i_enable);
+		rightEditBtn.setEnabled(!i_enable);
+		rightCompleteBtn.setEnabled(i_enable);
+	}
+	
+	//////////////////////////////////////////////////////////////////
+	
+	public void setText(ArrayList<String> i_text, boolean isLeft)
+	{
+		
+		if(isLeft)
+			leftEditor.GetTextPad().SetText(i_text);
+		else
+			rightEditor.GetTextPad().SetText(i_text);
+		
+	}
+	
+	//////////////////////////////////////////////////////////////////
+	
+	//inner class about button listener
 	private class ButtonListener implements ActionListener
 	{
 		
@@ -623,24 +675,19 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_COMPARE_BTN))
 			{
-				refController.compare(true);
-				refController.compare(false);
+				refCtrler.compare();
+
 				leftEditor.GetTextPad().AddMarkList(refController.getLeftDiffBlockList());
 				rightEditor.GetTextPad().AddMarkList(refController.getRightDiffBlockList());
 				leftEditor.GetTextPad().ResetSelectedMark();
 				rightEditor.GetTextPad().ResetSelectedMark();
 				setMergeBtnEnable(true);
-				/*
-				mergeToLeftBtn.setEnabled(true);
-				mergeToRightBtn.setEnabled(true);
-				mergeAllToLeftBtn.setEnabled(true);
-				mergeAllToRightBtn.setEnabled(true);
-				*/
+
 				leftQuickView.repaint();
 				rightQuickView.repaint();
 
 			}
-			else if(t_srcName.equals(NAME_TO_LEFT_BTN))
+			else if(t_srcName.equals(NAME_TO_LEFT_BTN))//////////////////////////////////////////////MERGE///////////
 			{
 				leftEditor.GetTextPad().SetText(refController.merge(rightEditor.GetTextPad().GetMergeBlockIndex(), true));
 				leftEditor.GetTextPad().RemoveAllMark();
@@ -680,146 +727,87 @@ public class ClsView
 				leftEditor.GetTextPad().ResetSelectedMark();
 				rightEditor.GetTextPad().ResetSelectedMark();
 			}
-			else if(t_srcName.equals(NAME_LEFT_SAVE_BTN))
+			else if(t_srcName.equals(NAME_LEFT_SAVE_BTN))//////////////////////////////////////////////LEFT SIDE///////////
 			{
-				refController.save(true);
+				refCtrler.save(true);
 			}
 			else if(t_srcName.equals(NAME_LEFT_SAVE_AS_BTN))
 			{
 				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
-					refController.saveAs(fileDialogBox.getSelectedFile().toString(), true);
+					refCtrler.saveAs(fileDialogBox.getSelectedFile().toString(), true);
 				}
 			}
 			else if(t_srcName.equals(NAME_LEFT_LOAD_BTN))
 			{
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
-					leftEditor.GetTextPad().SetText(refController.load(fileDialogBox.getSelectedFile().toString(), true));
-					rightEditor.GetTextPad().RemoveAllMark();
-					leftEditor.GetTextPad().setEditable(false);
+					refCtrler.load(fileDialogBox.getSelectedFile().toString(), true);
+					setLeftEditable(false);
 					setLeftSaveBtnEnable(true);
-					/*
-					leftSaveBtn.setEnabled(true);
-					leftSaveAsBtn.setEnabled(true);
-					*/
-					leftEditBtn.setEnabled(true);
-					leftCompleteBtn.setEnabled(false);
 					compareBtn.setEnabled(true);
-					setMergeBtnEnable(false);/*
-					mergeToLeftBtn.setEnabled(false);
-					mergeToRightBtn.setEnabled(false);
-					mergeAllToLeftBtn.setEnabled(false);
-					mergeAllToRightBtn.setEnabled(false);*/
+					setMergeBtnEnable(false);
 				}
 			}
 			else if(t_srcName.equals(NAME_LEFT_EDIT_BTN))
 			{
-				setLeftSaveBtnEnable(false);/*
-				leftSaveBtn.setEnabled(false);
-				leftSaveAsBtn.setEnabled(false);*/
-				leftEditor.GetTextPad().setEditable(true);
-				leftEditor.GetTextPad().ResetSelectedMark();
+				setLeftEditable(true);
+				setLeftSaveBtnEnable(false);
+				setMergeBtnEnable(false);
 				compareBtn.setEnabled(false);
-				setMergeBtnEnable(false);/*
-				mergeToLeftBtn.setEnabled(false);
-				mergeToRightBtn.setEnabled(false);
-				mergeAllToLeftBtn.setEnabled(false);
-				mergeAllToRightBtn.setEnabled(false);*/
-				leftEditBtn.setEnabled(false);
-				leftCompleteBtn.setEnabled(true);
+				leftEditor.GetTextPad().ResetSelectedMark();
 			}
 			else if(t_srcName.equals(NAME_LEFT_COMPLETE_BTN))
 			{
-				setLeftSaveBtnEnable(true);/*
-				leftSaveBtn.setEnabled(true);
-				leftSaveAsBtn.setEnabled(true);*/
-				refController.edit(leftEditor.GetTextPad().GetText(), leftEditor.GetTextPad().GetLineBoolList(), true);
-				leftEditor.GetTextPad().setEditable(false);
+				setLeftEditable(false);
+				setLeftSaveBtnEnable(true);
+				refCtrler.edit(leftEditor.GetTextPad().GetText(), leftEditor.GetTextPad().GetLineBoolList(), true);
 				if(!rightCompleteBtn.isEnabled())
 					compareBtn.setEnabled(true);
-				leftEditBtn.setEnabled(true);
-				leftCompleteBtn.setEnabled(false);
 			}
-			else if(t_srcName.equals(NAME_RIGHT_SAVE_BTN))
+			else if(t_srcName.equals(NAME_RIGHT_SAVE_BTN))//////////////////////////////////////////////RIGHT SIDE///////////
 			{
-				refController.save(false);
+				refCtrler.save(false);
 			}
 			else if(t_srcName.equals(NAME_RIGHT_SAVE_AS_BTN))
 			{
 				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
-					refController.saveAs(fileDialogBox.getSelectedFile().toString(), false);
+					refCtrler.saveAs(fileDialogBox.getSelectedFile().toString(), false);
 				}
 			}
 			else if(t_srcName.equals(NAME_RIGHT_LOAD_BTN))
 			{
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
-					rightEditor.GetTextPad().SetText(refController.load(fileDialogBox.getSelectedFile().toString(), false));
-					leftEditor.GetTextPad().RemoveAllMark();
-					rightEditor.GetTextPad().setEditable(false);
-					setRightSaveBtnEnable(true);/*
-					rightSaveBtn.setEnabled(true);
-					rightSaveAsBtn.setEnabled(true);*/
-					rightEditBtn.setEnabled(true);
-					rightCompleteBtn.setEnabled(false);
+					refCtrler.load(fileDialogBox.getSelectedFile().toString(), false);
+					setRightEditable(false);
+					setRightSaveBtnEnable(true);
 					compareBtn.setEnabled(true);
-					setMergeBtnEnable(false);/*
-					mergeToLeftBtn.setEnabled(false);
-					mergeToRightBtn.setEnabled(false);
-					mergeAllToLeftBtn.setEnabled(false);
-					mergeAllToRightBtn.setEnabled(false);*/
+					setMergeBtnEnable(false);
 				}
 			}
 			else if(t_srcName.equals(NAME_RIGHT_EDIT_BTN))
 			{
-				setRightSaveBtnEnable(false);/*
-				rightSaveBtn.setEnabled(false);
-				rightSaveAsBtn.setEnabled(false);*/
-				rightEditor.GetTextPad().setEditable(true);
-				rightEditor.GetTextPad().ResetSelectedMark();
+				setRightEditable(true);
+				setRightSaveBtnEnable(false);
+				setMergeBtnEnable(false);
 				compareBtn.setEnabled(false);
-				setMergeBtnEnable(false);/*
-				mergeToLeftBtn.setEnabled(false);
-				mergeToRightBtn.setEnabled(false);
-				mergeAllToLeftBtn.setEnabled(false);
-				mergeAllToRightBtn.setEnabled(false);
-				*/
-				rightEditBtn.setEnabled(false);
-				rightCompleteBtn.setEnabled(true);
+				rightEditor.GetTextPad().ResetSelectedMark();
 			}
 			else if(t_srcName.equals(NAME_RIGHT_COMPLETE_BTN))
 			{
-				setRightSaveBtnEnable(true);/*
-				rightSaveBtn.setEnabled(true);
-				rightSaveAsBtn.setEnabled(true);*/
-				refController.edit(rightEditor.GetTextPad().GetText(), rightEditor.GetTextPad().GetLineBoolList(), false);
-				rightEditor.GetTextPad().setEditable(false);
+				setRightEditable(false);
+				setRightSaveBtnEnable(true);
+				refCtrler.edit(rightEditor.GetTextPad().GetText(), rightEditor.GetTextPad().GetLineBoolList(), false);
 				if(!leftCompleteBtn.isEnabled())
 					compareBtn.setEnabled(true);
-				rightEditBtn.setEnabled(true);
-				rightCompleteBtn.setEnabled(false);
 			}
 			
 		}
 		
 	}
 	
-	public void setRightSaveBtnEnable (boolean enable) {
-		rightSaveBtn.setEnabled(enable);
-		rightSaveAsBtn.setEnabled(enable);
-		
-	}
-	public void setLeftSaveBtnEnable (boolean enable) {
-		leftSaveBtn.setEnabled(enable);
-		leftSaveAsBtn.setEnabled(enable);
-	}
-	public void setMergeBtnEnable (boolean enable) {
-		mergeToLeftBtn.setEnabled(enable);
-		mergeToRightBtn.setEnabled(enable);
-		mergeAllToLeftBtn.setEnabled(enable);
-		mergeAllToRightBtn.setEnabled(enable);
-	}
+	
 	
 }

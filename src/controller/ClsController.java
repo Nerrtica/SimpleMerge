@@ -6,7 +6,7 @@ import java.awt.EventQueue;
 import java.util.ArrayList;
 
 public class ClsController {
-    ClsView window;
+    ClsView view;
     ClsModel model;
 
     public ClsController (ClsModel model)
@@ -23,18 +23,32 @@ public class ClsController {
 
     }
 
-    private void show () {
+    private void show ()
+    {
         try
         {
-            window = new ClsView(this);
-        } catch (Exception e)
+        	view = new ClsView(this);
+        }
+        catch (Exception e)
         {
+        	System.out.println("Highest Exception catcher.");
             e.printStackTrace();
         }
     }
 
-    public ArrayList<String> load (String fileRoute, boolean isLeftFile) {
+    public void load (String fileRoute, boolean isLeftFile)
+    {
         model.load(fileRoute, isLeftFile);
+        view.setText(getTextList(isLeftFile), isLeftFile);
+        view.setText(getTextList(!isLeftFile), !isLeftFile);
+    }
+    
+    public ArrayList<String> getTextList(boolean isLeftFile)
+    {
+    	if(isLeftFile)
+    		return model.getLeftFileText();
+    	else
+    		return model.getRightFileText();
     }
 
     public void save (boolean isLeftFile) {
