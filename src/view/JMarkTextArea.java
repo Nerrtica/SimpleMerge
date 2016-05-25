@@ -556,10 +556,11 @@ public class JMarkTextArea extends JTextArea
 				t_offset = super.getDocument().getLength();
 			}
 			
-			for(j = 0; j < i_blockSizeList.get(i); j++)
+			for(j = 0; j < i_lineDiffList.get(i); j++)
 			{
 				super.insert("\n", t_offset);
 				lineBoolList.set(t_line, false);
+				AddMark(t_line);
 			}
 			
 		}
