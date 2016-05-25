@@ -536,7 +536,7 @@ public class JMarkTextArea extends JTextArea
 	public void AddFakeLines(ArrayList<Integer> i_blockSizeList, ArrayList<Integer> i_lineDiffList)
 	{
 		
-		int i, j, t_line, t_offset;
+		int i, j, k, t_line, t_offset;
 		
 		for(i = 0; i < i_lineDiffList.size(); i++)
 		{
@@ -561,6 +561,10 @@ public class JMarkTextArea extends JTextArea
 				super.insert("\n", t_offset);
 				lineBoolList.set(t_line, false);
 				AddMark(t_line);
+				for(k = i + 1; k < blockIndexList.size(); k++)
+				{
+					blockIndexList.set(k, blockIndexList.get(k) + 1);
+				}
 			}
 			
 		}
