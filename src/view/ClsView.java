@@ -685,6 +685,9 @@ public class ClsView
 				leftEditor.GetTextPad().AddMarkList(refModel.getLeftDiffBlockStartIndexList(), refModel.getLeftDiffBlockLineNumberList());
 				rightEditor.GetTextPad().AddMarkList(refModel.getRightDiffBlockStartIndexList(), refModel.getRightDiffBlockLineNumberList());
 				
+				leftEditor.GetTextPad().AddFakeLines(refModel.getLeftDiffBlockLineNumberList(), refModel.getBlockLineDiffList(true));
+				rightEditor.GetTextPad().AddFakeLines(refModel.getRightDiffBlockLineNumberList(), refModel.getBlockLineDiffList(false));
+				
 				setMergeBtnEnable(true);
 
 				leftQuickView.repaint();

@@ -104,7 +104,7 @@ public class ClsModel {
         ArrayList<Integer> leftDiffBlockLineNumber = new ArrayList<Integer>();
 
         for (int i = 0; i < leftDiffBlockList.size(); i++) {
-            leftDiffBlockLineNumber.add(leftDiffBlockList.get(i).getStartIndex());
+            leftDiffBlockLineNumber.add(leftDiffBlockList.get(i).getLineNumber());
         }
 
         return leftDiffBlockLineNumber;
@@ -124,7 +124,7 @@ public class ClsModel {
         ArrayList<Integer> rightDiffBlockLineNumber = new ArrayList<Integer>();
 
         for (int i = 0; i < rightDiffBlockList.size(); i++) {
-            rightDiffBlockLineNumber.add(rightDiffBlockList.get(i).getStartIndex());
+            rightDiffBlockLineNumber.add(rightDiffBlockList.get(i).getLineNumber());
         }
 
         return rightDiffBlockLineNumber;

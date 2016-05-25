@@ -533,6 +533,39 @@ public class JMarkTextArea extends JTextArea
 	
 	//////////////////////////////////////////////////////////////////
 	
+	public void AddFakeLines(ArrayList<Integer> i_blockSizeList, ArrayList<Integer> i_lineDiffList)
+	{
+		
+		int i, j, t_line, t_offset;
+		
+		for(i = 0; i < i_lineDiffList.size(); i++)
+		{
+			
+			if(i_lineDiffList.get(i) <= 0)
+				continue;
+			
+			t_line = blockIndexList.get(i) + i_blockSizeList.get(i);
+			
+			try
+			{
+				t_offset = super.getLineStartOffset(t_line);
+			}
+			catch(BadLocationException ex)
+			{
+				System.out.println("Total line : " + super.getLineCount() + " t_line : " + t_line);
+				t_offset = super.getDocument().getLength();
+			}
+			
+			for(j = 0; j < i_blockSizeList.get(i); j++)
+			{
+				super.insert("\n", t_offset);
+				lineBoolList.set(t_line, false);
+			}
+			
+		}
+
+	}
+	
 	//set true one elements to marklist
 	public void AddMark(int i_lineNum)
 	{
