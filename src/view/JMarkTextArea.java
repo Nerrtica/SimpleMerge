@@ -15,7 +15,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.JTextArea;
 import javax.swing.event.CaretEvent;
@@ -25,8 +24,6 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.Position;
-
-import model.DiffBlock;
 
 public class JMarkTextArea extends JTextArea
 {
@@ -132,6 +129,9 @@ public class JMarkTextArea extends JTextArea
 	private void MouseListener_MousePressed(MouseEvent e)
 	{
 		int t_selectedLine, i;
+		
+		if(super.isEnabled())
+			return;
 		
 		t_selectedLine = e.getY() / lineHeight;
 
@@ -544,20 +544,23 @@ public class JMarkTextArea extends JTextArea
 	}
 	
 	//set true list to marklist
-	public void AddMarkList(ArrayList<DiffBlock> i_list)
+	public void AddMarkList(ArrayList<Integer> i_blockStartList, ArrayList<Integer> i_blockSizeList)
 	{
 		
 		int i, j, t_startIndex, t_blockSize;
 		
-		for(i = 0; i < i_list.size(); i++)
+		blockIndexList = i_blockStartList;
+		
+		for(i = 0; i < i_blockStartList.size(); i++)
 		{
-			blockIndexList.add(i_list.get(i).getStartIndex());
-			
-			t_startIndex = i_list.get(i).getStartIndex();
-			t_blockSize = i_list.get(i).getLineNumber();
+			t_startIndex = i_blockStartList.get(i);
+			t_blockSize = i_blockSizeList.get(i);
 			for(j = 0; j < t_blockSize; j++)
 				AddMark(t_startIndex + j);
 		}
+		
+		//reset selection
+		ResetSelectedMark();
 		
 	}
 	

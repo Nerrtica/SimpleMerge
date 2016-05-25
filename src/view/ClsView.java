@@ -149,9 +149,12 @@ public class ClsView
 	//Constructor
 	public ClsView(ClsController i_controller, ClsModel i_model)
 	{
+		
 		refCtrler = i_controller;
 		refModel = i_model;
+		
 		InitView();
+		
 	}
 	
 	//Initialize view class
@@ -678,11 +681,10 @@ public class ClsView
 			else if(t_srcName.equals(NAME_COMPARE_BTN))
 			{
 				refCtrler.compare();
-
-				leftEditor.GetTextPad().AddMarkList(refController.getLeftDiffBlockList());
-				rightEditor.GetTextPad().AddMarkList(refController.getRightDiffBlockList());
-				leftEditor.GetTextPad().ResetSelectedMark();
-				rightEditor.GetTextPad().ResetSelectedMark();
+				
+				leftEditor.GetTextPad().AddMarkList(refModel.getLeftDiffBlockStartIndexList(), refModel.getLeftDiffBlockLineNumberList());
+				rightEditor.GetTextPad().AddMarkList(refModel.getRightDiffBlockStartIndexList(), refModel.getRightDiffBlockLineNumberList());
+				
 				setMergeBtnEnable(true);
 
 				leftQuickView.repaint();
@@ -736,17 +738,17 @@ public class ClsView
 			else if(t_srcName.equals(NAME_LEFT_SAVE_AS_BTN))
 			{
 				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
-				{
 					refCtrler.saveAs(fileDialogBox.getSelectedFile().toString(), true);
-				}
 			}
 			else if(t_srcName.equals(NAME_LEFT_LOAD_BTN))
 			{
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
 					refCtrler.load(fileDialogBox.getSelectedFile().toString(), true);
+					
 					setLeftEditable(false);
 					setLeftSaveBtnEnable(true);
+					
 					compareBtn.setEnabled(true);
 					setMergeBtnEnable(false);
 				}
@@ -755,15 +757,19 @@ public class ClsView
 			{
 				setLeftEditable(true);
 				setLeftSaveBtnEnable(false);
+				
 				setMergeBtnEnable(false);
 				compareBtn.setEnabled(false);
+				
 				leftEditor.GetTextPad().ResetSelectedMark();
 			}
 			else if(t_srcName.equals(NAME_LEFT_COMPLETE_BTN))
 			{
 				setLeftEditable(false);
 				setLeftSaveBtnEnable(true);
+				
 				refCtrler.edit(leftEditor.GetTextPad().GetText(), leftEditor.GetTextPad().GetLineBoolList(), true);
+				
 				if(!rightCompleteBtn.isEnabled())
 					compareBtn.setEnabled(true);
 			}
@@ -774,17 +780,17 @@ public class ClsView
 			else if(t_srcName.equals(NAME_RIGHT_SAVE_AS_BTN))
 			{
 				if(fileDialogBox.showSaveDialog(viewForm) == JFileChooser.APPROVE_OPTION)
-				{
 					refCtrler.saveAs(fileDialogBox.getSelectedFile().toString(), false);
-				}
 			}
 			else if(t_srcName.equals(NAME_RIGHT_LOAD_BTN))
 			{
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
 					refCtrler.load(fileDialogBox.getSelectedFile().toString(), false);
+					
 					setRightEditable(false);
 					setRightSaveBtnEnable(true);
+					
 					compareBtn.setEnabled(true);
 					setMergeBtnEnable(false);
 				}
@@ -793,15 +799,19 @@ public class ClsView
 			{
 				setRightEditable(true);
 				setRightSaveBtnEnable(false);
+				
 				setMergeBtnEnable(false);
 				compareBtn.setEnabled(false);
+				
 				rightEditor.GetTextPad().ResetSelectedMark();
 			}
 			else if(t_srcName.equals(NAME_RIGHT_COMPLETE_BTN))
 			{
 				setRightEditable(false);
 				setRightSaveBtnEnable(true);
+				
 				refCtrler.edit(rightEditor.GetTextPad().GetText(), rightEditor.GetTextPad().GetLineBoolList(), false);
+				
 				if(!leftCompleteBtn.isEnabled())
 					compareBtn.setEnabled(true);
 			}
