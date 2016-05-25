@@ -73,6 +73,19 @@ public class ClsModel {
             return rightDiffBlockList.get(blockIndex).getBlockLineDiff(leftDiffBlockList.get(blockIndex));
         }
     }
+    
+    public ArrayList<Integer> getBlockLineDiffList(boolean isLeftFile)
+    {
+    	
+    	ArrayList<Integer> blockLineDiffList = new ArrayList<Integer>();
+    	int i;
+    	
+    	for(i = 0; i < leftDiffBlockList.size(); i++)
+    		blockLineDiffList.add(getBlockLineDiff(i, isLeftFile));
+    	
+    	return blockLineDiffList;
+    	
+    }
 
     public ArrayList<String> getLeftFileText () { return leftFile.getText(); }
     public ArrayList<String> getRightFileText () { return rightFile.getText(); }
