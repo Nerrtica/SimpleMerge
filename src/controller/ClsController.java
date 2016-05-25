@@ -65,7 +65,6 @@ public class ClsController {
 
     public void compare () {
         model.compare();
-
     }
 
     public void merge (int blockIndex, boolean isRightToLeft) {

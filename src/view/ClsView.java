@@ -635,7 +635,7 @@ public class ClsView
 	//set left side textarea editable or not and toggle related button
 	public void setLeftEditable(boolean i_enable)
 	{
-		leftEditor.GetTextPad().setEnabled(i_enable);
+		leftEditor.GetTextPad().setEditable(i_enable);
 		leftEditBtn.setEnabled(!i_enable);
 		leftCompleteBtn.setEnabled(i_enable);
 	}
@@ -643,7 +643,7 @@ public class ClsView
 	//set right side textarea editable or not and toggle related button
 	public void setRightEditable(boolean i_enable)
 	{
-		rightEditor.GetTextPad().setEnabled(i_enable);
+		rightEditor.GetTextPad().setEditable(i_enable);
 		rightEditBtn.setEnabled(!i_enable);
 		rightCompleteBtn.setEnabled(i_enable);
 	}
@@ -696,43 +696,43 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_TO_LEFT_BTN))//////////////////////////////////////////////MERGE///////////
 			{
-				leftEditor.GetTextPad().SetText(refController.merge(rightEditor.GetTextPad().GetMergeBlockIndex(), true));
-				leftEditor.GetTextPad().RemoveAllMark();
-				rightEditor.GetTextPad().RemoveAllMark();
-				refController.compare(true);
-				refController.compare(false);
-				leftEditor.GetTextPad().AddMarkList(refController.getLeftDiffBlockList());
-				rightEditor.GetTextPad().AddMarkList(refController.getRightDiffBlockList());
-				leftEditor.GetTextPad().ResetSelectedMark();
-				rightEditor.GetTextPad().ResetSelectedMark();
+				refCtrler.merge(rightEditor.GetTextPad().GetMergeBlockIndex(), true);
+				
+				setText(refModel.getLeftFileText(), true);
+				setText(refModel.getRightFileText(), false);
+				
+				leftEditor.GetTextPad().AddMarkList(refModel.getLeftDiffBlockStartIndexList(), refModel.getLeftDiffBlockLineNumberList());
+				rightEditor.GetTextPad().AddMarkList(refModel.getRightDiffBlockStartIndexList(), refModel.getRightDiffBlockLineNumberList());
+				
+				leftEditor.GetTextPad().AddFakeLines(refModel.getLeftDiffBlockLineNumberList(), refModel.getBlockLineDiffList(true));
+				rightEditor.GetTextPad().AddFakeLines(refModel.getRightDiffBlockLineNumberList(), refModel.getBlockLineDiffList(false));
 			}
 			else if(t_srcName.equals(NAME_TO_RIGHT_BTN))
 			{
-				rightEditor.GetTextPad().SetText(refController.merge(leftEditor.GetTextPad().GetMergeBlockIndex(), false));
-				leftEditor.GetTextPad().RemoveAllMark();
-				rightEditor.GetTextPad().RemoveAllMark();
-				refController.compare(true);
-				refController.compare(false);
-				leftEditor.GetTextPad().AddMarkList(refController.getLeftDiffBlockList());
-				rightEditor.GetTextPad().AddMarkList(refController.getRightDiffBlockList());
-				leftEditor.GetTextPad().ResetSelectedMark();
-				rightEditor.GetTextPad().ResetSelectedMark();
+				refCtrler.merge(leftEditor.GetTextPad().GetMergeBlockIndex(), false);
+				
+				setText(refModel.getLeftFileText(), true);
+				setText(refModel.getRightFileText(), false);
+				
+				leftEditor.GetTextPad().AddMarkList(refModel.getLeftDiffBlockStartIndexList(), refModel.getLeftDiffBlockLineNumberList());
+				rightEditor.GetTextPad().AddMarkList(refModel.getRightDiffBlockStartIndexList(), refModel.getRightDiffBlockLineNumberList());
+				
+				leftEditor.GetTextPad().AddFakeLines(refModel.getLeftDiffBlockLineNumberList(), refModel.getBlockLineDiffList(true));
+				rightEditor.GetTextPad().AddFakeLines(refModel.getRightDiffBlockLineNumberList(), refModel.getBlockLineDiffList(false));
 			}
 			else if(t_srcName.equals(NAME_ALL_TO_LEFT_BTN))
 			{
-				leftEditor.GetTextPad().SetText(refController.mergeAll(true));
-				leftEditor.GetTextPad().RemoveAllMark();
-				rightEditor.GetTextPad().RemoveAllMark();
-				leftEditor.GetTextPad().ResetSelectedMark();
-				rightEditor.GetTextPad().ResetSelectedMark();
+				refCtrler.mergeAll(true);
+				
+				setText(refModel.getLeftFileText(), true);
+				setText(refModel.getRightFileText(), false);
 			}
 			else if(t_srcName.equals(NAME_ALL_TO_RIGHT_BTN))
 			{
-				rightEditor.GetTextPad().SetText(refController.mergeAll(false));
-				leftEditor.GetTextPad().RemoveAllMark();
-				rightEditor.GetTextPad().RemoveAllMark();
-				leftEditor.GetTextPad().ResetSelectedMark();
-				rightEditor.GetTextPad().ResetSelectedMark();
+				refCtrler.mergeAll(false);
+				
+				setText(refModel.getLeftFileText(), true);
+				setText(refModel.getRightFileText(), false);
 			}
 			else if(t_srcName.equals(NAME_LEFT_SAVE_BTN))//////////////////////////////////////////////LEFT SIDE///////////
 			{
