@@ -130,7 +130,7 @@ public class JMarkTextArea extends JTextArea
 	{
 		int t_selectedLine, i;
 		
-		if(super.isEnabled())
+		if(super.isEditable())
 			return;
 		
 		t_selectedLine = e.getY() / lineHeight;
