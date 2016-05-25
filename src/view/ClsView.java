@@ -144,11 +144,13 @@ public class ClsView
 	private ButtonListener btnListener;
 	
 	private ClsController refCtrler;
+	private ClsModel refModel;
 
 	//Constructor
-	public ClsView(ClsController i_controller)
+	public ClsView(ClsController i_controller, ClsModel i_model)
 	{
-		refController = i_controller;
+		refCtrler = i_controller;
+		refModel = i_model;
 		InitView();
 	}
 	
