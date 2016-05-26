@@ -81,6 +81,8 @@ public class JQuickView extends JComponent
 			
 			len = linkedTextArea.GetTextPad().GetMarkList().size();
 			lineUnit = (int)(height / len);
+			if(lineUnit < 1)
+				lineUnit = 1;
 			
 			g.setColor(markColor);
 			for(i = 0; i < len; i++)
@@ -97,6 +99,8 @@ public class JQuickView extends JComponent
 			
 			len = linkedTextArea.GetTextPad().GetLineBoolList().size();
 			lineUnit = (int)(height / len);
+			if(lineUnit < 1)
+				lineUnit = 1;
 			
 			g.setColor(fakeColor);
 			for(i = 0; i < len; i++)
