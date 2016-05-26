@@ -112,21 +112,23 @@ public class ImportedFile {
     }
 
     public void save (){
+    	ArrayList<String> temp = new ArrayList<String>();
+    	temp = text;
 
 		if(checkCode != "EUC-KR"){									//unicode인지 판별하는 char 추가
-			if(text.get(0).charAt(0) != codeChecker[0])
+			if(temp.get(0).charAt(0) != codeChecker[0])
 			{
-				StringBuffer forSaveCode = new StringBuffer(text.get(0));
+				StringBuffer forSaveCode = new StringBuffer(temp.get(0));
 				forSaveCode.insert(0, codeChecker);
-				text.set(0, new String(forSaveCode));
+				temp.set(0, new String(forSaveCode));
 			}
 		}
 		
 		try {
 			BufferedWriter pw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileRoute), checkCode));
 
-			for (int i = 0; i < text.size(); i++) {
-				pw.write(text.get(i));
+			for (int i = 0; i < temp.size(); i++) {
+				pw.write(temp.get(i));
 				pw.write(System.getProperty("line.separator"));
 			}
 
@@ -142,21 +144,22 @@ public class ImportedFile {
     }
     
     public void saveAs (String asFileRoute){
-
+    	ArrayList<String> temp = new ArrayList<String>();
+    	temp = text;
     	if(checkCode != "EUC-KR"){									//unicode인지 판별하는 char 추가
-			if(text.get(0).charAt(0) != codeChecker[0])
+			if(temp.get(0).charAt(0) != codeChecker[0])
 			{
-				StringBuffer forSaveCode = new StringBuffer(text.get(0));
+				StringBuffer forSaveCode = new StringBuffer(temp.get(0));
 				forSaveCode.insert(0, codeChecker);
-				text.set(0, new String(forSaveCode));
+				temp.set(0, new String(forSaveCode));
 			}
 		}
 		
 		try {
 			BufferedWriter pw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(asFileRoute), checkCode));
 
-			for (int i = 0; i < text.size(); i++) {
-				pw.write(text.get(i));
+			for (int i = 0; i < temp.size(); i++) {
+				pw.write(temp.get(i));
 				pw.write(System.getProperty("line.separator"));
 			}
 
