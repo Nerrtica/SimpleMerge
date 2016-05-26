@@ -5,7 +5,8 @@ import java.util.ArrayList;
 
 public class LCSAlgo {
     private static int[][] C;
-    private static int[] diffList;
+    private static int[] leftDiffList;
+    private static int[] rightDiffList;
 
     /* LCS의 최대 길이를 구하는 method */
     public static int LCSLength(List<String> A, List<String> B) {
@@ -60,22 +61,27 @@ public class LCSAlgo {
 
     public static void makeDiffList(List<String> A, List<String> B, int i, int j) {
         if (i == A.size() && j == B.size()) {
-            diffList = new int[A.size()];
+            leftDiffList = new int[A.size()];
+            rightDiffList = new int[B.size()];
         }
 
         if (i > 0 && j > 0 && A.get(i - 1).equals(B.get(j - 1))) {
             makeDiffList(A, B, i - 1, j - 1);
-            diffList[i - 1] = j - 1;
+            leftDiffList[i - 1] = j - 1;
+            rightDiffList[j - 1] = i - 1;
         } else if (j > 0 && (i == 0 || C[i][j - 1] >= C[i - 1][j])) {
             makeDiffList(A, B, i, j - 1);
+            rightDiffList[j - 1] = -1;
         } else if (i > 0 && (j == 0 || C[i][j - 1] < C[i - 1][j])) {
             makeDiffList(A, B, i - 1, j);
-            diffList[i - 1] = -1;
+            leftDiffList[i - 1] = -1;
         }
     }
 
-    public static int[] getDiffList() {
-        return diffList;
+    public static int[] getLeftDiffList() {
+        return leftDiffList;
     }
+
+    public static int[] getRightDiffList() { return rightDiffList; }
 
 }

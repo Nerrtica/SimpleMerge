@@ -46,8 +46,10 @@ public class ClsModel {
     }
 
     public void compare () {
-        leftDiffBlockList = leftFile.compare(rightFile);
-        rightDiffBlockList = rightFile.compare(leftFile);
+        LCSAlgo.LCSLength(leftFile.getText(), rightFile.getText());
+        LCSAlgo.makeDiffList(leftFile.getText(), rightFile.getText(), leftFile.getText().size(), rightFile.getText().size());
+        leftDiffBlockList = leftFile.compare(rightFile, LCSAlgo.getLeftDiffList());
+        rightDiffBlockList = rightFile.compare(leftFile, LCSAlgo.getRightDiffList());
     }
 
     public void merge (int blockIndex, boolean isRightToLeft) {

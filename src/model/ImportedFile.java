@@ -174,12 +174,9 @@ public class ImportedFile {
 		}
     }
 
-    public ArrayList<DiffBlock> compare (ImportedFile oppositeFile) {
+    public ArrayList<DiffBlock> compare (ImportedFile oppositeFile, int[] diffList) {
 		ArrayList<DiffBlock> diffBlockList = new ArrayList<DiffBlock>();
 
-		LCSAlgo.LCSLength(this.getText(), oppositeFile.getText());
-		LCSAlgo.makeDiffList(this.getText(), oppositeFile.getText(), this.getText().size(), oppositeFile.getText().size());
-		int[] diffList = LCSAlgo.getDiffList();
 		for (int i = 0; i < diffList.length; i++) {
 			// 연속된 -1을 찾아 Block으로 만듬
 			if (diffList[i] == -1) {
