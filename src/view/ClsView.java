@@ -148,14 +148,12 @@ public class ClsView
 	private ButtonListener btnListener;
 	
 	private ClsController refCtrler;
-	private ClsModel refModel;
 
 	//Constructor
 	public ClsView(ClsController i_controller, ClsModel i_model)
 	{
 		
 		refCtrler = i_controller;
-		refModel = i_model;
 		
 		InitView();
 		
@@ -652,6 +650,14 @@ public class ClsView
 		rightCompleteBtn.setEnabled(i_enable);
 	}
 	
+	public JScrollTextArea getTextEditor(boolean isLeft)
+	{
+		if(isLeft)
+			return leftEditor;
+		else
+			return rightEditor;
+	}
+	
 	//////////////////////////////////////////////////////////////////
 	
 	public void setText(ArrayList<String> i_text, boolean isLeft)
@@ -686,15 +692,6 @@ public class ClsView
 			{
 				refCtrler.compare();
 				
-				setText(refModel.getFileText(true), true);
-				setText(refModel.getFileText(false), false);
-				
-				leftEditor.GetTextPad().AddMarkList(refModel.getDiffBlockStartIndexList(true), refModel.getDiffBlockLineNumberList(true));
-				rightEditor.GetTextPad().AddMarkList(refModel.getDiffBlockStartIndexList(false), refModel.getDiffBlockLineNumberList(false));
-				
-				leftEditor.GetTextPad().AddFakeLines(refModel.getDiffBlockLineNumberList(true), refModel.getBlockLineDiffList(true));
-				rightEditor.GetTextPad().AddFakeLines(refModel.getDiffBlockLineNumberList(false), refModel.getBlockLineDiffList(false));
-				
 				setMergeBtnEnable(true);
 
 				leftQuickView.repaint();
@@ -704,42 +701,18 @@ public class ClsView
 			else if(t_srcName.equals(NAME_TO_LEFT_BTN))//////////////////////////////////////////////MERGE///////////
 			{
 				refCtrler.merge(rightEditor.GetTextPad().GetMergeBlockIndex(), true);
-				
-				setText(refModel.getFileText(true), true);
-				setText(refModel.getFileText(false), false);
-				
-				leftEditor.GetTextPad().AddMarkList(refModel.getDiffBlockStartIndexList(true), refModel.getDiffBlockLineNumberList(true));
-				rightEditor.GetTextPad().AddMarkList(refModel.getDiffBlockStartIndexList(false), refModel.getDiffBlockLineNumberList(false));
-				
-				leftEditor.GetTextPad().AddFakeLines(refModel.getDiffBlockLineNumberList(true), refModel.getBlockLineDiffList(true));
-				rightEditor.GetTextPad().AddFakeLines(refModel.getDiffBlockLineNumberList(false), refModel.getBlockLineDiffList(false));
 			}
 			else if(t_srcName.equals(NAME_TO_RIGHT_BTN))
 			{
 				refCtrler.merge(leftEditor.GetTextPad().GetMergeBlockIndex(), false);
-				
-				setText(refModel.getFileText(true), true);
-				setText(refModel.getFileText(false), false);
-				
-				leftEditor.GetTextPad().AddMarkList(refModel.getDiffBlockStartIndexList(true), refModel.getDiffBlockLineNumberList(true));
-				rightEditor.GetTextPad().AddMarkList(refModel.getDiffBlockStartIndexList(false), refModel.getDiffBlockLineNumberList(false));
-				
-				leftEditor.GetTextPad().AddFakeLines(refModel.getDiffBlockLineNumberList(true), refModel.getBlockLineDiffList(true));
-				rightEditor.GetTextPad().AddFakeLines(refModel.getDiffBlockLineNumberList(false), refModel.getBlockLineDiffList(false));
 			}
 			else if(t_srcName.equals(NAME_ALL_TO_LEFT_BTN))
 			{
 				refCtrler.mergeAll(true);
-				
-				setText(refModel.getFileText(true), true);
-				setText(refModel.getFileText(false), false);
 			}
 			else if(t_srcName.equals(NAME_ALL_TO_RIGHT_BTN))
 			{
 				refCtrler.mergeAll(false);
-				
-				setText(refModel.getFileText(true), true);
-				setText(refModel.getFileText(false), false);
 			}
 			else if(t_srcName.equals(NAME_LEFT_SAVE_BTN))//////////////////////////////////////////////LEFT SIDE///////////
 			{
