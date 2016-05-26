@@ -682,6 +682,9 @@ public class ClsView
 			{
 				refCtrler.compare();
 				
+				setText(refModel.getLeftFileText(), true);
+				setText(refModel.getRightFileText(), false);
+				
 				leftEditor.GetTextPad().AddMarkList(refModel.getLeftDiffBlockStartIndexList(), refModel.getLeftDiffBlockLineNumberList());
 				rightEditor.GetTextPad().AddMarkList(refModel.getRightDiffBlockStartIndexList(), refModel.getRightDiffBlockLineNumberList());
 				

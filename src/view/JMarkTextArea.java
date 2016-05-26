@@ -558,7 +558,6 @@ public class JMarkTextArea extends JTextArea
 			
 			for(j = 0; j < i_lineDiffList.get(i); j++)
 			{
-				System.out.println(t_offset + " " + t_line);
 				super.insert("\n", t_offset);
 				lineBoolList.set(t_line, false);
 				
