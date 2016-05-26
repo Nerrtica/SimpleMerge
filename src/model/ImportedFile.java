@@ -114,9 +114,12 @@ public class ImportedFile {
     public void save (){
 
 		if(checkCode != "EUC-KR"){									//unicode인지 판별하는 char 추가
-			StringBuffer forSaveCode = new StringBuffer(text.get(0));
-			forSaveCode.insert(0, codeChecker);
-			text.set(0, new String(forSaveCode));
+			if(text.get(0).charAt(0) != codeChecker[0])
+			{
+				StringBuffer forSaveCode = new StringBuffer(text.get(0));
+				forSaveCode.insert(0, codeChecker);
+				text.set(0, new String(forSaveCode));
+			}
 		}
 		
 		try {
@@ -140,10 +143,13 @@ public class ImportedFile {
     
     public void saveAs (String asFileRoute){
 
-		if(checkCode != "EUC-KR"){									//unicode인지 판별하는 char 추가
-			StringBuffer forSaveCode = new StringBuffer(text.get(0));
-			forSaveCode.insert(0, codeChecker);
-			text.set(0, new String(forSaveCode));
+    	if(checkCode != "EUC-KR"){									//unicode인지 판별하는 char 추가
+			if(text.get(0).charAt(0) != codeChecker[0])
+			{
+				StringBuffer forSaveCode = new StringBuffer(text.get(0));
+				forSaveCode.insert(0, codeChecker);
+				text.set(0, new String(forSaveCode));
+			}
 		}
 		
 		try {
