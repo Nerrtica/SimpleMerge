@@ -90,46 +90,36 @@ public class ClsModel {
     	
     }
 
-    public ArrayList<String> getLeftFileText () { return leftFile.getText(); }
-    public ArrayList<String> getRightFileText () { return rightFile.getText(); }
+    public ArrayList<String> getFileText (boolean isLeftFile) {
+        if (isLeftFile) { return leftFile.getText(); }
+        else { return rightFile.getText(); }
+    }
 
-    public ArrayList<Integer> getLeftDiffBlockStartIndexList () {
-        ArrayList<Integer> leftDiffBlockStartIndex = new ArrayList<Integer>();
+    public ArrayList<Integer> getDiffBlockStartIndexList (boolean isLeftBlock) {
+        ArrayList<Integer> diffBlockStartIndex = new ArrayList<Integer>();
 
         for (int i = 0; i < leftDiffBlockList.size(); i++) {
-            leftDiffBlockStartIndex.add(leftDiffBlockList.get(i).getStartIndex());
+            if (isLeftBlock) {
+                diffBlockStartIndex.add(leftDiffBlockList.get(i).getStartIndex());
+            } else {
+                diffBlockStartIndex.add(rightDiffBlockList.get(i).getStartIndex());
+            }
         }
 
-        return leftDiffBlockStartIndex;
+        return diffBlockStartIndex;
     }
 
-    public ArrayList<Integer> getLeftDiffBlockLineNumberList () {
-        ArrayList<Integer> leftDiffBlockLineNumber = new ArrayList<Integer>();
+    public ArrayList<Integer> getDiffBlockLineNumberList (boolean isLeftBlock) {
+        ArrayList<Integer> diffBlockLineNumber = new ArrayList<Integer>();
 
         for (int i = 0; i < leftDiffBlockList.size(); i++) {
-            leftDiffBlockLineNumber.add(leftDiffBlockList.get(i).getLineNumber());
+            if (isLeftBlock) {
+                diffBlockLineNumber.add(leftDiffBlockList.get(i).getLineNumber());
+            } else {
+                diffBlockLineNumber.add(rightDiffBlockList.get(i).getLineNumber());
+            }
         }
 
-        return leftDiffBlockLineNumber;
-    }
-
-    public ArrayList<Integer> getRightDiffBlockStartIndexList () {
-        ArrayList<Integer> rightDiffBlockStartIndex = new ArrayList<Integer>();
-
-        for (int i = 0; i < rightDiffBlockList.size(); i++) {
-            rightDiffBlockStartIndex.add(rightDiffBlockList.get(i).getStartIndex());
-        }
-
-        return rightDiffBlockStartIndex;
-    }
-
-    public ArrayList<Integer> getRightDiffBlockLineNumberList () {
-        ArrayList<Integer> rightDiffBlockLineNumber = new ArrayList<Integer>();
-
-        for (int i = 0; i < rightDiffBlockList.size(); i++) {
-            rightDiffBlockLineNumber.add(rightDiffBlockList.get(i).getLineNumber());
-        }
-
-        return rightDiffBlockLineNumber;
+        return diffBlockLineNumber;
     }
 }
