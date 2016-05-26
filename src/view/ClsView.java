@@ -686,14 +686,14 @@ public class ClsView
 			{
 				refCtrler.compare();
 				
-				setText(refModel.getLeftFileText(), true);
-				setText(refModel.getRightFileText(), false);
+				setText(refModel.getFileText(true), true);
+				setText(refModel.getFileText(false), false);
 				
-				leftEditor.GetTextPad().AddMarkList(refModel.getLeftDiffBlockStartIndexList(), refModel.getLeftDiffBlockLineNumberList());
-				rightEditor.GetTextPad().AddMarkList(refModel.getRightDiffBlockStartIndexList(), refModel.getRightDiffBlockLineNumberList());
+				leftEditor.GetTextPad().AddMarkList(refModel.getDiffBlockStartIndexList(true), refModel.getDiffBlockLineNumberList(true));
+				rightEditor.GetTextPad().AddMarkList(refModel.getDiffBlockStartIndexList(false), refModel.getDiffBlockLineNumberList(false));
 				
-				leftEditor.GetTextPad().AddFakeLines(refModel.getLeftDiffBlockLineNumberList(), refModel.getBlockLineDiffList(true));
-				rightEditor.GetTextPad().AddFakeLines(refModel.getRightDiffBlockLineNumberList(), refModel.getBlockLineDiffList(false));
+				leftEditor.GetTextPad().AddFakeLines(refModel.getDiffBlockLineNumberList(true), refModel.getBlockLineDiffList(true));
+				rightEditor.GetTextPad().AddFakeLines(refModel.getDiffBlockLineNumberList(false), refModel.getBlockLineDiffList(false));
 				
 				setMergeBtnEnable(true);
 
@@ -705,41 +705,41 @@ public class ClsView
 			{
 				refCtrler.merge(rightEditor.GetTextPad().GetMergeBlockIndex(), true);
 				
-				setText(refModel.getLeftFileText(), true);
-				setText(refModel.getRightFileText(), false);
+				setText(refModel.getFileText(true), true);
+				setText(refModel.getFileText(false), false);
 				
-				leftEditor.GetTextPad().AddMarkList(refModel.getLeftDiffBlockStartIndexList(), refModel.getLeftDiffBlockLineNumberList());
-				rightEditor.GetTextPad().AddMarkList(refModel.getRightDiffBlockStartIndexList(), refModel.getRightDiffBlockLineNumberList());
+				leftEditor.GetTextPad().AddMarkList(refModel.getDiffBlockStartIndexList(true), refModel.getDiffBlockLineNumberList(true));
+				rightEditor.GetTextPad().AddMarkList(refModel.getDiffBlockStartIndexList(false), refModel.getDiffBlockLineNumberList(false));
 				
-				leftEditor.GetTextPad().AddFakeLines(refModel.getLeftDiffBlockLineNumberList(), refModel.getBlockLineDiffList(true));
-				rightEditor.GetTextPad().AddFakeLines(refModel.getRightDiffBlockLineNumberList(), refModel.getBlockLineDiffList(false));
+				leftEditor.GetTextPad().AddFakeLines(refModel.getDiffBlockLineNumberList(true), refModel.getBlockLineDiffList(true));
+				rightEditor.GetTextPad().AddFakeLines(refModel.getDiffBlockLineNumberList(false), refModel.getBlockLineDiffList(false));
 			}
 			else if(t_srcName.equals(NAME_TO_RIGHT_BTN))
 			{
 				refCtrler.merge(leftEditor.GetTextPad().GetMergeBlockIndex(), false);
 				
-				setText(refModel.getLeftFileText(), true);
-				setText(refModel.getRightFileText(), false);
+				setText(refModel.getFileText(true), true);
+				setText(refModel.getFileText(false), false);
 				
-				leftEditor.GetTextPad().AddMarkList(refModel.getLeftDiffBlockStartIndexList(), refModel.getLeftDiffBlockLineNumberList());
-				rightEditor.GetTextPad().AddMarkList(refModel.getRightDiffBlockStartIndexList(), refModel.getRightDiffBlockLineNumberList());
+				leftEditor.GetTextPad().AddMarkList(refModel.getDiffBlockStartIndexList(true), refModel.getDiffBlockLineNumberList(true));
+				rightEditor.GetTextPad().AddMarkList(refModel.getDiffBlockStartIndexList(false), refModel.getDiffBlockLineNumberList(false));
 				
-				leftEditor.GetTextPad().AddFakeLines(refModel.getLeftDiffBlockLineNumberList(), refModel.getBlockLineDiffList(true));
-				rightEditor.GetTextPad().AddFakeLines(refModel.getRightDiffBlockLineNumberList(), refModel.getBlockLineDiffList(false));
+				leftEditor.GetTextPad().AddFakeLines(refModel.getDiffBlockLineNumberList(true), refModel.getBlockLineDiffList(true));
+				rightEditor.GetTextPad().AddFakeLines(refModel.getDiffBlockLineNumberList(false), refModel.getBlockLineDiffList(false));
 			}
 			else if(t_srcName.equals(NAME_ALL_TO_LEFT_BTN))
 			{
 				refCtrler.mergeAll(true);
 				
-				setText(refModel.getLeftFileText(), true);
-				setText(refModel.getRightFileText(), false);
+				setText(refModel.getFileText(true), true);
+				setText(refModel.getFileText(false), false);
 			}
 			else if(t_srcName.equals(NAME_ALL_TO_RIGHT_BTN))
 			{
 				refCtrler.mergeAll(false);
 				
-				setText(refModel.getLeftFileText(), true);
-				setText(refModel.getRightFileText(), false);
+				setText(refModel.getFileText(true), true);
+				setText(refModel.getFileText(false), false);
 			}
 			else if(t_srcName.equals(NAME_LEFT_SAVE_BTN))//////////////////////////////////////////////LEFT SIDE///////////
 			{
