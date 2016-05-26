@@ -45,7 +45,7 @@ public class ClsController {
     
     public ArrayList<String> getTextList(boolean isLeftFile)
     {
-    	model.getFileText(isLeftFile);
+    	return model.getFileText(isLeftFile);
     }
 
     public void save (boolean isLeftFile) {
