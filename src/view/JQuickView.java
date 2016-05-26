@@ -19,6 +19,7 @@ public class JQuickView extends JComponent
 	public final int DEFAULT_MARGIN = 10;
 	
 	public final Color DEFAULT_MARK_COLOR = new Color(255, 100, 100);
+	public final Color DEFAULT_FAKE_COLOR = new Color(255, 0, 0);
 	public final Color DEFAULT_BORDER_COLOR = Color.BLACK;
 	public final Color DEFAULT_RECT_COLOR = new Color(0, 0, 255, 50);
 	
@@ -27,6 +28,7 @@ public class JQuickView extends JComponent
 	private int internalMargin;
 	
 	private Color markColor;
+	private Color fakeColor;
 	private Color borderColor;
 	private Color rectColor;
 	
@@ -51,6 +53,7 @@ public class JQuickView extends JComponent
 		internalMargin = DEFAULT_MARGIN;
 		
 		markColor = DEFAULT_MARK_COLOR;
+		fakeColor = DEFAULT_FAKE_COLOR;
 		borderColor = DEFAULT_BORDER_COLOR;
 		rectColor = DEFAULT_RECT_COLOR;
 		
@@ -84,6 +87,22 @@ public class JQuickView extends JComponent
 			{
 				if(linkedTextArea.GetTextPad().GetMarkList().get(i) == true)
 					g.fillRect(internalMargin, internalMargin + i * lineUnit, width, lineUnit);
+			}
+			
+		}
+		
+		//draw fake line mark
+		if(!linkedTextArea.GetTextPad().GetLineBoolList().isEmpty())
+		{
+			
+			len = linkedTextArea.GetTextPad().GetLineBoolList().size();
+			lineUnit = (int)(height / len);
+			
+			g.setColor(fakeColor);
+			for(i = 0; i < len; i++)
+			{
+				if(linkedTextArea.GetTextPad().GetLineBoolList().get(i) == false)
+					g.fillRect(internalMargin, internalMargin + i * lineUnit, 5, lineUnit);
 			}
 			
 		}
