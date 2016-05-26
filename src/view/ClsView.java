@@ -128,6 +128,10 @@ public class ClsView
 	private JScrollTextArea rightEditor;
 	//dialog box
 	private JFileChooser	fileDialogBox;
+	
+	private JMenuBar		formMenuBar;
+	private JMenu			formMenu;
+	private JMenuItem		saveMenu;
 
 	//////////////////////////////////////////////////////////////////
 	//private variables
@@ -824,6 +828,31 @@ public class ClsView
 			
 		}
 		
+	}
+	
+	//////////////////////////////////////////////////////////////////
+		
+	//inner class about keyboard listener
+	private class KeyListener extends KeyAdapter
+	{
+		public void KeyPressed(KeyEvent e)
+		{
+			if(e.getKeyChar() == KeyEvent.VK_CONTROL)
+			{
+				System.out.println("CTRL");
+				if(e.getKeyChar() == 's')
+				{
+					if(e.getKeyChar() == ',')
+					{
+						System.out.println("SAVE LEFT");
+					}
+					else if(e.getKeyChar() == '.')
+					{
+						System.out.println("SAVE RIGHT");
+					}
+				}
+			}
+		}
 	}
 	
 	
