@@ -62,8 +62,9 @@ public class ClsModel {
 
     public void mergeAll (boolean isRightToLeft)
     {
-        for (int i = 0; i < leftDiffBlockList.size(); i++) {
-            merge(i, isRightToLeft);
+        int diffBlockListSize = leftDiffBlockList.size();
+        for (int i = 0; i < diffBlockListSize; i++) {
+            merge(0, isRightToLeft);
         }
     }
 
