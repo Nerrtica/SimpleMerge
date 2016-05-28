@@ -524,7 +524,6 @@ public class JMarkTextArea extends JTextArea
 		//append all text
 		for(i = 0; i < len; i++)
 		{
-			System.out.println(i_textList.get(i));
 			super.append(i_textList.get(i));
 			super.append("\n");
 		}

@@ -658,6 +658,12 @@ public class ClsView
 			return rightEditor;
 	}
 	
+	public void repaintQuickView()
+	{
+		leftQuickView.repaint();
+		rightQuickView.repaint();
+	}
+	
 	//////////////////////////////////////////////////////////////////
 	
 	public void setText(ArrayList<String> i_text, boolean isLeft)
@@ -694,25 +700,27 @@ public class ClsView
 				
 				setMergeBtnEnable(true);
 
-				leftQuickView.repaint();
-				rightQuickView.repaint();
-
+				repaintQuickView();
 			}
 			else if(t_srcName.equals(NAME_TO_LEFT_BTN))//////////////////////////////////////////////MERGE///////////
 			{
 				refCtrler.merge(rightEditor.GetTextPad().GetMergeBlockIndex(), true);
+				repaintQuickView();
 			}
 			else if(t_srcName.equals(NAME_TO_RIGHT_BTN))
 			{
 				refCtrler.merge(leftEditor.GetTextPad().GetMergeBlockIndex(), false);
+				repaintQuickView();
 			}
 			else if(t_srcName.equals(NAME_ALL_TO_LEFT_BTN))
 			{
 				refCtrler.mergeAll(true);
+				repaintQuickView();
 			}
 			else if(t_srcName.equals(NAME_ALL_TO_RIGHT_BTN))
 			{
 				refCtrler.mergeAll(false);
+				repaintQuickView();
 			}
 			else if(t_srcName.equals(NAME_LEFT_SAVE_BTN))//////////////////////////////////////////////LEFT SIDE///////////
 			{

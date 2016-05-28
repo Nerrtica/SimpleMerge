@@ -67,28 +67,37 @@ public class JQuickView extends JComponent
 
 		int i, len;
 		int width, height;
-		int lineUnit;
+		float lineUnit;
+		int intLineUnit;
 		int screenTop, scrollMax, screenHeight;
 		int rectTop, rectHeight;
+		
+		//error check
+		if(linkedTextArea.GetTextPad().GetMarkList().size() !=  linkedTextArea.GetTextPad().GetLineBoolList().size())
+		{
+			System.out.println("MarkListSize is not same as boolListSize");
+			return;
+		}
 		
 		//get this component's size and subtract internal margin value
 		width = super.getWidth() - internalMargin * 2;
 		height = super.getHeight() - internalMargin * 2;
+		len = linkedTextArea.GetTextPad().GetMarkList().size();
+		lineUnit = (float)((float)height / (float)len);
+		intLineUnit = (int)lineUnit;
+		
+		if(intLineUnit == 0)
+			intLineUnit = 1;
 		
 		//draw mark
 		if(!linkedTextArea.GetTextPad().GetMarkList().isEmpty())
 		{
 			
-			len = linkedTextArea.GetTextPad().GetMarkList().size();
-			lineUnit = (int)(height / len);
-			if(lineUnit < 1)
-				lineUnit = 1;
-			
 			g.setColor(markColor);
 			for(i = 0; i < len; i++)
 			{
 				if(linkedTextArea.GetTextPad().GetMarkList().get(i) == true)
-					g.fillRect(internalMargin, internalMargin + i * lineUnit, width, lineUnit);
+					g.fillRect(internalMargin, internalMargin + (int)Math.round(i * lineUnit), width, intLineUnit);
 			}
 			
 		}
@@ -97,16 +106,11 @@ public class JQuickView extends JComponent
 		if(!linkedTextArea.GetTextPad().GetLineBoolList().isEmpty())
 		{
 			
-			len = linkedTextArea.GetTextPad().GetLineBoolList().size();
-			lineUnit = (int)(height / len);
-			if(lineUnit < 1)
-				lineUnit = 1;
-			
 			g.setColor(fakeColor);
 			for(i = 0; i < len; i++)
 			{
 				if(linkedTextArea.GetTextPad().GetLineBoolList().get(i) == false)
-					g.fillRect(internalMargin, internalMargin + i * lineUnit, 5, lineUnit);
+					g.fillRect(internalMargin, internalMargin + (int)Math.round(i * lineUnit), 5, intLineUnit);
 			}
 			
 		}
