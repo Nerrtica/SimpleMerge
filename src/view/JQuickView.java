@@ -21,7 +21,7 @@ public class JQuickView extends JComponent
 	public final Color DEFAULT_MARK_COLOR = new Color(255, 100, 100);
 	public final Color DEFAULT_FAKE_COLOR = new Color(255, 0, 0);
 	public final Color DEFAULT_BORDER_COLOR = Color.BLACK;
-	public final Color DEFAULT_RECT_COLOR = new Color(0, 0, 255, 50);
+	public final Color DEFAULT_RECT_COLOR = new Color(0, 0, 0, 100);
 	
 	private JScrollTextArea linkedTextArea;
 	

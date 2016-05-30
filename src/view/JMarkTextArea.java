@@ -54,6 +54,8 @@ public class JMarkTextArea extends JTextArea
 	private ArrayList<Boolean> lineBoolList;	//if false, that line won't be save (fake line)
 	private ArrayList<Integer> blockIndexList;
 	
+	private JMarkTextArea linkedTextArea;
+	
 	//////////////////////////////////////////////////////////////////
 	
 	//Constructor
@@ -89,6 +91,8 @@ public class JMarkTextArea extends JTextArea
 		lineBoolList.add(true);					//add first line
 		
 		blockIndexList = new ArrayList<Integer>();
+		
+		linkedTextArea = null;
 		
 	}
 	
@@ -156,6 +160,12 @@ public class JMarkTextArea extends JTextArea
 						selectLineEnd = i;
 					else
 						break;
+				}
+				
+				if(linkedTextArea != null)
+				{
+					linkedTextArea.SetSelectBlock(selectLineStart, selectLineEnd);
+					linkedTextArea.repaint();
 				}
 				
 				System.out.println("S : " + selectLineStart + " E : " + selectLineEnd);
@@ -650,6 +660,27 @@ public class JMarkTextArea extends JTextArea
 		
 		PaintMark(g);
 
+	}
+	
+	public int GetSelectFirstLine()
+	{
+		return selectLineStart;
+	}
+	
+	public int GetSelectEndLine()
+	{
+		return selectLineEnd;
+	}
+	
+	public void SetSelectBlock(int i_start, int i_end)
+	{
+		selectLineStart = i_start;
+		selectLineEnd = i_end;
+	}
+	
+	public void LinkTextArea(JMarkTextArea i_linkedTextArea)
+	{
+		linkedTextArea = i_linkedTextArea;
 	}
 
 }

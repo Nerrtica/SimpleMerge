@@ -21,7 +21,6 @@ import controller.ClsController;
 import model.*;
 
 import javax.swing.*;
-import javax.swing.event.*;
 import javax.imageio.*;
 
 
@@ -414,6 +413,10 @@ public class ClsView
 		Init_LeftBounds();
 		//Call Initialize splitpane's right side
 		Init_RightBounds();
+		
+		//Link
+		rightEditor.GetTextPad().LinkTextArea(leftEditor.GetTextPad());
+		leftEditor.GetTextPad().LinkTextArea(rightEditor.GetTextPad());
 		
 	}
 	
