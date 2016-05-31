@@ -344,6 +344,7 @@ public class ClsView
 		topButtonPanel.add(mergeAllToLeftBtn);
 		topButtonPanel.add(mergeAllToRightBtn);
 		
+		compareBtn.setEnabled(false);
 		setMergeBtnEnable(false);
 		
 	}
@@ -682,7 +683,7 @@ public class ClsView
 				}
 				catch(ArrayIndexOutOfBoundsException ex)
 				{
-					System.out.println("Select Block.");
+					JOptionPane.showMessageDialog(viewForm, "Select block plaese.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 				}
 				repaintQuickView();
 			}
@@ -694,7 +695,7 @@ public class ClsView
 				}
 				catch(ArrayIndexOutOfBoundsException ex)
 				{
-					System.out.println("Select Block.");
+					JOptionPane.showMessageDialog(viewForm, "Select block plaese.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 				}
 				repaintQuickView();
 			}
@@ -706,7 +707,7 @@ public class ClsView
 				}
 				catch(ArrayIndexOutOfBoundsException ex)
 				{
-					System.out.println("Select Block.");
+					JOptionPane.showMessageDialog(viewForm, "Select block plaese.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 				}
 				repaintQuickView();
 			}
@@ -718,7 +719,7 @@ public class ClsView
 				}
 				catch(ArrayIndexOutOfBoundsException ex)
 				{
-					System.out.println("Select Block.");
+					JOptionPane.showMessageDialog(viewForm, "Select block plaese.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 				}
 				repaintQuickView();
 			}
