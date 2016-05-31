@@ -423,18 +423,18 @@ public class JMarkTextArea extends JTextArea
 		return markList;
 	}
 	
-	public int GetMergeBlockIndex()
+	public int GetMergeBlockIndex() throws ArrayIndexOutOfBoundsException
 	{
 		
 		int i;
 		
-		
+		/*
 		if(selectLineStart == -1)
 		{
 			System.out.println("Select block please.");
 			return -1;
 		}
-		
+		*/
 		for(i = 0; i < blockIndexList.size(); i++)
 		{
 			if(blockIndexList.get(i) == selectLineStart)

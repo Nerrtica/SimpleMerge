@@ -676,22 +676,50 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_TO_LEFT_BTN))//////////////////////////////////////////////MERGE///////////
 			{
-				refCtrler.merge(rightEditor.GetTextPad().GetMergeBlockIndex(), true);
+				try
+				{
+					refCtrler.merge(rightEditor.GetTextPad().GetMergeBlockIndex(), true);
+				}
+				catch(ArrayIndexOutOfBoundsException ex)
+				{
+					System.out.println("Select Block.");
+				}
 				repaintQuickView();
 			}
 			else if(t_srcName.equals(NAME_TO_RIGHT_BTN))
 			{
-				refCtrler.merge(leftEditor.GetTextPad().GetMergeBlockIndex(), false);
+				try
+				{
+					refCtrler.merge(leftEditor.GetTextPad().GetMergeBlockIndex(), false);
+				}
+				catch(ArrayIndexOutOfBoundsException ex)
+				{
+					System.out.println("Select Block.");
+				}
 				repaintQuickView();
 			}
 			else if(t_srcName.equals(NAME_ALL_TO_LEFT_BTN))
 			{
-				refCtrler.mergeAll(true);
+				try
+				{
+					refCtrler.mergeAll(true);
+				}
+				catch(ArrayIndexOutOfBoundsException ex)
+				{
+					System.out.println("Select Block.");
+				}
 				repaintQuickView();
 			}
 			else if(t_srcName.equals(NAME_ALL_TO_RIGHT_BTN))
 			{
-				refCtrler.mergeAll(false);
+				try
+				{
+					refCtrler.mergeAll(false);
+				}
+				catch(ArrayIndexOutOfBoundsException ex)
+				{
+					System.out.println("Select Block.");
+				}
 				repaintQuickView();
 			}
 			else if(t_srcName.equals(NAME_LEFT_SAVE_BTN))//////////////////////////////////////////////LEFT SIDE///////////
