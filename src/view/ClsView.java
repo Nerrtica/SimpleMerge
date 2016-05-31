@@ -42,8 +42,6 @@ public class ClsView
 	public final String		NAME_RIGHT_LOAD_BTN	 	= "RightLoadButton";				//right load button name
 	public final String		NAME_RIGHT_EDIT_BTN 	= "RightEditButton";				//right edit button name
 	public final String		NAME_RIGHT_COMPLETE_BTN	= "RightCompleteButton";			//right complete button name
-	public final String		NAME_UNDO_BTN 			= "UndoButton";						//undo button name
-	public final String		NAME_REDO_BTN 			= "RedoButton";						//redo button name
 	public final String		NAME_COMPARE_BTN 		= "CompareButton";					//compare button name
 	public final String		NAME_TO_LEFT_BTN 		= "MergeToLeftButton";				//merge to left button name
 	public final String		NAME_TO_RIGHT_BTN 		= "MergeToRightButton";				//merge to right button name
@@ -69,14 +67,10 @@ public class ClsView
 	public final String		TO_ALL_LEFT_BTN_IMG_PATH 	= "Images/AllToLeft01.png";		//path of all to left button image
 	public final String		TO_ALL_RIGHT_BTN_IMG_PATH 	= "Images/AllToRight01.png";	//path of all to right button image	
 	public final String		COMPARE_BTN_IMG_PATH 		= "Images/Compare01.png";		//path of compare button image
-	public final String		UNDO_BTN_IMG_PATH 			= "Images/Undo01.png";			//path of undo button image
-	public final String		REDO_BTN_IMG_PATH 			= "Images/Redo01.png";			//path of redo button image
 	public final String		EDIT_BTN_IMG_PATH 			= "Images/Edit01.png";			//path of edit button image
 	public final String		COMPLETE_BTN_IMG_PATH 		= "Images/Complete01.png";		//path of complete button image
 	public final String		SAVE_AS_BTN_IMG_PATH		= "Images/SaveAs01.png";		//path of save as button image
 	//TOOLTIP TEXT
-	public final String		TOOLTIP_UNDO_BTN 			= "Undo";						//tooltip of undo button
-	public final String		TOOLTIP_REDO_BTN 			= "Redo";						//tooltip of redo button
 	public final String		TOOLTIP_COMPARE_BTN 		= "Compare";					//tooltip of compare button
 	public final String		TOOLTIP_TO_LEFT_BTN 		= "Merge to Left";				//tooltip of merge to left button
 	public final String		TOOLTIP_TO_RIGHT_BTN 		= "Merge to Right";				//tooltip of merge to right button
@@ -107,7 +101,6 @@ public class ClsView
 	private JPanel			topButtonPanel;
 	private JPanel			topLogoPanel;
 	private JLabel			topLogoLabel;
-	private JButton 		undoBtn, redoBtn;
 	private JButton			mergeToLeftBtn, mergeToRightBtn;
 	private JButton			mergeAllToLeftBtn, mergeAllToRightBtn;
 	private JButton			compareBtn;
@@ -310,8 +303,6 @@ public class ClsView
 		//Create button and get button images
 		try
 		{
-			undoBtn = new JButton(new ImageIcon(ImageIO.read(new File(UNDO_BTN_IMG_PATH))));
-			redoBtn = new JButton(new ImageIcon(ImageIO.read(new File(REDO_BTN_IMG_PATH))));
 			mergeToLeftBtn = new JButton(new ImageIcon(ImageIO.read(new File(TO_LEFT_BTN_IMG_PATH))));
 			mergeToRightBtn = new JButton(new ImageIcon(ImageIO.read(new File(TO_RIGHT_BTN_IMG_PATH))));
 			mergeAllToLeftBtn = new JButton(new ImageIcon(ImageIO.read(new File(TO_ALL_LEFT_BTN_IMG_PATH))));
@@ -323,40 +314,30 @@ public class ClsView
 			System.out.println("ERROR : IOException : ClsView : Init_TopBounds");
 		}
 		
-		undoBtn.setMargin(new Insets(0, 0, 0, 0));
-		redoBtn.setMargin(new Insets(0, 0, 0, 0));
 		compareBtn.setMargin(new Insets(0, 0, 0, 0));
 		mergeToLeftBtn.setMargin(new Insets(0, 0, 0, 0));
 		mergeToRightBtn.setMargin(new Insets(0, 0, 0, 0));
 		mergeAllToLeftBtn.setMargin(new Insets(0, 0, 0, 0));
 		mergeAllToRightBtn.setMargin(new Insets(0, 0, 0, 0));
 		
-		undoBtn.setToolTipText(TOOLTIP_UNDO_BTN);
-		redoBtn.setToolTipText(TOOLTIP_REDO_BTN);
 		compareBtn.setToolTipText(TOOLTIP_COMPARE_BTN);
 		mergeToLeftBtn.setToolTipText(TOOLTIP_TO_LEFT_BTN);
 		mergeToRightBtn.setToolTipText(TOOLTIP_TO_RIGHT_BTN);
 		mergeAllToLeftBtn.setToolTipText(TOOLTIP_ALL_TO_LEFT_BTN);
 		mergeAllToRightBtn.setToolTipText(TOOLTIP_ALL_TO_RIGHT_BTN);
 		
-		undoBtn.setName(NAME_UNDO_BTN);
-		redoBtn.setName(NAME_REDO_BTN);
 		compareBtn.setName(NAME_COMPARE_BTN);
 		mergeToLeftBtn.setName(NAME_TO_LEFT_BTN);
 		mergeToRightBtn.setName(NAME_TO_RIGHT_BTN);
 		mergeAllToLeftBtn.setName(NAME_ALL_TO_LEFT_BTN);
 		mergeAllToRightBtn.setName(NAME_ALL_TO_RIGHT_BTN);
 		
-		undoBtn.addActionListener(btnListener);
-		redoBtn.addActionListener(btnListener);
 		compareBtn.addActionListener(btnListener);
 		mergeToLeftBtn.addActionListener(btnListener);
 		mergeToRightBtn.addActionListener(btnListener);
 		mergeAllToLeftBtn.addActionListener(btnListener);
 		mergeAllToRightBtn.addActionListener(btnListener);
 		
-		topButtonPanel.add(undoBtn);
-		topButtonPanel.add(redoBtn);
 		topButtonPanel.add(compareBtn);
 		topButtonPanel.add(mergeToLeftBtn);
 		topButtonPanel.add(mergeToRightBtn);
@@ -685,15 +666,7 @@ public class ClsView
 		{
 			String t_srcName = ((JButton)e.getSource()).getName();
 
-			if(t_srcName.equals(NAME_UNDO_BTN))
-			{
-				System.out.println(NAME_UNDO_BTN);
-			}
-			else if(t_srcName.equals(NAME_REDO_BTN))
-			{
-				System.out.println(NAME_REDO_BTN);
-			}
-			else if(t_srcName.equals(NAME_COMPARE_BTN))
+			if(t_srcName.equals(NAME_COMPARE_BTN))
 			{
 				refCtrler.compare();
 				
