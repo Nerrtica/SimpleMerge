@@ -683,7 +683,7 @@ public class ClsView
 				}
 				catch(ArrayIndexOutOfBoundsException ex)
 				{
-					JOptionPane.showMessageDialog(viewForm, "Select block plaese.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(viewForm, "Select block please.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 				}
 				repaintQuickView();
 			}
@@ -695,7 +695,7 @@ public class ClsView
 				}
 				catch(ArrayIndexOutOfBoundsException ex)
 				{
-					JOptionPane.showMessageDialog(viewForm, "Select block plaese.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(viewForm, "Select block please.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 				}
 				repaintQuickView();
 			}
@@ -707,7 +707,7 @@ public class ClsView
 				}
 				catch(ArrayIndexOutOfBoundsException ex)
 				{
-					JOptionPane.showMessageDialog(viewForm, "Select block plaese.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(viewForm, "Select block please.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 				}
 				repaintQuickView();
 			}
@@ -719,7 +719,7 @@ public class ClsView
 				}
 				catch(ArrayIndexOutOfBoundsException ex)
 				{
-					JOptionPane.showMessageDialog(viewForm, "Select block plaese.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(viewForm, "Select block please.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 				}
 				repaintQuickView();
 			}
