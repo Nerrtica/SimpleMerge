@@ -115,32 +115,45 @@ public class ImportedFile {
     	ArrayList<String> temp = new ArrayList<String>();
     	temp = text;
     	
-		if(checkCode != "EUC-KR"){									//unicode인지 판별하는 char 추가
-			if(temp.get(0).charAt(0) != codeChecker[0])
-			{
-				StringBuffer forSaveCode = new StringBuffer(temp.get(0));
-				forSaveCode.insert(0, codeChecker);
-				temp.set(0, new String(forSaveCode));
+    	if(text.size() != 0){
+			if(checkCode != "EUC-KR"){									//unicode인지 판별하는 char 추가
+				if(temp.get(0).charAt(0) != codeChecker[0])
+				{
+					StringBuffer forSaveCode = new StringBuffer(temp.get(0));
+					forSaveCode.insert(0, codeChecker);
+					temp.set(0, new String(forSaveCode));
+				}
 			}
-		}
-		
-		try {
-			BufferedWriter pw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileRoute), checkCode));
-
-			for (int i = 0; i < temp.size(); i++) {
-				pw.write(temp.get(i));
-				pw.write(System.getProperty("line.separator"));
+			
+			try {
+				BufferedWriter pw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileRoute), checkCode));
+	
+				for (int i = 0; i < temp.size(); i++) {
+					pw.write(temp.get(i));
+					pw.write(System.getProperty("line.separator"));
+				}
+	
+				pw.close();
+	    	}
+	    	catch(FileNotFoundException e){
+	    		e.printStackTrace();
+	    	} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
-
-			pw.close();
     	}
-    	catch(FileNotFoundException e){
-    		e.printStackTrace();
-    	} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+    	else{
+    		try {
+				BufferedWriter pw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileRoute), checkCode));
+				pw.close();
+    		}
+    		catch(FileNotFoundException e){
+	    		e.printStackTrace();
+	    	} catch (IOException e) {
+				e.printStackTrace();
+			}
+    	}
     }
     
     public void saveAs (String asFileRoute){
