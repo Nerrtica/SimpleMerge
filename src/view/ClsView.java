@@ -460,6 +460,8 @@ public class ClsView
 		left_TopPanel.add(leftLoadBtn);
 		left_TopPanel.add(leftEditBtn);
 		left_TopPanel.add(leftCompleteBtn);
+
+		leftSaveBtn.setEnabled(false);
 		
 		leftCompleteBtn.setEnabled(false);
 		
@@ -541,6 +543,8 @@ public class ClsView
 		right_TopPanel.add(rightLoadBtn);
 		right_TopPanel.add(rightEditBtn);
 		right_TopPanel.add(rightCompleteBtn);
+
+		rightSaveBtn.setEnabled(false);
 		
 		rightCompleteBtn.setEnabled(false);
 		
@@ -683,7 +687,7 @@ public class ClsView
 				}
 				catch(ArrayIndexOutOfBoundsException ex)
 				{
-					JOptionPane.showMessageDialog(viewForm, "Select block plaese.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(viewForm, "Select block please.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 				}
 				repaintQuickView();
 			}
@@ -695,7 +699,7 @@ public class ClsView
 				}
 				catch(ArrayIndexOutOfBoundsException ex)
 				{
-					JOptionPane.showMessageDialog(viewForm, "Select block plaese.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(viewForm, "Select block please.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 				}
 				repaintQuickView();
 			}
@@ -707,7 +711,7 @@ public class ClsView
 				}
 				catch(ArrayIndexOutOfBoundsException ex)
 				{
-					JOptionPane.showMessageDialog(viewForm, "Select block plaese.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(viewForm, "Select block please.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 				}
 				repaintQuickView();
 			}
@@ -719,7 +723,7 @@ public class ClsView
 				}
 				catch(ArrayIndexOutOfBoundsException ex)
 				{
-					JOptionPane.showMessageDialog(viewForm, "Select block plaese.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(viewForm, "Select block please.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
 				}
 				repaintQuickView();
 			}
@@ -805,12 +809,12 @@ public class ClsView
 				refCtrler.edit(rightEditor.GetTextPad().GetText(), rightEditor.GetTextPad().GetLineBoolList(), false);
 				
 				if(!leftCompleteBtn.isEnabled())
-					compareBtn.setEnabled(true);
-			}
-			
-		}
-		
+		compareBtn.setEnabled(true);
 	}
+
+}
+
+}
 	
 	//////////////////////////////////////////////////////////////////
 	
