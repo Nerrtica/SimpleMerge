@@ -1,6 +1,6 @@
 package model;
 
-public class DiffBlock {
+public class DiffBlock implements DiffBlockInterface{
     private int startIndex;         //Block의 시작 Index
     private int endIndex;           //Block의 끝 Index
     private int lineNumber;         //Block의 라인 수
