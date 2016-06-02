@@ -9,6 +9,7 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.junit.internal.runners.statements.Fail;
 
 import model.ImportedFile;
 
@@ -84,5 +85,6 @@ public class TestClass {
 	public void testGetText() {
 		assertEquals(testList, testFile.getText());
 	}
+	
 
 }

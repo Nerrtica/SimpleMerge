@@ -3,7 +3,7 @@ package model;
 import java.util.List;
 import java.util.ArrayList;
 
-public class LCSAlgo {
+public class LCSAlgo{
     private static int[][] C;
     private static int[] leftDiffList;
     private static int[] rightDiffList;

@@ -22,13 +22,12 @@ public class ImportedFile {
 	private char[] codeChecker = new char[1];
     
     public ImportedFile (){
-    	
+    	text.add("");
     }
 
     public void load (String fileRoute) throws FileNotFoundException{
     	this.fileRoute = fileRoute;	//fileRoute 저장
     	ArrayList<String> temp = new ArrayList<String>();
-    		
     
     	try{	
 			FileInputStream check = new FileInputStream(fileRoute);
