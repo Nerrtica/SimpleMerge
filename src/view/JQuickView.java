@@ -84,7 +84,7 @@ public class JQuickView extends JComponent
 		height = super.getHeight() - internalMargin * 2;
 		len = linkedTextArea.GetTextPad().GetMarkList().size();
 		lineUnit = (float)((float)height / (float)len);
-		intLineUnit = (int)lineUnit;
+		intLineUnit = (int)Math.ceil(lineUnit);
 		
 		if(intLineUnit == 0)
 			intLineUnit = 1;
