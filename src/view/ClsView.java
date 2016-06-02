@@ -220,15 +220,6 @@ public class ClsView
 			}
 		});
 		
-		//Create listener when window's close button is pushed
-		viewForm.addWindowListener(new WindowAdapter()
-		{
-			public void windowClosing(WindowEvent e)
-			{
-				JOptionPane.showMessageDialog(viewForm, "Exiting.", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
-			}
-		});
-		
 		//set file dialog box window
 		fileDialogBox = new JFileChooser(System.getProperty("user.home") + "/Desktop");
 		fileDialogBox.setMultiSelectionEnabled(false);
@@ -827,12 +818,12 @@ public class ClsView
 				refCtrler.edit(rightEditor.GetTextPad().GetText(), rightEditor.GetTextPad().GetLineBoolList(), false);
 				
 				if(!leftCompleteBtn.isEnabled())
-		compareBtn.setEnabled(true);
+					compareBtn.setEnabled(true);
+			}
+
+		}
+
 	}
-
-}
-
-}
 	
 	//////////////////////////////////////////////////////////////////
 	
