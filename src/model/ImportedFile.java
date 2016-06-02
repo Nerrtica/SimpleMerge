@@ -15,7 +15,7 @@ import java.io.OutputStreamWriter;
 public class ImportedFile {
     private ArrayList<String> text = new ArrayList<String>();
     private String fileRoute;
-	private String checkCode = null;
+	private String checkCode = "EUC-KR";
 	private char[] codeChecker = new char[1];
     
     public ImportedFile (){
@@ -189,7 +189,7 @@ public class ImportedFile {
     	}
     	else{
     		try {
-				BufferedWriter pw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(asFileRoute)));
+				BufferedWriter pw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(asFileRoute), checkCode));
 				pw.close();
     		}
     		catch(FileNotFoundException e){
