@@ -1,5 +1,6 @@
 package model;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class ClsModel {
@@ -13,7 +14,7 @@ public class ClsModel {
         rightFile = new ImportedFile();
     }
 
-    public void load (String fileRoute, boolean isLeftFile) {
+    public void load (String fileRoute, boolean isLeftFile) throws FileNotFoundException{
         if (isLeftFile) {
             leftFile.load(fileRoute);
         } else {
@@ -21,7 +22,7 @@ public class ClsModel {
         }
     }
 
-    public void save (boolean isLeftFile) {
+    public void save (boolean isLeftFile) throws NullPointerException{
         if (isLeftFile) {
             leftFile.save();
         } else {

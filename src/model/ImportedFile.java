@@ -2,6 +2,9 @@ package model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JOptionPane;
+
 import java.io.UnsupportedEncodingException;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -22,7 +25,7 @@ public class ImportedFile {
     	
     }
 
-    public void load (String fileRoute){
+    public void load (String fileRoute) throws FileNotFoundException{
     	this.fileRoute = fileRoute;	//fileRoute 저장
     	ArrayList<String> temp = new ArrayList<String>();
     		
@@ -61,9 +64,10 @@ public class ImportedFile {
 			
 			check.close();
 		}
-		catch(FileNotFoundException e){
-			e.printStackTrace();
-		}
+    	catch(FileNotFoundException e){
+    		this.fileRoute = null;
+    		throw e;
+    	}
 		catch(UnsupportedEncodingException e){
 			e.printStackTrace();
 		} 
@@ -111,7 +115,7 @@ public class ImportedFile {
     	}
     }
 
-    public void save (){
+    public void save () throws NullPointerException{
     	ArrayList<String> temp = new ArrayList<String>();
     	temp = text;
     	
@@ -135,9 +139,10 @@ public class ImportedFile {
 	
 				pw.close();
 	    	}
-	    	catch(FileNotFoundException e){
-	    		e.printStackTrace();
-	    	} catch (UnsupportedEncodingException e) {
+			catch (FileNotFoundException e){
+				e.printStackTrace();
+			}
+			catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -147,10 +152,11 @@ public class ImportedFile {
     		try {
 				BufferedWriter pw = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(fileRoute), checkCode));
 				pw.close();
-    		}
-    		catch(FileNotFoundException e){
-	    		e.printStackTrace();
-	    	} catch (IOException e) {
+    		} 
+    		catch (FileNotFoundException e){
+				e.printStackTrace();
+			}
+    		catch (IOException e) {
 				e.printStackTrace();
 			}
     	}

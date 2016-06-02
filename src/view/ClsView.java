@@ -729,7 +729,12 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_LEFT_SAVE_BTN))//////////////////////////////////////////////LEFT SIDE///////////
 			{
-				refCtrler.save(true);
+				try{
+					refCtrler.save(true);
+				}
+				catch(NullPointerException ex){
+					JOptionPane.showMessageDialog(viewForm, "It don't have file route", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				}
 			}
 			else if(t_srcName.equals(NAME_LEFT_SAVE_AS_BTN))
 			{
@@ -740,8 +745,12 @@ public class ClsView
 			{
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
-					refCtrler.load(fileDialogBox.getSelectedFile().toString(), true);
-					
+					try{
+						refCtrler.load(fileDialogBox.getSelectedFile().toString(), true);
+					}
+					catch(FileNotFoundException ex){
+						JOptionPane.showMessageDialog(viewForm, "It is wrong file name", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					}
 					setLeftEditable(false);
 					setLeftSaveBtnEnable(true);
 					
@@ -771,7 +780,12 @@ public class ClsView
 			}
 			else if(t_srcName.equals(NAME_RIGHT_SAVE_BTN))//////////////////////////////////////////////RIGHT SIDE///////////
 			{
-				refCtrler.save(false);
+				try{
+					refCtrler.save(false);
+				}
+				catch(NullPointerException ex){
+					JOptionPane.showMessageDialog(viewForm, "It don't have file route", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+				}
 			}
 			else if(t_srcName.equals(NAME_RIGHT_SAVE_AS_BTN))
 			{
@@ -782,8 +796,12 @@ public class ClsView
 			{
 				if(fileDialogBox.showOpenDialog(viewForm) == JFileChooser.APPROVE_OPTION)
 				{
-					refCtrler.load(fileDialogBox.getSelectedFile().toString(), false);
-					
+					try{
+						refCtrler.load(fileDialogBox.getSelectedFile().toString(), false);
+					}
+					catch(FileNotFoundException ex){
+						JOptionPane.showMessageDialog(viewForm, "It is wrong file name", WINDOW_CAPTION, JOptionPane.ERROR_MESSAGE);
+					}
 					setRightEditable(false);
 					setRightSaveBtnEnable(true);
 					

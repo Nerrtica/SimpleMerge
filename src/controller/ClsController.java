@@ -3,6 +3,7 @@ package controller;
 import view.ClsView;
 import model.ClsModel;
 import java.awt.EventQueue;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 public class ClsController {
@@ -36,7 +37,7 @@ public class ClsController {
         }
     }
 
-    public void load (String fileRoute, boolean isLeftFile)
+    public void load (String fileRoute, boolean isLeftFile) throws FileNotFoundException
     {
         model.load(fileRoute, isLeftFile);
         view.setText(getTextList(isLeftFile), isLeftFile);
@@ -48,7 +49,7 @@ public class ClsController {
     	return model.getFileText(isLeftFile);
     }
 
-    public void save (boolean isLeftFile) {
+    public void save (boolean isLeftFile) throws NullPointerException{
         model.save(isLeftFile);
     }
 

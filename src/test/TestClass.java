@@ -1,6 +1,8 @@
 package test;
 
 import static org.junit.Assert.*;
+
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -41,7 +43,12 @@ public class TestClass {
 	}
 	@Test
 	public void testLoad() {
-		testFile.load(fileRoute);
+		try{
+			testFile.load(fileRoute);
+		}
+		catch (FileNotFoundException e){
+			e.printStackTrace();
+		}
 		assertEquals(testList, testFile.getText());
 	}
 	@Test
@@ -52,14 +59,24 @@ public class TestClass {
 	@Test
 	public void testSave() {
 		testFile.save();
-		testFile.load(fileRoute);
+		try{
+			testFile.load(fileRoute);
+		}
+		catch (FileNotFoundException e){
+			e.printStackTrace();
+		}
 		assertEquals(testList, testFile.getText());
 	}
 
 	@Test
 	public void testSaveAs() {
 		testFile.saveAs(asFileRoute);
-		testFile.load(fileRoute);
+		try{
+			testFile.load(fileRoute);
+		}
+		catch (FileNotFoundException e){
+			e.printStackTrace();
+		}
 		assertEquals(testList, testFile.getText());
 	}
 
