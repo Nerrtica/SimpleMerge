@@ -13,7 +13,7 @@ import org.junit.internal.runners.statements.Fail;
 
 import model.ImportedFile;
 
-public class TestClass {
+public class TestFileFunction {
 	private static ImportedFile testFile = new ImportedFile();
 	private static ArrayList<String> testList = new ArrayList<String>();
 	private static ArrayList<Boolean> bool = new ArrayList<Boolean>();
