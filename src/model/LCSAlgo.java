@@ -43,22 +43,6 @@ public class LCSAlgo {
         }
     }
 
-    /* Diff 결과를 출력하는 method */
-    public static void printDiff(List<String> A, List<String> B, int i, int j) {
-        if (i > 0 && j > 0 && A.get(i - 1).equals(B.get(j - 1))) {
-            printDiff(A, B, i - 1, j - 1);
-            System.out.println("  " + A.get(i - 1));
-        } else if (j > 0 && (i == 0 || C[i][j - 1] >= C[i - 1][j])) {
-            printDiff(A, B, i, j - 1);
-            System.out.println("+ " + B.get(j - 1));
-        } else if (i > 0 && (j == 0 || C[i][j - 1] < C[i - 1][j])) {
-            printDiff(A, B, i - 1, j);
-            System.out.println("- " + A.get(i - 1));
-        } else {
-            System.out.println("");
-        }
-    }
-
     public static void makeDiffList(List<String> A, List<String> B, int i, int j) {
         if (i == A.size() && j == B.size()) {
             leftDiffList = new int[A.size()];
