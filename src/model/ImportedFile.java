@@ -116,7 +116,10 @@ public class ImportedFile {
 
     public void save () throws NullPointerException{
     	ArrayList<String> temp = new ArrayList<String>();
-    	temp = text;
+    	for(int i = 0 ; i < text.size() ; i++){
+    		temp.add(text.get(i));
+    	}
+    	
     	
     	if(text.size() != 0){
 			if(checkCode != "EUC-KR"){									//unicode인지 판별하는 char 추가
@@ -163,7 +166,9 @@ public class ImportedFile {
     
     public void saveAs (String asFileRoute){
     	ArrayList<String> temp = new ArrayList<String>();
-    	temp = text;
+    	for(int i = 0 ; i < text.size() ; i++){
+    		temp.add(text.get(i));
+    	}
     	if(text.size() != 0){
 	    	if(checkCode != "EUC-KR"){									//unicode인지 판별하는 char 추가
 				if(temp.get(0).charAt(0) != codeChecker[0])
