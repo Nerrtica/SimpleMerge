@@ -1,4 +1,5 @@
 package test;
+
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import org.junit.Test;
 import model.DiffBlock;
 import model.ImportedFile;
 
-public class TestMergeFunction {
+public class FailTestMergeFunction {
 	
 	private ImportedFile testFile = new ImportedFile();
 	private ImportedFile oppositeFile = new ImportedFile();
@@ -22,7 +23,7 @@ public class TestMergeFunction {
 	private ArrayList<DiffBlock> leftDiffBlockTest = new ArrayList<DiffBlock>();
 	private ArrayList<DiffBlock> rightDiffBlockTest = new ArrayList<DiffBlock>();
 	
-	private DiffBlock leftDiff = new DiffBlock(3,2);
+	private DiffBlock leftDiff = new DiffBlock(4,3);
 	private DiffBlock rightDiff = new DiffBlock(3,4);	
 	
 	private int[] leftDiffList = {0,1,2,5,6,7,8,9,10,11};//10
@@ -35,7 +36,6 @@ public class TestMergeFunction {
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		
 	}
 
 	@AfterClass
@@ -54,7 +54,7 @@ public class TestMergeFunction {
 			testText.add("test line");
 		for(int i = 0 ; i< 2 ; i++)
 			testText.add("add line");
-		for(int i = 0 ; i< 7 ; i++)
+		for(int i = 0 ; i< 8 ; i++)
 			testText.add("test line");
 	}
 
