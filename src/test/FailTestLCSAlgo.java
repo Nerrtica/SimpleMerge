@@ -1,6 +1,7 @@
 package test;
 
 import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,18 +11,16 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-
 import model.LCSAlgo;
 
-public class TestLCSAlgo {
+public class FailTestLCSAlgo {
 	private List<String> leftText = new ArrayList<String>();
 	private List<String> rightText = new ArrayList<String>();
-	private int[] leftDiffList = {0,1,2,5,6,7,8,9,10,11};//10
-	private int[] rightDiffList = {0,1,2,-1,-1,3,4,5,6,7,8,9};//12
+	private int[] leftDiffList = {0,1,2,5,6,7,8,9,10,12};//10
+	private int[] rightDiffList = {0,1,2,-1,-1,3,4,5,6,7,8,10};//12
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		
 	}
 
 	@AfterClass
@@ -48,7 +47,7 @@ public class TestLCSAlgo {
 	@Test
 	public void testLCSLength() {
 		
-		assertEquals(10, LCSAlgo.LCSLength(leftText, rightText));
+		assertEquals(11, LCSAlgo.LCSLength(leftText, rightText));
 		
 	}
 

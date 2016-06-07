@@ -28,7 +28,7 @@ public class ClsController {
     {
         try
         {
-        	view = new ClsView(this, model);
+        	view = new ClsView(this);
         }
         catch (Exception e)
         {

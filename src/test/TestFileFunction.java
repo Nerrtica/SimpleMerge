@@ -18,8 +18,8 @@ public class TestFileFunction {
 	private static ArrayList<String> testList = new ArrayList<String>();
 	private static ArrayList<Boolean> bool = new ArrayList<Boolean>();
 	private static String testString = "test line\nit is test line\nfake line\nHello JAVA\nsoftware engineering is very good.";
-	private static String fileRoute = "C:\\Users\\TG\\Desktop\\JunitTest.txt";
-	private static String asFileRoute = "C:\\Users\\TG\\Desktop\\JunitTestCopy.txt";
+	private static String fileRoute = "JunitTest.txt";
+	private static String asFileRoute = "JunitTestCopy.txt";
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -38,7 +38,6 @@ public class TestFileFunction {
 	}
 	@Before
 	public void setUp() throws Exception {
-		
 	}
 	@After
 	public void tearDown() throws Exception {
@@ -49,7 +48,7 @@ public class TestFileFunction {
 			testFile.load(fileRoute);
 		}
 		catch (FileNotFoundException e){
-			fail();
+			e.printStackTrace();
 		}
 		assertEquals(testList, testFile.getText());
 	}
@@ -60,17 +59,12 @@ public class TestFileFunction {
 	}
 	@Test
 	public void testSave() {
-		try{
-			testFile.save();
-		}
-		catch(NullPointerException e){
-			fail();
-		}
+		testFile.save();
 		try{
 			testFile.load(fileRoute);
 		}
 		catch (FileNotFoundException e){
-			fail();
+			e.printStackTrace();
 		}
 		assertEquals(testList, testFile.getText());
 	}
@@ -82,7 +76,7 @@ public class TestFileFunction {
 			testFile.load(fileRoute);
 		}
 		catch (FileNotFoundException e){
-			fail();
+			e.printStackTrace();
 		}
 		assertEquals(testList, testFile.getText());
 	}

@@ -134,27 +134,23 @@ public class ClsView
 	private int 	internalHeight;		//real form's clipping area height
 	
 	private ButtonListener btnListener;
-	
-	private ClsController refCtrler;
 
 	//Constructor
-	public ClsView(ClsController i_controller, ClsModel i_model)
+	public ClsView(ClsController i_controller)
 	{
 		
-		refCtrler = i_controller;
-		
-		InitView();
+		InitView(i_controller);
 		
 	}
 	
 	//Initialize view class
-	private void InitView()
+	private void InitView(ClsController i_refCtrler)
 	{
 
 		OSBasedSetting();
 		
 		Init_Variables();
-		Init_Form();
+		Init_Form(i_refCtrler);
 		Init_TopBounds();
 		Init_CenterBounds();
 		Init_WestBounds();
@@ -190,10 +186,10 @@ public class ClsView
 	}
 	
 	//Initialize form
-	private void Init_Form()
+	private void Init_Form(ClsController i_refCtrler)
 	{
 		
-		btnListener = new ButtonListener();
+		btnListener = new ButtonListener(i_refCtrler);
 		
 		//Create main window
 		viewForm = new JFrame(WINDOW_CAPTION);
@@ -208,17 +204,15 @@ public class ClsView
 		viewForm.setLocation(DEFAULT_WINDOW_X, DEFAULT_WINDOW_Y);
 		viewForm.setSize(DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT);
 		viewForm.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		viewForm.getContentPane().setLayout(new BorderLayout(0,0));
+		viewForm.getContentPane().setLayout(new BorderLayout(0, 0));
 		viewForm.setVisible(true);
 		
 		//Create listener when window's size is changed
-		viewForm.addComponentListener(new ComponentAdapter()
-		{
-			public void componentResized(ComponentEvent e)
-			{
-				WindowResized();
-			}
-		});
+		viewForm.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                WindowResized();
+            }
+        });
 		
 		//set file dialog box window
 		fileDialogBox = new JFileChooser(System.getProperty("user.home") + "/Desktop");
@@ -657,7 +651,13 @@ public class ClsView
 	//inner class about button listener
 	private class ButtonListener implements ActionListener
 	{
-		
+
+        private ClsController refCtrler;
+
+        ButtonListener(ClsController i_refCtrler) {
+            refCtrler = i_refCtrler;
+        }
+
 		public void actionPerformed(ActionEvent e)
 		{
 			String t_srcName = ((JButton)e.getSource()).getName();
