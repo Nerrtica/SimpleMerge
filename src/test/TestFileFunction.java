@@ -18,8 +18,8 @@ public class TestFileFunction {
 	private static ArrayList<String> testList = new ArrayList<String>();
 	private static ArrayList<Boolean> bool = new ArrayList<Boolean>();
 	private static String testString = "test line\nit is test line\nfake line\nHello JAVA\nsoftware engineering is very good.";
-	private static String fileRoute = "C:\\Users\\TG\\Desktop\\JunitTest.txt";
-	private static String asFileRoute = "C:\\Users\\TG\\Desktop\\JunitTestCopy.txt";
+	private static String fileRoute = "JunitTest.txt";
+	private static String asFileRoute = "JunitTestCopy.txt";
 	
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
