@@ -1,13 +1,6 @@
 package test;
-import static org.easymock.EasyMock.aryEq;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
-import static org.junit.Assert.*;
 
-import java.util.ArrayList;
+import static org.junit.Assert.*;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -15,17 +8,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import model.DiffBlockInterface;
-import model.ImportedFile;
-
 public class TestMergeFunction {
-	private ImportedFile testFile = new ImportedFile();
-	private ImportedFile oppositeFile = new ImportedFile();
-	private ArrayList<DiffBlockInterface> DiffMock;
-	
+
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		
 	}
 
 	@AfterClass
@@ -34,7 +20,6 @@ public class TestMergeFunction {
 
 	@Before
 	public void setUp() throws Exception {
-		DiffMock.add(createMock(DiffBlockInterface.class));
 	}
 
 	@After

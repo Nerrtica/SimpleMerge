@@ -38,7 +38,6 @@ public class TestFileFunction {
 	}
 	@Before
 	public void setUp() throws Exception {
-		
 	}
 	@After
 	public void tearDown() throws Exception {
@@ -49,7 +48,7 @@ public class TestFileFunction {
 			testFile.load(fileRoute);
 		}
 		catch (FileNotFoundException e){
-			fail();
+			e.printStackTrace();
 		}
 		assertEquals(testList, testFile.getText());
 	}
@@ -60,17 +59,12 @@ public class TestFileFunction {
 	}
 	@Test
 	public void testSave() {
-		try{
-			testFile.save();
-		}
-		catch(NullPointerException e){
-			fail();
-		}
+		testFile.save();
 		try{
 			testFile.load(fileRoute);
 		}
 		catch (FileNotFoundException e){
-			fail();
+			e.printStackTrace();
 		}
 		assertEquals(testList, testFile.getText());
 	}
@@ -82,7 +76,7 @@ public class TestFileFunction {
 			testFile.load(fileRoute);
 		}
 		catch (FileNotFoundException e){
-			fail();
+			e.printStackTrace();
 		}
 		assertEquals(testList, testFile.getText());
 	}
