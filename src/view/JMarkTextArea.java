@@ -111,7 +111,7 @@ public class JMarkTextArea extends JTextArea
 			}
 			public void removeUpdate(DocumentEvent e)
 			{
-				DocListener_RemoveUpdate(e);
+				
 			}
 		});
 	}
@@ -223,69 +223,6 @@ public class JMarkTextArea extends JTextArea
 		}
 	}
 	
-	//listener when something is removed from document
-	private void DocListener_RemoveUpdate(DocumentEvent e)
-	{
-		
-		int t_line, t_offset;
-		/*
-		Position startPosition;
-		Position endPosition;
-		int startOffset;
-		int endOffset;
-		int startLine;
-		int endLine;
-
-		Document removeDocument = e.getDocument();
-		
-		startPosition = removeDocument.getStartPosition();
-		endPosition = removeDocument.getEndPosition();
-		
-		startOffset = startPosition.getOffset();
-		endOffset = endPosition.getOffset();
-		System.out.println(startOffset);
-		System.out.println(endOffset);
-		try{
-			startLine = super.getLineOfOffset(startOffset);
-			endLine = super.getLineOfOffset(endOffset);		//에러
-			t_offset = e.getOffset();
-			t_line = super.getLineOfOffset(t_offset);
-			for(int i = t_line+1 ; i < t_line + endLine - 1 ; i++)
-			{
-				lineBoolList.remove(i);
-				markList.remove(i);
-			}
-		}
-		
-		catch(BadLocationException ex)
-		{
-			System.out.println("ERROR : BadLocationException : JMarkTextArea : DocListener_RemoveUpdate");
-		}
-*/
-		/*
-		super.addCaretListener(new CaretListener(){
-			@Override
-			public void caretUpdate(CaretEvent e) {
-				e.getDot();
-			}
-		});*/
-		/*
-		try
-		{
-			t_offset = e.getOffset();
-			t_line = super.getLineOfOffset(t_offset);
-			
-			//if this line is fake line, set this line to real line
-			if(CheckLineBool(t_line) == false)
-				lineBoolList.set(t_line, true);				
-
-		}
-		catch(BadLocationException ex)
-		{
-			System.out.println("ERROR : BadLocationException : JMarkTextArea : DocListener_RemoveUpdate");
-		}*/
-	}
-	//////////////////////////////////////////////////////////////////
 	
 	//return if this line is fake line or real line
 	private boolean CheckLineBool(int i_lineNum)
